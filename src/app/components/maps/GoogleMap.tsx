@@ -75,3 +75,8 @@ export default function GoogleMap({
     </div>
   );
 }
+
+
+//usage example
+//<GoogleMap apikey={await getGoogleMapsApikey()} zoom={15} position={{ lat: 5.522021951991912, lng: -73.36101758384783 }} markable={true}  isForUser={true} />
+
