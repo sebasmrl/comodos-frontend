@@ -32,7 +32,7 @@ const FormSchema = z.object({
     lastnames: z.string().min(2).trim(),
     nationality: z.string().min(2).trim(),
     phone: z.string().regex(/^\d{10,}$/, { message: "El número de teléfono movil no coincide", }),
-    phoneCode: z.string().regex(/^\d{1,3}$/, { message: "EL indicatiovo telefonico no coincide con ningun registro" }),
+    phoneCode: z.string().regex(/^\d{1,3}$/, { message: "EL indicatiovo telefonico no coincide con ningun registro" }).min(1,{ message:"EL indicatiovo telefonico no coincide con ningun registro"}),
     birthdate: z.string().date(),
     gender: z.string().optional().nullable()
 }).refine(data => data.password === data.repassword, {
@@ -68,9 +68,8 @@ export function RegisterForm() {
                 </pre>
             ),
         })
-
-
     }
+    
 
     return (
         <div className="flex flex-col justify-center w-full">
