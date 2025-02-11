@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "./components/providers/theme-provider";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
+import { AuthProvider, ThemeProvider } from "@/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,13 +18,14 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Comodos - Encuentra Arriendo Fácil ",
   description: "Encuentra arriendo o publica tu inmueble fácil y rapido, solo selecciona una ubicación y elige el mejor inmueble para ti",
-  authors: { 
+  authors: {
     name: "Sebastian Morales",
     url: "https://sebastianmorales.dev"
   },
   keywords: ["arriendo", "arriendo en", "publicar arriendo", "arriendos baratos", "colombia", "alquiler", "alquilar", "arrendamiento", "inmuebles", "inmuebles para arrendamiento", "se arrienda"],
-  applicationName:"Comodos",
-  category:'Arriendo'
+  applicationName: "Comodos",
+  category: 'Arriendo',
+  
 };
 
 export default function RootLayout({
@@ -33,20 +34,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="es" >
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-         <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthProvider>
             {children}
-          </ThemeProvider>
-            <Toaster />
-            < SonnerToaster />
+          </AuthProvider>
+        </ThemeProvider>
+        <Toaster />
+        < SonnerToaster />
       </body>
     </html>
   );

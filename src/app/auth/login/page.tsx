@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { LoginForm } from "./form/LoginForm";
 
+
 export const metadata:Metadata = {
   title: 'Comodos - Iniciar Sesión',
   description: 'Inicia sesión con tu cuenta de Comodos y no te pierdas los ultimos inmuebles disponibles en tu zona para arrendamiento',
@@ -10,7 +11,7 @@ export const metadata:Metadata = {
   category:'arriendo'
 };
 
-export default function LoginPage() {
+export default async function LoginPage() {
   return (
     <div className="flex w-full h-dvh ">
         <LoginForm/>

@@ -17,7 +17,8 @@ El desarrollo Backend está ubicado en el repositorio [Comodos Backend](https://
 ```bash
 npm install "@vis.gl/react-google-maps"
 npm install next-themes
-
+npm install next-auth@beta
+npm install axios
 ```
 
 ## .env
