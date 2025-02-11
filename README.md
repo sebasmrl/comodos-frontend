@@ -22,7 +22,7 @@ npm install axios
 ```
 
 ## .env
-Hacer una copia del archivo `.env.template` y renombrarla a `.env`
+Hacer una copia del archivo `.env.template` y renombrarla a `.env` e inicializar los valores de las mismas
 
 
 ## Iniciar Aplicación
