@@ -19,6 +19,7 @@ npm install "@vis.gl/react-google-maps"
 npm install next-themes
 npm install next-auth@beta
 npm install axios
+npm install react-icons --save
 ```
 
 ## .env

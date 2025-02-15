@@ -77,8 +77,10 @@ export function RegisterForm() {
             <div className="grid grid-col-1 sm:grid-cols-8 gap-8 sm:gap-4 p-4 sm:px-6 lg:px-64 md:gap-10 my-10">
 
                 <div className="flex col-span-8 justify-center flex-nowrap sm:justify-center mb-8">
-                    <Image src={"/logo/logo-comodos-blanco.svg"} alt={"Logo de Comodos"} width={50} height={50} className="" />
+                    <Link href={"/"} className="flex justify-center self-center">
+                    <Image src={"/logo/logo-comodos.svg"} alt={"Logo de Comodos"} width={50} height={50} className="" />
                     <p className="self-end text-2xl font-semibold sm:text-3xl lg:text-5xl">omodos</p>
+                    </Link>
                     <p className="self-end text-2xl font-extralight sm:text-3xl lg:text-5xl px-2 sm:px-4 text-primary">Registro</p>
 
                 </div>

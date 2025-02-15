@@ -73,10 +73,10 @@ export function LoginForm() {
 
             <div className="grid grid-col-1 sm:grid-cols-2 gap-8 sm:gap-4 p-4 sm:p-6 lg:p-16">
 
-                <div className="flex justify-center self-center">
-                    <Image src={"/logo/logo-comodos-blanco.svg"} alt={"Logo de Comodos"} width={80} height={80} className="sm:w-20 lg:w-28" />
+                <Link href={"/"} className="flex justify-center self-center">
+                    <Image src={"/logo/logo-comodos.svg"} alt={"Logo de Comodos"} width={80} height={80} className="sm:w-20 lg:w-28" />
                     <p className="self-end text-4xl font-semibold sm:text-5xl lg:text-7xl">omodos</p>
-                </div>
+                </Link>
 
                 <div className="col-span-1 sm:col-start-2 ">
                     <Form  {...form}>
