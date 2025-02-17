@@ -25,43 +25,15 @@ import { SignOutButton } from "../SignOutButton";
 import { Separator } from "@/components/ui/separator";
 
 import { IoMenuOutline } from "react-icons/io5";
-import { MdOutlineFavorite, MdPostAdd } from "react-icons/md";
-import { CiLocationOn, CiShoppingTag } from "react-icons/ci";
 import { usePathname } from "next/navigation";
+import { Menu } from "@/interfaces";
 
-interface Menu {
-  icon?: React.ReactNode
-  href: string,
-  title: string
+
+interface Props{
+  menu: Menu[];
 }
 
-const menu: Menu[] = [
-  {
-    icon: <MdPostAdd />,
-    href: "/",
-    title: "Anuncios"
-  },
-  {
-    icon: <CiLocationOn />,
-    href: "/",
-    title: "Ubicación"
-  },
-  {
-    icon: <CiShoppingTag />,
-    href: "/",
-    title: "Suscripciones"
-  },
-  {
-    icon: <MdOutlineFavorite />,
-    href: "/",
-    title: "Favoritos"
-  },
-
-
-]
-
-
-export const DrawerMenu = () => {
+export const DrawerMenu = ({ menu}:Props) => {
 
   const session = useSession();
   const path = usePathname();
@@ -95,7 +67,7 @@ export const DrawerMenu = () => {
                 {
                   menu.map((item) => (
                     <NavigationMenuItem className="w-full" key={`${item.title}-${item.href}`}>
-                      <Button className="bg-transparent p-0 m-0 w-full"> {/* disabled */}
+                      <Button className="bg-transparent p-0 m-0 w-full" disabled={(item.auth)? (session.status !="authenticated")? true :false: false }> {/* disabled */}
                         <Link href={item.href} passHref legacyBehavior className="">
                           <NavigationMenuLink active={ path==item.href } className={`${navigationMenuTriggerStyle()} w-full min-w-full flex gap-1 text-foreground `} aria-disabled>
                             <span>{item?.icon}</span> <span>{item.title}</span>
