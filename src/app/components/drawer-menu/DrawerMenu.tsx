@@ -70,7 +70,7 @@ export const DrawerMenu = () => {
     <>
       <Drawer direction="left">
         <DrawerTrigger>
-          <IoMenuOutline size={40} className="cursor-pointer text-sidebar-accent  aspect-square rounded-full dark:hover:bg-gray-800 dark:hover:bg-opacity-40 p-1" />
+          <IoMenuOutline size={40} className=" cursor-pointer text-sidebar-accent  aspect-square rounded-full dark:hover:bg-gray-800 dark:hover:bg-opacity-40 p-1" />
         </DrawerTrigger>
         <DrawerContent className="w-56 h-dvh rounded-none  border-border ">
           <DrawerHeader className="bg-inherit text-inherit">

@@ -1,0 +1,1 @@
+export const CLOUDFRONT_URL = `${process.env.AWS_CLOUDFRONT_DOMAIN}`

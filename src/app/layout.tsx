@@ -5,6 +5,7 @@ import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider, ThemeProvider } from "@/providers";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   keywords: ["arriendo", "arriendo en", "publicar arriendo", "arriendos baratos", "colombia", "alquiler", "alquilar", "arrendamiento", "inmuebles", "inmuebles para arrendamiento", "se arrienda"],
   applicationName: "Comodos",
   category: 'Arriendo',
-  
+
 };
 
 export default function RootLayout({
@@ -45,7 +46,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            {children}
+              {children}
           </AuthProvider>
         </ThemeProvider>
         <Toaster />

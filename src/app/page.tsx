@@ -1,12 +1,6 @@
-//import Link from "next/link";
-//import { SignOutButton } from "./components/SignOutButton";
 import { auth } from "@/auth";
-import Image from "next/image";
-import { DrawerMenu } from "./components/drawer-menu/DrawerMenu";
-import Link from "next/link";
-
-
-
+import { NavBar } from "./components/navbar/NavBar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 
 
@@ -16,28 +10,66 @@ export default async function Home() {
 
 
   return (
-    <div className="grid grid-cols-12  w-full max-h-dvh bg-background">
 
-      <nav className="col-span-12 h-10 flex items-center justify-between px-2  py-9 border-b border-gray-600">
-        <div className="flex flex-nowrap gap-2">
-          <DrawerMenu />
-          <Link href={"/"} className="flex justify-center self-center">
-            <Image src={"/logo/logo-comodos.svg"} alt={"Logo de Comodos"} width={30} height={30} className="" />
-            <p className="self-end text-2xl font-semibold ">omodos</p>
-          </Link >
+    <ScrollArea
+      className="w-full h-dvh overflow-x-hidden pr-2.5 "
+      type="always"
+      scrollAreaScrollbarStyle="bg-orange-300 dark:bg-opacity-5 "
+    >
+      <NavBar />
+      <div className="grid grid-cols-12  w-full bg-background">
+
+
+        <div className="col-span-12 overflow-x-hidden " >
+
+
+          <pre className="w-full">
+            {JSON.stringify(session?.user.data, null, 3)}
+          </pre>
+          <h2 className="bg-slate-500">epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
+          <h2>epaaa</h2>
         </div>
-      </nav>
+        {/* </div> */}
+      </div>
+    </ScrollArea>
 
-      <main className=" col-span-12 overflow-x-hidden">
-          
-            <pre className="w-full">
-             { JSON.stringify(session?.user.data,null, 3)}
-            </pre>
-          
-      </main>
-
-
-    </div>
   );
 }
 
@@ -49,4 +81,4 @@ export default async function Home() {
 {/*    <Link href={"/auth/login"} className="bg-blue-600 p-2 rounded-b-md" >Login</Link>
       <Link href={"/auth/register"} className="bg-blue-600 p-2 rounded-t-md" >Register</Link> */}
 
-      {/*         {(session?.user) ? <SignOutButton /> : <></>} */}
+{/*         {(session?.user) ? <SignOutButton /> : <></>} */ }
