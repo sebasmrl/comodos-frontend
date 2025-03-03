@@ -7,7 +7,7 @@ import { ModeToggle } from '../mode-toggle/ModeToggle'
 
 export const NavBar = () => {
     return (
-        <nav className="flex items-center justify-between px-2 w-full sticky top-0 bg-orange-100  bg-opacity-5  backdrop-blur-sm">
+        <nav className="flex items-center justify-between px-2 w-full sticky top-0 bg-orange-900/5 backdrop-blur-sm z-50">
             <div className="flex flex-nowrap gap-2 py-4">
                 <DrawerMenu menu={ mainMenu } />
                 <Link href={"/"} className="flex justify-center self-center ">
