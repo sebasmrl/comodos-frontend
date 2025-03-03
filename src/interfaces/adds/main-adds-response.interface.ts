@@ -18,8 +18,8 @@ export interface MainAdsResponse{
 }
 
 export interface MainAddsRequestParams{
-    lat?:number;
-    lng?:number;
+    lat:number;
+    lng:number;
     range?:number;
     offset?:number;
     limmit?:number;

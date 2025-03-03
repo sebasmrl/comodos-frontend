@@ -30,7 +30,9 @@ export default async function Home({searchParams}:HomeProps) {
   console.log({query: queryParams.range})
   
 
-  const rs = await getMainAdds(queryParams)
+  //TODO: obtener la ubicacion y mandarla por defecto
+  const rs = await getMainAdds({...{lat:40.60562365,lng:-74.0554853141819},...queryParams})
+
   return (
 
     <ScrollArea
