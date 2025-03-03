@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import { NavBar } from "./components/navbar/NavBar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AdCard } from "./components/adds/AdCard";
+import { getMainAdds } from "@/actions/ads/get-main-adds.action";
 
 
 export const dynamicParams = true
@@ -29,7 +30,7 @@ export default async function Home({searchParams}:HomeProps) {
   console.log({query: queryParams.range})
   
 
-
+  const rs = await getMainAdds(queryParams)
   return (
 
     <ScrollArea
@@ -55,6 +56,12 @@ export default async function Home({searchParams}:HomeProps) {
           <pre className="w-full">
             {JSON.stringify(session?.user.data, null, 3)}
           </pre>
+
+          <pre className="w-full">
+            {JSON.stringify(rs.data, null, 3)}
+          </pre>
+
+
           
         </div>
         {/* </div> */}

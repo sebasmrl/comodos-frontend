@@ -16,6 +16,9 @@ interface Props {
 }
 
 export function AdCard({ className }: Props) {
+
+  
+
   return (
     <Card className={cn(" border-border bg-background shadow-md hover:shadow-lg dark:shadow-orange-950/40 dark:hover:border-orange-950/80  hover:border-primary/60 transition-color duration-200 cursor-pointer", className)}>
       <CardContent className="py-4 px-4 ">
