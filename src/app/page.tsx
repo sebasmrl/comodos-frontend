@@ -4,7 +4,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { AdCard } from "./components/adds/AdCard";
 import { getMainAdds } from "@/actions/ads/get-main-adds.action";
 import { MainAd } from "@/interfaces/adds/main-adds.interface";
-import { FilterForm } from "./components/filter-form/FilterForm";
+//import { FilterForm } from "./components/filter-form/FilterForm";
+import { FilterMenu } from "./components/filter-menu/FilterMenu";
 
 
 export const dynamicParams = true
@@ -28,14 +29,14 @@ interface HomeProps {
 
 export default async function Home({ searchParams }: HomeProps) {
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const session = await auth();
   const queryParams = await searchParams;
   console.log({ query: queryParams.range })
 
 
   //TODO: obtener la ubicacion y mandarla por defecto
-  const adds = await getMainAdds({ ...{ lat: 4.570868, lng: -74.297333 }, ...queryParams })
-
+  const adds = await getMainAdds({ ...{ lat:40.60562365, lng:-74.0554853141819, range:25, propertyType:'Casa'}, ...queryParams })
   return (
 
     <ScrollArea
@@ -48,21 +49,19 @@ export default async function Home({ searchParams }: HomeProps) {
       <NavBar />
       <div className="grid grid-cols-12  w-full bg-background relative py-2 ">
 
-        <FilterForm  
-            className="border col-span-12 sm:mx-10 md:mx-0 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8 xl:col-start-1 xl:col-span-12 rounded-xl w-full row-auto sticky top-[4.5rem] my-2 backdrop-blur-sm bg-background/20 z-20  "
-        />
+        <FilterMenu />
 
-        <div className="grid grid-cols-12 col-span-12 overflow-x-hidden px-4 sm:p-4 gap-y-3 gap-2 border py-4 rounded-xl" > 
+        <div className="grid grid-cols-12 col-span-12 overflow-x-hidden px-4 sm:p-4 gap-y-3 gap-2 py-4 rounded-xl" > 
        {
-            adds.status ? (adds.data as MainAd[]).map(ad => (
+            adds.status && (adds.data as MainAd[]).length > 0 
+            ? (adds.data as MainAd[]).map(ad => (
               <AdCard
                 key={ ad.id}
                 className="col-span-12 sm:mx-10 md:mx-0 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8 xl:col-start-5 xl:col-span-8 "
                 adData={ ad }
               />
-
-            )) : 'No hay anuncios disponibles'
-          }
+            )) : <div className="">No hay anuncios disponibles </div>
+        }
         </div>
 
         

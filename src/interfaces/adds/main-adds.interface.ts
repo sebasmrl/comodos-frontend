@@ -6,9 +6,10 @@ export interface MainAddsRequestParams{
     lng:number;
     range?:number;
     offset?:number;
-    limmit?:number;
+    limit?:number;
     maxPrice?:number;
     minPrice?:number;
+    propertyType?:string;
 }
 
 

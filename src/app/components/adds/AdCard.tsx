@@ -12,7 +12,7 @@ import Link from "next/link";
 import { CiMapPin } from "react-icons/ci";
 import { FaBath, FaBed, FaPhone, FaWhatsapp } from 'react-icons/fa';
 import { MdFavoriteBorder, MdOutlineZoomOutMap } from "react-icons/md";
-import { TbSofa } from "react-icons/tb";
+import { TbSofa, TbSofaOff } from "react-icons/tb";
 
 interface Props {
   className?: string | undefined;
@@ -58,7 +58,7 @@ export function AdCard({ className, adData }: Props) {
                   <p className="ml-2 text-xs font-medium text-gray-700 dark:text-inherit text-nowrap">{adData.bathrooms} Baños</p>
                 </div>
                 <div className="flex items-center hover:rounded-md hover:bg-slate-300 p-2 dark:hover:text-secondary text-foreground">
-                <TbSofa className="w-6" />
+                  { adData.furnished ? <TbSofa className="w-6" /> :<TbSofaOff className="w-6"/>}
                   <p className="ml-2 text-xs font-medium text-gray-700 dark:text-inherit text-nowrap">{adData.furnished ? 'Amoblado':'No amoblado'}</p>
                 </div>
                 <div className="flex items-center hover:rounded-md hover:bg-slate-300 p-2 dark:hover:text-secondary text-foreground">

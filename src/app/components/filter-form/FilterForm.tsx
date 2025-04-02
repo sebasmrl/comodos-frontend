@@ -24,12 +24,14 @@ import {
   } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
   
 
 
 
 interface Props extends React.AllHTMLAttributes<HTMLDivElement> {
     name?: string;
+    onOpenAndCloseDialog: (v:boolean)=>void
 }
 
 const formSchema = z.object({
@@ -43,7 +45,7 @@ const formSchema = z.object({
             .transform((val) => Number(val)), // Transformar a número
 })
 
-export const FilterForm = ({ className, ...props }: Props) => {
+export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -55,18 +57,23 @@ export const FilterForm = ({ className, ...props }: Props) => {
         },
     });
 
+    const router= useRouter();
+    
+
     function onSubmit(values: z.infer<typeof formSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         console.log(values)
+        onOpenAndCloseDialog(false);
+        router.push('?range='+values.range)
     }
 
     return (
         <div
-            {...props} className={cn(className, " p-4")}
+            {...props} className={cn(className, "p-4")}
         >
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className=" flex gap-x-4 items-center">
+                <form onSubmit={form.handleSubmit(onSubmit)} className=" flex flex-col gap-y-2 items-stretch">
                 <FormField
                         control={form.control}
                         name="range"
@@ -110,7 +117,7 @@ export const FilterForm = ({ className, ...props }: Props) => {
                         control={form.control}
                         name="maxPrice"
                         render={({ field }) => (
-                            <FormItem className="space-y-0 inline-flex items-center gap-x-1">
+                            <FormItem className="space-y-0  items-center gap-x-1">
                                 <FormLabel className="text-nowrap">Precio Máximo</FormLabel>
                                 <FormControl>
                                     <Input {...field} placeholder="maxPrice" className="min-w-20"/>
@@ -123,7 +130,7 @@ export const FilterForm = ({ className, ...props }: Props) => {
                         control={form.control}
                         name="minPrice"
                         render={({ field }) => (
-                            <FormItem className="space-y-0 items-center inline-flex gap-1">
+                            <FormItem className="space-y-0 items-center gap-1">
                                 <FormLabel className="text-nowrap">Precio Mínimo</FormLabel>
                                 <FormControl>
                                     <Input {...field} placeholder="minPrice" className="min-w-20"/>
@@ -132,26 +139,27 @@ export const FilterForm = ({ className, ...props }: Props) => {
                             </FormItem>
                         )}
                     />
-                    <FormField
+                    {/* <FormField
                         control={form.control}
                         name="page"
                         render={({ field }) => (
                             <FormItem className="space-y-0 items-center inline-flex gap-1">
                                 <FormLabel className="text-nowrap">Precio Mínimo</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder="minPrice" className="min-w-20"/>
+                                    <Input {...field} placeholder="page" className="min-w-20"/>
                                 </FormControl>   
                                 <FormMessage />
                             </FormItem>
                         )}
-                    />
+                    /> */}
                     
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit" className="self-end mt-6">Guardar</Button>
                 </form>
             </Form>
         </div>
     )
 }
+
 
 
 
