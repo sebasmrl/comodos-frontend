@@ -25,6 +25,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { useQueryParams } from "@/hooks/use-query-params";
   
 
 
@@ -47,6 +48,8 @@ const formSchema = z.object({
 
 export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props) => {
 
+    
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -58,6 +61,9 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
     });
 
     const router= useRouter();
+    const params = useQueryParams();
+    console.log({params})
+
     
 
     function onSubmit(values: z.infer<typeof formSchema>) {
@@ -65,7 +71,11 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
         // ✅ This will be type-safe and validated.
         console.log(values)
         onOpenAndCloseDialog(false);
-        router.push('?range='+values.range)
+        const options = {...values, range: values?.range[1], ...params }
+        console.log({options    })
+
+        //TODO: realizar la peticion basada en url segun los datos del formulario de filtro
+        router.push(''); 
     }
 
     return (

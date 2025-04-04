@@ -11,8 +11,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { CiMapPin } from "react-icons/ci";
 import { FaBath, FaBed, FaPhone, FaWhatsapp } from 'react-icons/fa';
-import { MdFavoriteBorder, MdOutlineZoomOutMap } from "react-icons/md";
+import { MdOutlineZoomOutMap } from "react-icons/md";
 import { TbSofa, TbSofaOff } from "react-icons/tb";
+import { FavoriteButton } from "./FavoriteButton";
 
 interface Props {
   className?: string | undefined;
@@ -28,8 +29,8 @@ export function AdCard({ className, adData }: Props) {
       <CardContent className="py-4 px-4 ">
         <Link href={`/anuncio/${adData.id}`} passHref legacyBehavior>
           <div className=" rounded overflow-hidden w-full grid grid-cols-1 sm:grid-cols-3 "> {/* max-w-sm */}
-            <div className="col-span-3 sm:col-span-1 aspect-video w-full h-full rounded-lg overflow-hidden ">
-              <Image width={200} height={200} className="aspect-video w-full h-full hover:scale-105 duration-300 transition-transform" src={ `${CLOUDFRONT_URL}/${adData.images.find( val => val.fieldName = 'main')?.key}`} alt="Property Image" />
+            <div className="col-span-3 sm:col-span-1 aspect-video w-full h-full rounded-lg overflow-hidden flex justify-center items-center">
+              <Image width={200} height={200} className="aspect-video w-full h-auto hover:scale-105 duration-300 transition-transform" src={ `${CLOUDFRONT_URL}/${adData.images.find( val => val.fieldName = 'main')?.key}`} alt="Property Image" />
             </div>
 
             {/* Informacion */}
@@ -45,7 +46,7 @@ export function AdCard({ className, adData }: Props) {
                   <div className="mr-2 rounded-full bg-blue-600 py-1 px-2 text-xs font-medium text-white">{adData.property_type}</div>
                   <div className="rounded-full bg-yellow-500 py-1 px-2 text-xs font-medium text-white">{adData.distance.toFixed(2)} Km</div>
                 </div>
-                <MdFavoriteBorder className="absolute top-2 sm:top-0 right-0 rounded-full  w-9 h-9 p-1 text-rose-600 hover:bg-rose-600/20" />
+                <FavoriteButton />
               </div>
 
               <div className="flex justify-between sm:justify-start md:justify-start flex-wrap">

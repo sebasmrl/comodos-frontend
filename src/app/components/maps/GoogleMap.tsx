@@ -1,19 +1,19 @@
 'use client';
 
-import { insertMapPositionToAd, insertMapPositionToUser } from "@/actions/insert-map-position-action";
+//import { insertMapPositionToAd, insertMapPositionToUser } from "@/actions/insert-map-position-action";
 import { APIProvider, ColorScheme, Map, Marker, useMarkerRef } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
 
 interface Props {
-  apikey: string,
-  zoom?: number
+  apikey: string;
+  zoom?: number;
   position?: {
     lat: number,
     lng: number
   },
-  markable?: boolean,
-  isForUser?: boolean
-  onSave?: (e: React.MouseEvent<HTMLButtonElement>)=>void
+  markable?: boolean;
+  onSave?: ( position: {lat:number,lng:number}) => void; //onSave?: (e: React.MouseEvent<HTMLButtonElement>)=>void
+  //isForUser?: boolean 
 }
 
 
@@ -23,8 +23,8 @@ export default function GoogleMap({
   zoom = 5,
   position = { lat: 5.3420606, lng: -72.6211212 },
   markable = false,
-  isForUser = false,
-  //onSave
+  onSave
+  //isForUser = false,
 }: Props) {
 
   const [markerPosition, setMarkerPosition] = useState(position);
@@ -57,8 +57,9 @@ export default function GoogleMap({
                 lat: e.detail.latLng?.lat ?? 0,
                 lng: e.detail.latLng?.lng ?? 0
               })
-              if (isForUser) { insertMapPositionToUser(markerPosition) } 
-              else { insertMapPositionToAd(markerPosition); }
+              //if (isForUser) { insertMapPositionToUser(markerPosition) } 
+             // else { insertMapPositionToAd(markerPosition); }
+              if(onSave) onSave(markerPosition)
             }
           }}
         >
