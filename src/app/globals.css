@@ -64,4 +64,30 @@
   }
 }
 
+.pac-container {
+  @apply bg-background;
+  @apply dark:bg-slate-800;
+  @apply text-foreground;
+  @apply rounded-md;
+  @apply p-2;
+}
 
+.pac-item {
+  @apply text-foreground;
+  @apply border-none;
+  @apply rounded-md;
+  @apply active:bg-slate-500;
+  @apply pointer-events-auto;
+  @apply active:pointer-events-none
+
+}
+
+.pac-item-query {
+  @apply text-foreground;
+  @apply border-none;
+  @apply selection:bg-green-500
+}
+/*
+.pac-matched {
+  @apply z-50;
+} */

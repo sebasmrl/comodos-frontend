@@ -8,6 +8,7 @@ import { MainAd } from "@/interfaces/adds/main-adds.interface";
 import { FilterMenu } from "./components/filter-menu/FilterMenu";
 import Image from "next/image";
 import { getGoogleMapsApikey } from "@/actions/get-google-map-apikey";
+//import { GoogleMapV2 } from "./components/maps/GoogleMapV2";
 
 
 export const dynamicParams = true
@@ -73,7 +74,7 @@ export default async function Home({ searchParams }: HomeProps) {
               </div>
           } 
         </div>
-
+           {/* <GoogleMapV2 /> */}
 
       </div>
     </ScrollArea>
