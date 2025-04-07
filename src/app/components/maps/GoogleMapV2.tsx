@@ -3,6 +3,7 @@
 import { DragEvent, useEffect, useRef, useState } from "react";
 import { Loader } from '@googlemaps/js-api-loader'
 import { Input } from "@/components/ui/input";
+import { getGoogleMapsApikey } from "@/actions/get-google-map-apikey";
 
 export const GoogleMapV2 = () => {
 
@@ -13,8 +14,11 @@ export const GoogleMapV2 = () => {
   useEffect(() => {
 
     const initMap = async () => {
+
+      const apikey = await getGoogleMapsApikey();
+
       const loader = await new Loader({
-        apiKey: process.env.GOOGLE_MAPS_API_KEY ?? '', //!NO DEJAR EN CADA COMMIT MIENTRAS SE SOLICIA POR FETCH EN EL FUTURO
+        apiKey: apikey ?? '',
         version: 'quarterly',
         libraries: ['places']
       });
