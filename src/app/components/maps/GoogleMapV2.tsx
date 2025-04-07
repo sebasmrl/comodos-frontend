@@ -14,7 +14,7 @@ export const GoogleMapV2 = () => {
 
     const initMap = async () => {
       const loader = await new Loader({
-        apiKey: process.env.GOOGLE_MAPS_API_KEY ?? 'AIzaSyAy91L31p8l5Mp3XSzf9rgOme40tF95cG8',
+        apiKey: process.env.GOOGLE_MAPS_API_KEY ?? '', //!NO DEJAR EN CADA COMMIT MIENTRAS SE SOLICIA POR FETCH EN EL FUTURO
         version: 'quarterly',
         libraries: ['places']
       });
