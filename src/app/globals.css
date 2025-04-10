@@ -74,6 +74,9 @@
 
 .pac-item {
   @apply text-foreground;
+  @apply bg-background;
+  @apply hover:bg-accent;
+  @apply cursor-pointer;
   @apply border-none;
   @apply rounded-md;
   @apply active:bg-slate-500;
@@ -82,10 +85,12 @@
 
 .pac-item-query {
   @apply text-foreground;
+  @apply bg-background;
+  @apply hover:bg-accent;
   @apply border-none;
   @apply selection:bg-green-500
 }
-/*
+
 .pac-matched {
-  @apply z-50;
-} */
+  @apply text-primary/95;
+} 

@@ -48,7 +48,10 @@ export const GoogleMapV2 = ({ className, classNameInput, classNameMap, className
         mapId: 'map',
         controlSize: 25,
         colorScheme: theme.theme?.toUpperCase(),
-        mapTypeControl: false
+        mapTypeControl: true,
+        mapTypeControlOptions:{ position: google.maps.ControlPosition.BOTTOM_CENTER },
+        zoomControlOptions: { position: google.maps.ControlPosition.LEFT_BOTTOM },
+        streetViewControl:false,
       }
 
       const { AdvancedMarkerElement } = await loader.importLibrary('marker') as google.maps.MarkerLibrary;
@@ -139,7 +142,7 @@ export const GoogleMapV2 = ({ className, classNameInput, classNameMap, className
         <Input ref={autocompleteRef} className={cn("w-full px-4 py-2 rounded-md min-w-24 z-50", classNameInput)} autoComplete="off" />
       </div>
       <div ref={mapRef} className={cn("min-w-80 min-h-80 w-full h-[90%] rounded-md", classNameMap)}></div>
-      <BackButton className="rounded-full w-12 h-12 absolute right-8 bottom-6 bg-primary"
+      <BackButton className="rounded-full w-12 h-12 absolute right-8 bottom-6 "
       actionCallback={ async()=>{
         alert("Guardando en estado global y en DB"+JSON.stringify(location))
         //TODO: Insertar ubicacion en ESTADO y en DB si esta logueado

@@ -17,7 +17,7 @@ export const BackButton = ({ className, children, actionCallback }: PropsWithChi
     return (
         <Button
             className={cn("", className)}
-            variant={'outline'}
+            variant={'success'}
             onClick={ async(e: MouseEvent) => {
                 e.preventDefault();
                 e.stopPropagation();

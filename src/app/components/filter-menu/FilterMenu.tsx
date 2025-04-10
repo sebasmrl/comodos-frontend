@@ -29,9 +29,9 @@ export function FilterMenu({}:Props) {
   return (
     <Sheet open={open} onOpenChange={setOpen} modal={false} >
       <SheetTrigger asChild >
-        <Button variant="default" className="rounded-full w-12 h-12 fixed bottom-4 right-4 z-40"><TbFilterPin  className="min-h-full min-w-full"/></Button>
+        <Button variant="default" className="rounded-full w-12 h-12 fixed bottom-6 right-8 z-40"><TbFilterPin  className="min-h-full min-w-full"/></Button>
       </SheetTrigger>
-      <SheetContent side={'right'} className=" overflow-y-auto z-50 w-[300px] md:w-[450px]" onClick={ (e)=>{ e.stopPropagation()}}>
+      <SheetContent side={'right'} className=" overflow-y-auto z-50 w-[300px] md:w-[450px] border-primary/10" onClick={ (e)=>{ e.stopPropagation()}}>
         <SheetHeader className="pb-4">
           <SheetTitle>Filtros</SheetTitle>
           <SheetDescription>
@@ -41,7 +41,7 @@ export function FilterMenu({}:Props) {
             <div className="p-0 m-0">
               <Button onClick={()=>{
                 router.push('/ubicacion');
-              }} className="w-full bg-emerald-700 text-primary-foreground shadow hover:bg-emarald-700/90"><TfiMapAlt />Ir al mapa </Button>
+              }} className="w-full bg-emerald-700 text-white shadow hover:bg-emerald-900 hover:text-emerald-200"><TfiMapAlt />Ir al mapa </Button>
             </div>
             <FilterForm onOpenAndCloseDialog={setOpen}/>
       </SheetContent>
