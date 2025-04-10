@@ -4,10 +4,15 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { mainMenu } from '../drawer-menu/menus-data/main-menu'
 import { ModeToggle } from '../mode-toggle/ModeToggle'
+import { cn } from '@/lib/utils'
 
-export const NavBar = () => {
+interface Props{
+    className?:string;
+}
+
+export const NavBar = ({className}:Props) => {
     return (
-        <nav className="flex items-center justify-between px-2 w-full sticky top-0 bg-gradient-to-r from-slate-100/20 dark:from-slate-900/10 to-orange-500 dark:to-orange-500  backdrop-blur-sm z-50">
+        <nav className={cn("flex items-center justify-between px-2 w-full sticky top-0 bg-gradient-to-r from-slate-100/20 dark:from-slate-900/10 to-orange-500 dark:to-orange-500  backdrop-blur-sm z-50", className)}>
             <div className="flex flex-nowrap gap-2 py-4">
                 <DrawerMenu menu={ mainMenu } />
                 <Link href={"/"} className="flex justify-center self-center ">

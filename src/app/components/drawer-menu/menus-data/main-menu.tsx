@@ -11,7 +11,7 @@ export const mainMenu: Menu[] = [
     },
     {
         icon: <CiLocationOn />,
-        href: "/",
+        href: "/ubicacion",
         title: "Ubicación"
     },
     {

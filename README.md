@@ -23,6 +23,8 @@ npm install next-themes
 npm install next-auth@beta
 npm install axios
 npm install react-icons --save
+npm install zustand
+
 ```
 
 ## .env

@@ -78,8 +78,6 @@
   @apply rounded-md;
   @apply active:bg-slate-500;
   @apply pointer-events-auto;
-  @apply active:pointer-events-none
-
 }
 
 .pac-item-query {
