@@ -1,7 +1,7 @@
 'use client';
 
 //import { useSession } from "next-auth/react";
-import { FavoriteButton } from "../FavoriteButton/FavoriteButton"
+import { FavoriteButton } from "../favorite-button/FavoriteButton"
 import { addToFavoritesAd, deleteOneFavoriteAd, isPresentIdInFavorites } from "@/actions/cookies/client/favorites/favorites.action";
 import { usePathname, useRouter } from "next/navigation";
 
