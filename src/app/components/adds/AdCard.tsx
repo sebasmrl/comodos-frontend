@@ -13,7 +13,7 @@ import { CiMapPin } from "react-icons/ci";
 import { FaBath, FaBed, FaPhone, FaWhatsapp } from 'react-icons/fa';
 import { MdOutlineZoomOutMap } from "react-icons/md";
 import { TbSofa, TbSofaOff } from "react-icons/tb";
-import { FavoriteButton } from "./FavoriteButton";
+import { FavoriteAdButton } from "./FavoriteAdButton";
 
 interface Props {
   className?: string | undefined;
@@ -44,9 +44,9 @@ export function AdCard({ className, adData }: Props) {
                 </div>
                 <div className="flex items-center pt-2">
                   <div className="mr-2 rounded-full bg-blue-600 py-1 px-2 text-xs font-medium text-white">{adData.property_type}</div>
-                  <div className="rounded-full bg-yellow-500 py-1 px-2 text-xs font-medium text-white">{adData.distance.toFixed(2)} Km</div>
+                  <div className="rounded-full bg-yellow-500 py-1 px-2 text-xs font-medium text-white">{adData?.distance?.toFixed(2)} Km</div>
                 </div>
-                <FavoriteButton />
+                <FavoriteAdButton id={ adData.id}  />
               </div>
 
               <div className="flex justify-between sm:justify-start md:justify-start flex-wrap">

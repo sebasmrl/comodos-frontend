@@ -1,7 +1,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { NavBar } from "./components/navbar/NavBar";
 import { FilterMenu } from "./components/filter-menu/FilterMenu";
-import { getGoogleMapsApikey } from "@/actions/get-google-map-apikey";
+import { getGoogleMapsApikey } from "@/actions/maps/get-google-map-apikey";
 
 export default async function Loading() {
     const googleApiKey = await getGoogleMapsApikey();

@@ -17,33 +17,36 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 
-interface Props{
-  googleApiKey:string;
+interface Props {
+  googleApiKey: string;
 }
 
-export function FilterMenu({}:Props) {
+export function FilterMenu({ }: Props) {
 
-    const [open, setOpen] = useState(false);
-    const router = useRouter();
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <Sheet open={open} onOpenChange={setOpen} modal={false} >
       <SheetTrigger asChild >
-        <Button variant="default" className="rounded-full w-12 h-12 fixed bottom-6 right-8 z-40"><TbFilterPin  className="min-h-full min-w-full"/></Button>
+        <Button variant="default" className="rounded-full w-12 h-12 fixed bottom-6 right-8 z-40"><TbFilterPin className="min-h-full min-w-full" /></Button>
       </SheetTrigger>
-      <SheetContent side={'right'} className=" overflow-y-auto z-50 w-[300px] md:w-[450px] border-primary/10" onClick={ (e)=>{ e.stopPropagation()}}>
+      <SheetContent side={'right'} className=" overflow-y-auto z-50 w-[300px] md:w-[450px] border-primary/10" onClick={(e) => { e.stopPropagation() }}>
         <SheetHeader className="pb-4">
           <SheetTitle>Filtros</SheetTitle>
           <SheetDescription>
             Elige las opciones de tu preferencia y encuentra el inmueble más se acomode a tus necesidades.
           </SheetDescription>
         </SheetHeader>
-            <div className="p-0 m-0">
-              <Button onClick={()=>{
-                router.push('/ubicacion');
-              }} className="w-full bg-emerald-700 text-white shadow hover:bg-emerald-900 hover:text-emerald-200"><TfiMapAlt />Ir al mapa </Button>
-            </div>
-            <FilterForm onOpenAndCloseDialog={setOpen}/>
+        <div className="p-0 m-0">
+          <Button
+            className="w-full"
+            variant={'success'}
+            onClick={() => {
+              router.push('/ubicacion');
+            }} ><TfiMapAlt />Ir al mapa </Button>
+        </div>
+        <FilterForm onOpenAndCloseDialog={setOpen} />
       </SheetContent>
     </Sheet>
   )

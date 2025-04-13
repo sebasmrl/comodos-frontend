@@ -3,7 +3,7 @@
 import { DragEvent, useEffect, useRef, useState } from "react";
 import { Loader } from '@googlemaps/js-api-loader'
 import { Input } from "@/components/ui/input";
-import { getGoogleMapsApikey } from "@/actions/get-google-map-apikey";
+import { getGoogleMapsApikey } from "@/actions/maps/get-google-map-apikey";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { IoIosSave } from "react-icons/io";

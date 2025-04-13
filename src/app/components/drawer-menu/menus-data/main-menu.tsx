@@ -22,7 +22,7 @@ export const mainMenu: Menu[] = [
     },
     {
         icon: <MdOutlineFavorite />,
-        href: "/",
+        href: "/favoritos",
         title: "Favoritos",
         auth:true
     }

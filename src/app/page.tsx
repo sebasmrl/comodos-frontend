@@ -7,7 +7,7 @@ import { MainAd } from "@/interfaces/adds/main-adds.interface";
 //import { FilterForm } from "./components/filter-form/FilterForm";
 import { FilterMenu } from "./components/filter-menu/FilterMenu";
 import Image from "next/image";
-import { getGoogleMapsApikey } from "@/actions/get-google-map-apikey";
+import { getGoogleMapsApikey } from "@/actions/maps/get-google-map-apikey";
 //import { GoogleMapV2 } from "./components/maps/GoogleMapV2";
 
 
