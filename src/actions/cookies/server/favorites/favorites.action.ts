@@ -2,7 +2,7 @@
 import { AxiosResponse } from 'axios';
 
 import { getOneAdById } from '@/actions/ads/get-one-ad-by-id.action';
-import { MainAd } from '@/interfaces/adds/main-adds.interface';
+import { MainAd } from '@/interfaces/adds/main-ads.interface';
 import { cookies } from 'next/headers';
 
 

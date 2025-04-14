@@ -2,7 +2,7 @@
 
 import { api } from "@/config/axios.config";
 import { GenericErrorResponse } from "@/interfaces";
-import { MainAd, MainAdsRequestParams } from "@/interfaces/adds/main-adds.interface";
+import { MainAd, MainAdsRequestParams } from "@/interfaces/adds/main-ads.interface";
 import { AxiosResponse } from "axios";
 
 export const getMainAds = async (params: MainAdsRequestParams) => {

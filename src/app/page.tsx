@@ -3,7 +3,7 @@ import { NavBar } from "./components/navbar/NavBar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AdCard } from "./components/adds/AdCard";
 import { getMainAds } from "@/actions/ads/get-main-ads.action";
-import { MainAd } from "@/interfaces/adds/main-adds.interface";
+import { MainAd } from "@/interfaces/adds/main-ads.interface";
 //import { FilterForm } from "./components/filter-form/FilterForm";
 import { FilterMenu } from "./components/filter-menu/FilterMenu";
 import Image from "next/image";

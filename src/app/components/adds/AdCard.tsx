@@ -4,7 +4,7 @@ import {
   CardContent,
 } from "@/components/ui/card"
 import { CLOUDFRONT_URL } from "@/config/env";
-import { MainAd } from "@/interfaces/adds/main-adds.interface";
+import { MainAd } from "@/interfaces/adds/main-ads.interface";
 import { toLegiblePriceFormat, toUpperCamelCase } from "@/lib/custom/string";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
