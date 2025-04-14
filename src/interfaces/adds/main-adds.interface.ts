@@ -1,7 +1,7 @@
 import { Coords } from "../coords.interface";
 
 
-export interface MainAddsRequestParams{
+export interface MainAdsRequestParams{
     lat:number;
     lng:number;
     range?:number;

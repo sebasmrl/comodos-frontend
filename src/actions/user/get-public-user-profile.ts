@@ -2,13 +2,13 @@
 
 import { api } from "@/config/axios.config";
 import { GenericErrorResponse } from "@/interfaces";
-import { Ad } from "@/interfaces/adds";
+import { PublicUserProfile } from "@/interfaces/user";
 import { AxiosResponse } from "axios";
 
 export const getOneAdById = async(id:string)=>{
-    let rs: AxiosResponse<Ad | GenericErrorResponse>;
+    let rs: AxiosResponse<PublicUserProfile | GenericErrorResponse>;
     try {
-        rs = await api.get(`ads/${id}`);
+        rs = await api.get(`/users/public/${id}`);
         return rs;
     } catch (e) {
         return e as AxiosResponse<GenericErrorResponse>;

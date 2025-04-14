@@ -4,6 +4,15 @@
 import { NavBar } from "../components/navbar/NavBar";
 import { getFavoriteAdsAction } from "@/actions/cookies/server/favorites/favorites.action";
 
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: 'Favoritos',
+  description: 'Lista de anuncios guardados como favoritos',
+  authors:[{name:'Sebastian Morales', url: 'https://sebastianmorales.dev'}]
+}
+
+
 export default async function FavoritosPage() {
   //TODO: Activate later session blocked 
   //const session = await auth();

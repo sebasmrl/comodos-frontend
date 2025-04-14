@@ -1,5 +1,5 @@
-import { Coords } from "./coords.interface";
-import { ProfileImage } from "./profile-image.interface";
+import { Coords } from "../coords.interface";
+import { ProfileImage } from "../user/profile-image.interface";
 
 
 interface UserAuth{

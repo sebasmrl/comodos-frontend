@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import { NavBar } from "./components/navbar/NavBar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AdCard } from "./components/adds/AdCard";
-import { getMainAdds } from "@/actions/ads/get-main-adds.action";
+import { getMainAds } from "@/actions/ads/get-main-ads.action";
 import { MainAd } from "@/interfaces/adds/main-adds.interface";
 //import { FilterForm } from "./components/filter-form/FilterForm";
 import { FilterMenu } from "./components/filter-menu/FilterMenu";
@@ -39,7 +39,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
 
   //TODO: obtener la ubicacion y mandarla por defecto
-  const adds = await getMainAdds({ ...{ lat: 40.60562365, lng: -74.0554853141819, range: 25, propertyType: 'Casa' }, ...queryParams });
+  const adds = await getMainAds({ ...{ lat: 40.60562365, lng: -74.0554853141819, range: 25, propertyType: 'Casa' }, ...queryParams });
   const  googleApiKey = await getGoogleMapsApikey();
 
 
