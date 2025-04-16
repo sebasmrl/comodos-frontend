@@ -3,13 +3,16 @@
 //import { redirect } from "next/navigation";
 import { NavBar } from "../components/navbar/NavBar";
 import { getFavoriteAdsAction } from "@/actions/cookies/server/favorites/favorites.action";
+import { getPublicUserProfileById } from "@/actions/user/get-public-user-profile";
 
 import type { Metadata } from 'next'
- 
+import { FavoriteAdCard } from "../components/adds/FavoriteAdCard";
+import { PublicUserProfile } from "@/interfaces/user";
+
 export const metadata: Metadata = {
   title: 'Favoritos',
   description: 'Lista de anuncios guardados como favoritos',
-  authors:[{name:'Sebastian Morales', url: 'https://sebastianmorales.dev'}]
+  authors: [{ name: 'Sebastian Morales', url: 'https://sebastianmorales.dev' }]
 }
 
 
@@ -18,20 +21,29 @@ export default async function FavoritosPage() {
   //const session = await auth();
   //if (!(session?.user)) redirect('/');
 
-
   const favoriteAds = await getFavoriteAdsAction();
 
   return (
-    <div>
+    <div className="w-full">
       <NavBar />
-      <p>length:{favoriteAds.length}</p> 
-      {
-       favoriteAds.length > 0 && favoriteAds.map((ad) => (
-          <div key={ad.id}>
-              <pre className="p-2">{JSON.stringify(ad,null, 3)}</pre>
-          </div>)
-        )
-      }
+      <div className="w-full flex justify-center p-2 gap-2 items-center pt-4">
+        <h1 className="font-extralight text-2xl">Mis Favoritos</h1>
+        <p className="text-xs font-semibold rounded-full bg-primary/20 min-w-5 min-h-5 text-center leading-relaxed">{favoriteAds.length}</p>
+      </div>
+
+      <div className="grid grid-cols-12 col-span-12 overflow-x-hidden px-4 sm:p-4 gap-y-3 gap-2 py-4 rounded-xl ">
+        {
+          favoriteAds.length > 0 && favoriteAds.map(async (ad) => {
+            const publicUserProfile = await getPublicUserProfileById(ad.user)
+            return <FavoriteAdCard
+              className="col-span-12 sm:mx-10 md:mx-0 md:col-start-2 md:col-span-10 xl:col-start-3 xl:col-span-8"
+              key={ad.id}
+              adData={ad} 
+              publicUserProfile={publicUserProfile.data as PublicUserProfile}
+            />
+          })
+        }
+      </div>
     </div>
   );
 }

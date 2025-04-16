@@ -4,7 +4,6 @@ import {
   CardContent,
 } from "@/components/ui/card"
 import { CLOUDFRONT_URL } from "@/config/env";
-import { MainAd } from "@/interfaces/adds/main-ads.interface";
 import { toLegiblePriceFormat, toUpperCamelCase } from "@/lib/custom/string";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -14,18 +13,21 @@ import { FaBath, FaBed, FaPhone, FaWhatsapp } from 'react-icons/fa';
 import { MdOutlineZoomOutMap } from "react-icons/md";
 import { TbSofa, TbSofaOff } from "react-icons/tb";
 import { FavoriteAdButton } from "./FavoriteAdButton";
+import { Ad } from "@/interfaces/adds";
+import { PublicUserProfile } from "@/interfaces/user";
+import { getDistanceBetween2Coords } from "@/utils";
 
 interface Props {
   className?: string | undefined;
-  adData: MainAd
+  adData: Ad;
+  publicUserProfile: PublicUserProfile
 }
 
-export function AdCard({ className, adData }: Props) {
-
-  
+export function FavoriteAdCard({ className, adData, publicUserProfile }: Props) {
+  const distance =  getDistanceBetween2Coords({lat: 40.60562365, lng: -74.0554853141819}, adData.coords)
 
   return (
-    <Card key={adData.id} className={cn(" border-border bg-background  after:bg-slate-200 after:shadow-lg after:-z-10 after:blur-sm after:saturate-150 after:w-full after:h-full after:scale-150 dark:shadow-orange-950/40 dark:hover:border-orange-950/80  hover:border-primary/30 transition-color duration-200 cursor-pointer", className)}> {/*  border-border bg-background shadow-md hover:shadow-lg dark:shadow-orange-950/40 dark:hover:border-orange-950/80  hover:border-primary/60 transition-color duration-200 cursor-pointer */}
+    <Card key={adData.id} className={cn(" border-border bg-background  after:bg-slate-200 after:shadow-lg after:-z-10 after:blur-sm after:saturate-150 after:w-full after:h-full after:scale-150 dark:shadow-orange-950/40 dark:hover:border-orange-950/80  hover:border-primary/30 transition-color duration-200 cursor-pointer", className)}>
       <CardContent className="py-4 px-4 ">
         <Link href={`/anuncios/${adData.id}`} passHref legacyBehavior>
           <div className=" rounded overflow-hidden w-full grid grid-cols-1 sm:grid-cols-3 "> {/* max-w-sm */}
@@ -39,12 +41,12 @@ export function AdCard({ className, adData }: Props) {
                 <h2 className="text-xl sm:text-2xl leading-8  font-bold text-foreground capitalize">{adData.name}</h2>
                 <div className="flex items-center hover:rounded-md  text-foreground">
                   <CiMapPin />
-                  <p className="px-1 text-sm font-light text-gray-700 dark:text-inherit text-nowrap">{adData.address}, <span>{adData.location_city}</span></p>
+                  <p className="px-1 text-sm font-light text-gray-700 dark:text-inherit text-nowrap">{adData.address}, <span>{adData.locationCity}</span></p>
                  
                 </div>
                 <div className="flex items-center pt-2">
-                  <div className="mr-2 rounded-full bg-blue-600 py-1 px-2 text-xs font-medium text-white">{adData.property_type}</div>
-                  <div className="rounded-full bg-yellow-500 py-1 px-2 text-xs font-medium text-white">{adData?.distance?.toFixed(2)} Km</div>
+                  <div className="mr-2 rounded-full bg-blue-600 py-1 px-2 text-xs font-medium text-white">{adData.propertyType.name}</div>
+                  <div className="rounded-full bg-yellow-500 py-1 px-2 text-xs font-medium text-white">{distance?.toFixed(2)} Km</div>
                 </div>
                 <FavoriteAdButton id={ adData.id}  />
               </div>
@@ -64,21 +66,21 @@ export function AdCard({ className, adData }: Props) {
                 </div>
                 <div className="flex items-center hover:rounded-md hover:bg-slate-300 p-2 dark:hover:text-secondary text-foreground">
                   <MdOutlineZoomOutMap className="w-6" />
-                  <p className="ml-2 text-xs font-medium text-gray-700 dark:text-inherit text-nowrap">{adData.square_meters} m2</p>
+                  <p className="ml-2 text-xs font-medium text-gray-700 dark:text-inherit text-nowrap">{adData.squareMeters} m2</p>
                 </div>
               </div>
               <div className="mt-4">
-                <p className="text-3xl font-bold text-primary/80 dark:text-primary">${toLegiblePriceFormat(adData.price)} <span className="font-light">{adData.currency}</span><span className="font-light"> / {adData.period}</span></p>
+                <p className="text-3xl font-bold text-primary/80 dark:text-primary">${toLegiblePriceFormat(adData.price)} <span className="font-light">{adData.currency}</span><span className="font-light"> / {adData.period.name}</span></p>
               </div>
             </div>
 
             {/* Anunciante y contacto */}
             <div className="sm:px-6 pt-2 flex justify-between items-center col-span-3">
-              <Link href={`/usuarios/publico/${adData.owner.id}`}>
+              <Link href={`/usuarios/publico/${publicUserProfile.id}`}>
                 <div className="flex items-center hover:rounded-md hover:bg-primary/5 p-2  shadow-sm rounded-md m-1">
-                  <Image width={35} height={35} src={ `${CLOUDFRONT_URL}/${adData.owner.profileImage.key}` } alt="Imagen de perfil" className="mr-2 rounded-full object-cover " />
+                  <Image width={35} height={35} src={ `${CLOUDFRONT_URL}/${publicUserProfile.profileImage.key}` } alt="Imagen de perfil" className="mr-2 rounded-full object-cover " />
                   <div>
-                    <p className="text-sm font-medium text-gray-800 dark:text-gray-100 "><span>{toUpperCamelCase(`${adData.owner.names.split(' ')[0]} ${adData.owner.lastnames.split(' ')[0]}`)}</span></p>
+                    <p className="text-sm font-medium text-gray-800 dark:text-gray-100 "><span>{toUpperCamelCase(`${publicUserProfile.names.split(' ')[0]} ${publicUserProfile.lastnames.split(' ')[0]}`)}</span></p>
                     <p className="text-xs text-gray-600 dark:text-gray-400">Arrendador</p>
                   </div>
                 </div>

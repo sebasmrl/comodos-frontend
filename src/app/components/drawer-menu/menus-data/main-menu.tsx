@@ -5,9 +5,9 @@ import { CiLocationOn, CiShoppingTag } from "react-icons/ci";
 export const mainMenu: Menu[] = [
     {
         icon: <MdPostAdd />,
-        href: "/",
+        href: "/anuncios",
         title: "Anuncios",
-        auth:true
+        auth:false //TODO: Deber ser true en produccion
     },
     {
         icon: <CiLocationOn />,
@@ -24,7 +24,7 @@ export const mainMenu: Menu[] = [
         icon: <MdOutlineFavorite />,
         href: "/favoritos",
         title: "Favoritos",
-        auth:true
+        auth:false //TODO: Deber ser true en produccion
     }
 
 ];

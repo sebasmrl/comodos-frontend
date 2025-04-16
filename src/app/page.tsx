@@ -40,7 +40,7 @@ export default async function Home({ searchParams }: HomeProps) {
 
   //TODO: obtener la ubicacion y mandarla por defecto
   const adds = await getMainAds({ ...{ lat: 40.60562365, lng: -74.0554853141819, range: 25, propertyType: 'Casa' }, ...queryParams });
-  const  googleApiKey = await getGoogleMapsApikey();
+  const  googleApiKey = await getGoogleMapsApikey() ?? '';  
 
 
   return (

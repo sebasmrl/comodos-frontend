@@ -9,7 +9,7 @@ export interface Ad {
     locationState:                string;
     locationCity:                 string;
     address:                      string;
-    price:                        string;
+    price:                        number;
     currency:                     string;
     rooms:                        number;
     livingRoom:                   boolean;
@@ -21,7 +21,7 @@ export interface Ad {
     squareMeters:                 number;
     motoParking:                  boolean;
     carParking:                   boolean;
-    adminitrationCost:            null;
+    adminitrationCost?:           number;
     isSharedKitchen:              boolean;
     furnished:                    boolean;
     hasElectricLightService:      boolean;

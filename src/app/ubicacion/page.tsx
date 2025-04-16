@@ -1,7 +1,13 @@
+import { Metadata } from "next";
 import { GoogleMapV2 } from "../components/maps/GoogleMapV2";
 import { NavBar } from "../components/navbar/NavBar"
 
-
+export const metadata: Metadata = {
+    title: 'Ubicacion',
+    description: 'Selecciona la ubicación en el mapa para encontrar los anuncios de inmuebles cercanos a tu locacion',
+    authors: [{ name: 'Sebastian Morales', url: 'https://sebastianmorales.dev' }]
+  }
+  
 
 export default function UbicacionPage() {
     return (

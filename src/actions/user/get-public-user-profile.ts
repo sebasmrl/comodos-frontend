@@ -5,7 +5,7 @@ import { GenericErrorResponse } from "@/interfaces";
 import { PublicUserProfile } from "@/interfaces/user";
 import { AxiosResponse } from "axios";
 
-export const getOneAdById = async(id:string)=>{
+export const getPublicUserProfileById = async(id:string)=>{
     let rs: AxiosResponse<PublicUserProfile | GenericErrorResponse>;
     try {
         rs = await api.get(`/users/public/${id}`);
