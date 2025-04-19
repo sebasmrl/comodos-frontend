@@ -149,6 +149,20 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
                             </FormItem>
                         )}
                     />
+                    
+                    <FormField
+                        control={form.control}
+                        name="minPrice"
+                        render={({ field }) => (
+                            <FormItem className="space-y-0 items-center gap-1">
+                                <FormLabel className="text-nowrap">Precio Mínimo</FormLabel>
+                                <FormControl>
+                                    <Input {...field} placeholder="minPrice" className="min-w-20"/>
+                                </FormControl>   
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     {/* <FormField
                         control={form.control}
                         name="page"

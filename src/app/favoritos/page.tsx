@@ -8,6 +8,8 @@ import { getPublicUserProfileById } from "@/actions/user/get-public-user-profile
 import type { Metadata } from 'next'
 import { FavoriteAdCard } from "../components/adds/FavoriteAdCard";
 import { PublicUserProfile } from "@/interfaces/user";
+import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: 'Favoritos',
@@ -26,6 +28,19 @@ export default async function FavoritosPage() {
   return (
     <div className="w-full">
       <NavBar />
+
+      <AnimatedGridPattern
+        numSquares={30}
+        maxOpacity={0.1}
+        duration={3}
+        repeatDelay={1}
+        className={cn(
+          "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
+          "dark:opacity-40"
+        )}
+      />
+
       <div className="w-full flex justify-center p-2 gap-2 items-center pt-4">
         <h1 className="font-extralight text-2xl">Mis Favoritos</h1>
         <p className="text-xs font-semibold rounded-full bg-primary/20 min-w-5 min-h-5 text-center leading-relaxed">{favoriteAds.length}</p>
@@ -38,7 +53,7 @@ export default async function FavoritosPage() {
             return <FavoriteAdCard
               className="col-span-12 sm:mx-10 md:mx-0 md:col-start-2 md:col-span-10 xl:col-start-3 xl:col-span-8"
               key={ad.id}
-              adData={ad} 
+              adData={ad}
               publicUserProfile={publicUserProfile.data as PublicUserProfile}
             />
           })

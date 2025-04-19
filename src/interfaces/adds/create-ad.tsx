@@ -1,7 +1,6 @@
 import { Coords } from "../coords.interface";
 
-export interface Ad {
-    id:                           string;
+export interface CreateAdFormPlainData {
     name:                         string;
     description:                  string;
     coords:                       Coords;
@@ -28,29 +27,12 @@ export interface Ad {
     hasGasService:                boolean;
     hasWaterService:              boolean;
     hasInternetServiceIntegrated: boolean;
-    renevaldDate:                 Date;
-    expiredDate:                  Date;
-    updateAt:                     Date;
-    createdAt:                    Date;
-    images:                       Image[];
-    period:                       Period;
-    propertyType:                 PropertyType;
-    user:                         string;
+    period:                       string;
+    propertyType:                 string;
+    //images:                       Image[];
+    //user:                         string;
 }
 
-
-export interface Image {
-    id:        string;
-    fieldName: string;
-    key:       string;
+export interface CreateAdFormData extends CreateAdFormPlainData{
+    images: [],
 }
-
-export interface Period {
-    id:   string;
-    name: string;
-}
-export interface PropertyType {
-    id:   string;
-    name: string;
-}
-

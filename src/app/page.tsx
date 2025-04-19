@@ -4,11 +4,12 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { AdCard } from "./components/adds/AdCard";
 import { getMainAds } from "@/actions/ads/get-main-ads.action";
 import { MainAd } from "@/interfaces/adds/main-ads.interface";
-//import { FilterForm } from "./components/filter-form/FilterForm";
 import { FilterMenu } from "./components/filter-menu/FilterMenu";
 import Image from "next/image";
 import { getGoogleMapsApikey } from "@/actions/maps/get-google-map-apikey";
-//import { GoogleMapV2 } from "./components/maps/GoogleMapV2";
+import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
+import { cn } from "@/lib/utils";
+
 
 
 export const dynamicParams = true
@@ -57,6 +58,18 @@ export default async function Home({ searchParams }: HomeProps) {
 
         <FilterMenu googleApiKey={googleApiKey}/>
 
+        <AnimatedGridPattern
+        numSquares={30}
+        maxOpacity={0.1}
+        duration={3}
+        repeatDelay={1}
+        className={cn(
+          "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
+          "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
+          "opacity-40"
+        )}
+      />
+        
         <div className="grid grid-cols-12 col-span-12 overflow-x-hidden px-4 sm:p-4 gap-y-3 gap-2 py-4 rounded-xl" >
           {
             adds.status != 400 && (adds.data as MainAd[])?.length > 0
