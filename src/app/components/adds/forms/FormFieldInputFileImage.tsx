@@ -23,6 +23,7 @@ interface Props {
     };
 }
 
+//TODO: Pendiente restriccion de Input para solo admitir imagenes
 export const FormFieldInputFileImage = ({ form, name, labelText, style }: Props) => {
     return (
         <FormField
@@ -38,10 +39,10 @@ export const FormFieldInputFileImage = ({ form, name, labelText, style }: Props)
                                 <div className="overflow-hidden w-full h-full flex justify-center items-center min-h-32 max-h-36 sm:min-h-40 sm:max-h-44">
                                     {
                                     
-                                    getUrlImage({ defaultUrl: "/logo/logo-comodos.svg", fileList: form.watch(name) as FileList })
+                                    getUrlImage({ fileList: form.watch(name) as FileList })
                                     ?
                                     <Image
-                                        src={getUrlImage({ defaultUrl: "/logo/logo-comodos.svg", fileList: form.watch(name) as FileList })}
+                                        src={getUrlImage({ fileList: form.watch(name) as FileList })}
                                         alt={""}
                                         width={100}
                                         height={100}
@@ -62,7 +63,7 @@ export const FormFieldInputFileImage = ({ form, name, labelText, style }: Props)
 }
 
 
-const getUrlImage = ({ defaultUrl, fileList }: { defaultUrl: string, fileList: FileList }): string => {
+const getUrlImage = ({ fileList }: { fileList: FileList }): string | null => {
     try {
         //This error is controlled in URL.createObjectURL function
         const value = URL.createObjectURL(fileList.item(0));
