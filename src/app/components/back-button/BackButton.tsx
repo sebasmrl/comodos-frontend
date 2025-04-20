@@ -6,11 +6,12 @@ import { useRouter } from 'next/navigation';
 import { MouseEvent, PropsWithChildren } from 'react';
 
 interface Props {
+    redirectPath?:string;
     className?: string;
     actionCallback?: ()=>Promise<void>; 
 }
 
-export const BackButton = ({ className, children, actionCallback }: PropsWithChildren<Props>) => {
+export const BackButton = ({ className, children, actionCallback, redirectPath }: PropsWithChildren<Props>) => {
 
     const router = useRouter();
 
@@ -22,7 +23,7 @@ export const BackButton = ({ className, children, actionCallback }: PropsWithChi
                 e.preventDefault();
                 e.stopPropagation();
                 if(actionCallback) await actionCallback();
-                router.back();
+                if(redirectPath) router.push(redirectPath);
             }} >
             {children}
         </Button>

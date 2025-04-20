@@ -8,17 +8,19 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import { IoIosSave } from "react-icons/io";
 import { BackButton } from "@/app/components/back-button/BackButton";
+import { Coords } from "@/interfaces/coords.interface";
 
 
 
 interface Props {
+  getCoordsSelectedCallback?: ( coord:Coords)=>Promise<void>; 
   className?: string;
   classNameMap?: string;
   classNameInput?: string;
   classNameInputDiv?: string;
 }
 
-export const GoogleMapV2 = ({ className, classNameInput, classNameMap, classNameInputDiv }: Props) => {
+export const GoogleMapV2 = ({ className, classNameInput, classNameMap, classNameInputDiv, getCoordsSelectedCallback }: Props) => {
 
   const [initialLocation, setInitialLocation] = useState<{ lat: number, lng: number }>({"lat":4.570868,"lng":-74.297333});
   const [location, setLocation] = useState<{ lat: number, lng: number }>({"lat":4.570868,"lng":-74.297333});
@@ -144,6 +146,7 @@ export const GoogleMapV2 = ({ className, classNameInput, classNameMap, className
       <div ref={mapRef} className={cn("min-w-80 min-h-80 w-full h-[90%] rounded-md", classNameMap)}></div>
       <BackButton className="rounded-full w-12 h-12 absolute right-8 bottom-6 "
       actionCallback={ async()=>{
+        if(getCoordsSelectedCallback) getCoordsSelectedCallback(location)
         alert("Guardando en estado global y en DB"+JSON.stringify(location))
         //TODO: Insertar ubicacion en ESTADO y en DB si esta logueado
       }}
