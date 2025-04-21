@@ -3,7 +3,7 @@ import { NavBar } from "./components/navbar/NavBar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AdCard } from "./components/adds/AdCard";
 import { getMainAds } from "@/actions/ads/get-main-ads.action";
-import { MainAd } from "@/interfaces/adds/main-ads.interface";
+import { MainAd } from "@/interfaces/ads/main-ads.interface";
 import { FilterMenu } from "./components/filter-menu/FilterMenu";
 import Image from "next/image";
 import { getGoogleMapsApikey } from "@/actions/maps/get-google-map-apikey";

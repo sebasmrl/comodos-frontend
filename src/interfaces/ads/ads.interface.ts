@@ -35,7 +35,10 @@ export interface Ad {
     images:                       Image[];
     period:                       Period;
     propertyType:                 PropertyType;
-    user:                         string;
+}
+
+export interface FavoriteAd extends Ad{
+    user: string
 }
 
 

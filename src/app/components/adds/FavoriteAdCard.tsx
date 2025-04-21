@@ -13,7 +13,7 @@ import { FaBath, FaBed, FaPhone, FaWhatsapp } from 'react-icons/fa';
 import { MdOutlineZoomOutMap } from "react-icons/md";
 import { TbSofa, TbSofaOff } from "react-icons/tb";
 import { FavoriteAdButton } from "./FavoriteAdButton";
-import { Ad } from "@/interfaces/adds";
+import { Ad } from "@/interfaces/ads";
 import { PublicUserProfile } from "@/interfaces/user";
 import { getDistanceBetween2Coords } from "@/utils";
 

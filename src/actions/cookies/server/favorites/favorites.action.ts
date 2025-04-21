@@ -3,16 +3,16 @@ import { AxiosResponse } from 'axios';
 
 import { getOneAdById } from '@/actions/ads/get-one-ad-by-id.action';
 import { cookies } from 'next/headers';
-import { Ad } from '@/interfaces/adds';
+import { FavoriteAd } from '@/interfaces/ads/ads.interface';
 
 
-export const getFavoriteAdsAction = async( ):Promise<Ad[]> =>{
+export const getFavoriteAdsAction = async( ):Promise<FavoriteAd[]> =>{
 
     try{
        const cookieFavoriteAds = await getFavoriteAdsIdsAction();
             
         const favoriteAds =  cookieFavoriteAds.map( async( idAd) => {
-            return (await getOneAdById(idAd) as AxiosResponse<Ad>).data as Ad;
+            return (await getOneAdById(idAd) as AxiosResponse<FavoriteAd>).data as FavoriteAd;
         })
         return await Promise.all(favoriteAds);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

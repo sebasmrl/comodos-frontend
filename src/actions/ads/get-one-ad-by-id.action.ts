@@ -2,7 +2,7 @@
 
 import { api } from "@/config/axios.config";
 import { GenericErrorResponse } from "@/interfaces";
-import { Ad } from "@/interfaces/adds";
+import { Ad } from "@/interfaces/ads";
 import { AxiosResponse } from "axios";
 
 export const getOneAdById = async(id:string)=>{
