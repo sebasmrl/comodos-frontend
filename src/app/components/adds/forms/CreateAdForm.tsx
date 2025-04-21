@@ -99,7 +99,7 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                             control={form.control}
                             name="propertyType"
                             render={({ field }) => (
-                                <FormItem>
+                                <FormItem className="space-y-0">
                                     <FormLabel className="text-nowrap">Tipo de Propiedad</FormLabel>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value} name={field.name}  >
@@ -119,10 +119,45 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                             )}
                         />
 
-                        {/* 
-                            //TODO: location Country, State, City 
-                         */}
-                         
+                        <FormField
+                            control={form.control}
+                            name="locationCountry"
+                            render={({ field }) => (
+                                <FormItem className="space-y-0 items-center m-0">
+                                    <FormLabel className="text-nowrap">Pais</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} placeholder="Ingresa el pais de ubicación" className="min-w-20" />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="locationState"
+                            render={({ field }) => (
+                                <FormItem className="space-y-0 items-center m-0">
+                                    <FormLabel className="text-nowrap">Departamento - Estado</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} placeholder="Ingresa el departamento o estado de ubicación" className="min-w-20" />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="locationCity"
+                            render={({ field }) => (
+                                <FormItem className="space-y-0 items-center m-0">
+                                    <FormLabel className="text-nowrap">Ciudad - Municipio</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} placeholder="Ingresa la ciudad o municipio de ubicación" className="min-w-20" />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name="address"
@@ -143,7 +178,7 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                                 <FormItem className="space-y-0 items-center m-0">
                                     <FormLabel className="text-nowrap">Estrato</FormLabel>
                                     <FormControl>
-                                        <Input {...field} placeholder="Ingresa el estrato del inmueble" className="min-w-20" />
+                                        <Input {...field} placeholder="Estrato del inmueble" className="min-w-20" />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -153,7 +188,7 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                             control={form.control}
                             name="period"
                             render={({ field }) => (
-                                <FormItem>
+                                <FormItem className="space-y-0">
                                     <FormLabel className="text-nowrap">Periodo de facturación</FormLabel>
                                     <FormControl>
                                         <Select onValueChange={field.onChange} value={field.value} name={field.name}  >
@@ -172,22 +207,47 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                                 </FormItem>
                             )}
                         />
-                        <FormField
-                            control={form.control}
-                            name="price"
-                            render={({ field }) => (
-                                <FormItem className="space-y-0 items-center m-0">
-                                    <FormLabel className="text-nowrap">Precio</FormLabel>
-                                    <FormControl>
-                                        <div className="flex flex-nowrap gap-2 items-center"> 
-                                            <p>$</p>
-                                            <Input {...field} type="number" placeholder="Precio del arrendamiento" className="min-w-20 [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden [&::-moz-number-spin-box]:hidden" />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+
+                        <div className="grid grid-cols-2 gap-x-2">
+                            <FormField
+                                control={form.control}
+                                name="price"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0 items-center ">
+                                        <FormLabel className="text-nowrap">Precio</FormLabel>
+                                        <FormControl>
+                                            <div className="flex flex-nowrap gap-2 items-center">
+                                                <p>$</p>
+                                                <Input {...field} type="number" placeholder="Precio del arrendamiento" className="min-w-20 [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden [&::-moz-number-spin-box]:hidden" />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="currency"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormLabel className="text-nowrap">Divisa</FormLabel>
+                                        <FormControl>
+                                            <Select onValueChange={field.onChange} value={String(field.value ?? undefined)} name={field.name}  >
+                                                <SelectTrigger className="w-full space-y-0" >
+                                                    <SelectValue placeholder="Divisa" />
+                                                </SelectTrigger>
+                                                <SelectContent className="space-y-0">
+                                                    <SelectItem value="COP">COP</SelectItem>
+                                                    <SelectItem value="USD">USD</SelectItem>
+                                                    <SelectItem value="EUR">EUR</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
                         <FormField
                             control={form.control}
                             name="administrationCost"
@@ -195,7 +255,7 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                                 <FormItem className="space-y-0 items-center m-0">
                                     <FormLabel className="text-nowrap">Costo de administración (opcional)</FormLabel>
                                     <FormControl>
-                                    <div className="flex flex-nowrap gap-2 items-center"> 
+                                        <div className="flex flex-nowrap gap-2 items-center">
                                             <p>$</p>
                                             <Input {...field} type="number" placeholder="Costo de administración" className="min-w-20 [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden [&::-moz-number-spin-box]:hidden" />
                                         </div>
@@ -212,7 +272,7 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                                     <FormLabel className="text-nowrap">Metros cuadrados</FormLabel>
                                     <FormControl>
                                         <Input {...field} type='number' placeholder="Metros Cuadrados" className="min-w-20 [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden [&::-moz-number-spin-box]:hidden" />
-                                    </FormControl> 
+                                    </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -261,69 +321,69 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                         />
 
                         <div className="grid grid-cols-2 gap-x-2">
-                        <FormField
-                            control={form.control}
-                            name="livingRoom"
-                            render={({ field }) => (
-                                <FormItem className="space-y-0  items-center border p-2 rounded-md">
-                                    <FormControl>
-                                        <div className="flex items-center space-x-2 justify-between">
-                                            <Label htmlFor="livingRoom" className="">Tiene sala: </Label>
-                                            <Switch id="livingRoom" ref={field.ref} checked={field.value} onCheckedChange={field.onChange} value={field.value ? 1 : 0} />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="furnished"
-                            render={({ field }) => (
-                                <FormItem className="space-y-0  items-center border p-2 rounded-md">
-                                    <FormControl>
-                                        <div className="flex items-center space-x-2 justify-between">
-                                            <Label htmlFor="furnished" className="">Es amoblado: </Label>
-                                            <Switch id="furnished" ref={field.ref} checked={field.value} onCheckedChange={field.onChange} value={field.value ? 1 : 0} />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                            <FormField
+                                control={form.control}
+                                name="livingRoom"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0  items-center border p-2 rounded-md">
+                                        <FormControl>
+                                            <div className="flex items-center space-x-2 justify-between">
+                                                <Label htmlFor="livingRoom" className="">Tiene sala: </Label>
+                                                <Switch id="livingRoom" ref={field.ref} checked={field.value} onCheckedChange={field.onChange} value={field.value ? 1 : 0} />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="furnished"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0  items-center border p-2 rounded-md">
+                                        <FormControl>
+                                            <div className="flex items-center space-x-2 justify-between">
+                                                <Label htmlFor="furnished" className="">Es amoblado: </Label>
+                                                <Switch id="furnished" ref={field.ref} checked={field.value} onCheckedChange={field.onChange} value={field.value ? 1 : 0} />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
 
                         <div className="grid grid-cols-2 gap-x-2">
-                        <FormField
-                            control={form.control}
-                            name="hasKitchen"
-                            render={({ field }) => (
-                                <FormItem className="space-y-0  items-center border p-2 rounded-md">
-                                    <FormControl>
-                                        <div className="flex items-center space-x-2 justify-between">
-                                            <Label htmlFor="hasKitchen" className="">Tiene cocina: </Label>
-                                            <Switch id="hasKitchen" ref={field.ref} checked={field.value} onCheckedChange={field.onChange} value={field.value ? 1 : 0} />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="isSharedKitchen"
-                            render={({ field }) => (
-                                <FormItem className="space-y-0  items-center border p-2 rounded-md">
-                                    <FormControl>
-                                        <div className="flex items-center space-x-2 justify-between">
-                                            <Label htmlFor="isSharedKitchen" className="">Es cocina compartida: </Label>
-                                            <Switch id="isSharedKitchen" ref={field.ref} checked={field.value} onCheckedChange={field.onChange} value={field.value ? 1 : 0} />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                            <FormField
+                                control={form.control}
+                                name="hasKitchen"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0  items-center border p-2 rounded-md">
+                                        <FormControl>
+                                            <div className="flex items-center space-x-2 justify-between">
+                                                <Label htmlFor="hasKitchen" className="">Tiene cocina: </Label>
+                                                <Switch id="hasKitchen" ref={field.ref} checked={field.value} onCheckedChange={field.onChange} value={field.value ? 1 : 0} />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="isSharedKitchen"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0  items-center border p-2 rounded-md">
+                                        <FormControl>
+                                            <div className="flex items-center space-x-2 justify-between">
+                                                <Label htmlFor="isSharedKitchen" className="">Es cocina compartida: </Label>
+                                                <Switch id="isSharedKitchen" ref={field.ref} checked={field.value} onCheckedChange={field.onChange} value={field.value ? 1 : 0} />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
 
                         <div className="grid grid-cols-2 gap-x-2">
@@ -467,22 +527,22 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                             />
                         </div>
                         <FormField
-                                control={form.control}
-                                name="yard"
-                                render={({ field }) => (
-                                    <FormItem className="space-y-0  items-center border p-2 rounded-md ">
-                                        <FormControl>
-                                            <div className="flex items-center space-x-2 justify-between">
-                                                <Label htmlFor="yard" className="">Tiene patio y/o zona verde: </Label>
-                                                <Switch id="yard" ref={field.ref} checked={field.value} onCheckedChange={field.onChange} value={field.value ? 1 : 0} />
-                                            </div>
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+                            control={form.control}
+                            name="yard"
+                            render={({ field }) => (
+                                <FormItem className="space-y-0  items-center border p-2 rounded-md ">
+                                    <FormControl>
+                                        <div className="flex items-center space-x-2 justify-between">
+                                            <Label htmlFor="yard" className="">Tiene patio y/o zona verde: </Label>
+                                            <Switch id="yard" ref={field.ref} checked={field.value} onCheckedChange={field.onChange} value={field.value ? 1 : 0} />
+                                        </div>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
-    
+
                     </div>
 
                     <hr className="col-span-12 md:hidden mt-2 border-primary/50" />
@@ -499,7 +559,7 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                             <FormFieldInputFileImage form={form} name={'adImage6'} labelText="6" style={{ label: 'bg-slate-800 font-thin' }} />
                         </div>
                         <div className="w-full relative">
-                            <h2 className="text-md font-thin px-12 text-center p-2 pt-6">Selecciona la ubicacion donde se encuentra el inmueble</h2>
+                            <h2 className="text-md font-thin px-12 text-center p-2 pt-6">Selecciona en el mapa la ubicación donde se encuentra el inmueble</h2>
                             <div className="">
                                 <GoogleMapV2 className="h-full p-0" classNameInputDiv="relative p-0" classNameInput="absolute top-4 bg-background w-[80%] right-[10%] xl:w-[50%] xl:right-[25%]" classNameMap="h-full min-h-96" getCoordsSelectedCallback={async ({ lat, lng }) => {
                                     //insertar coordenadas a ls valores del formulario

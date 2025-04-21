@@ -18,29 +18,27 @@ export const createAdFormSchema = z.object({
         lat:z.number(),
         lng:z.number()
     }),
-//    locationCountry: z.string().min(2, {
-//        message: "Pais de facturación debe ser una cadena de texto",
-//    }),
-//    locationState: z.string().min(2, {
-//        message: "Estado de facturación debe ser una cadena de texto",
-//    }),
-//    locationCity: z.string().min(2, {
-//        message: "Ciudad de facturación debe ser una cadena de texto",
-//    }),
+    locationCountry: z.string().min(2, {
+        message: "Pais es requerido",
+    }),
+    locationState: z.string().min(2, {
+        message: "Estado es requerido",
+    }),
+    locationCity: z.string().min(2, {
+        message: "Ciudad es requerida",
+    }),
     address: z.string().min(2, {
-        message: "Direccion de facturación debe ser una cadena de texto",
+        message: "Direccion es requerida",
     }),
     price: z.number({message:'El precio es requerido'}), 
-//    currency: z.string().min(3, {
-//        message: "Divisa debe ser una cadena de texto",
-//    }),
-    rooms:z.string({message:'Debes modificar el valor por defecto al menos 1 vez'}).refine((val) => !isNaN(Number(val)), { message: "Habitaciones es requerido válido" }) // Validar string numérico
-    .transform((val) => Number(val)),
+    currency: z.string().min(3, {
+        message: "La divisa es requerida",
+    }),
+    rooms:z.string({message:'Debes modificar el valor por defecto al menos 1 vez'}).refine((val) => !isNaN(Number(val)), { message: "Habitaciones es requerido válido" }), // Validar string numérico,
     livingRoom: z.boolean({
        message: "Sala es requerido",
    }),
-    bathrooms: z.string({message:"Debes modificar el valor por defecto al menos 1 vez"}).refine((val) => !isNaN(Number(val)), { message: "Baños es un numero requerido" }) // Validar string numérico
-    .transform((val) => Number(val)),
+    bathrooms: z.string({message:"Debes modificar el valor por defecto al menos 1 vez"}).refine((val) => !isNaN(Number(val)), { message: "Baños es un numero requerido" }), // Validar string numérico
     isSharedBathroom: z.boolean({
         message: "Es baño compartido es requerido",
     }),
@@ -112,15 +110,15 @@ export const createAdFormSchemaDefaultValues = {
         name:                          '', 
         description:                   '', 
         coords:                         {}, 
-        //locationCountry:               '', 
-        //locationState:                 '', 
-        //locationCity:                  '', 
+        locationCountry:               '', 
+        locationState:                 '', 
+        locationCity:                  '', 
         address:                       '', 
         price:                          0, 
-        //currency:                      'COP',  //?? Por defecto es COP en backend
-        rooms:                          1, 
+        currency:                      'COP',  //?? Por defecto es COP en backend
+        rooms:                          '1', 
         livingRoom:                     true,
-        bathrooms:                      1, 
+        bathrooms:                      '1', 
         isSharedBathroom:               false,
         floors:                         1, 
         stratum:                        '',
