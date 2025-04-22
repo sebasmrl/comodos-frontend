@@ -42,7 +42,7 @@ export const FormFieldInputFileImage = ({ form, name, labelText, style }: Props)
                                     getUrlImage({ fileList: form.watch(name) as FileList })
                                     ?
                                     <Image
-                                        src={getUrlImage({ fileList: form.watch(name) as FileList })}
+                                        src={getUrlImage({ fileList: form.watch(name) as FileList }) ?? ''}
                                         alt={""}
                                         width={100}
                                         height={100}
