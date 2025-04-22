@@ -66,8 +66,8 @@ export const FormFieldInputFileImage = ({ form, name, labelText, style }: Props)
 const getUrlImage = ({ fileList }: { fileList: FileList }): string | null => {
     try {
         //This error is controlled in URL.createObjectURL function
-        const value = URL.createObjectURL(fileList.item(0));
-        return value;
+        const value = URL.createObjectURL(fileList.item(0) ?? new Blob([]));
+        return (value != '') ? value: null;;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
         return null;
