@@ -26,9 +26,9 @@ export default async function FavoritosPage() {
   const favoriteAds = await getFavoriteAdsAction();
 
   return (
-    <div className="w-full">
-      <NavBar />
-
+    <div className="w-full min-h-dvh relative">
+      <NavBar/>
+      
       <AnimatedGridPattern
         numSquares={30}
         maxOpacity={0.1}
@@ -37,7 +37,8 @@ export default async function FavoritosPage() {
         className={cn(
           "[mask-image:radial-gradient(500px_circle_at_center,white,transparent)]",
           "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12",
-          "dark:opacity-40"
+          "dark:opacity-40",
+          "h-[110%] w-full"
         )}
       />
 
@@ -59,6 +60,7 @@ export default async function FavoritosPage() {
           })
         }
       </div>
+     
     </div>
   );
 }
