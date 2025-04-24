@@ -33,10 +33,10 @@ export const FormFieldInputFileImage = ({ form, name, labelText, style }: Props)
                 return (
                     <FormItem className="space-y-0 items-center gap-1" >
                         <FormControl >
-                            <div className={cn("relative rounded-sm overflow-hidden  flex justify-center shadow-sm border border-slate-900/5 dark:border-slate-300/10", style?.div)}>
-                                <Input type={'file'} className={cn("min-w-20 min-h-30 w-full h-full z-20 bg-transparent text-transparent text-center absolute top-0 opacity-0 hover:bg-primary/60 hover:opacity-30 cursor-pointer p-2 transition-colors", style?.input)} {...form.register(name)} />
+                            <div className={cn("min-h-36 max-h-36 sm:min-w-30 sm:min-h-30 relative rounded-sm overflow-hidden  flex justify-center shadow-sm border border-slate-900/5 dark:border-slate-300/10", style?.div)}>
+                                <Input type={'file'} className={cn("min-h-36 max-h-36 sm:min-w-30 sm:min-h-30 w-full h-full z-20 bg-transparent text-transparent text-center absolute top-0 opacity-0 hover:bg-primary/60 hover:opacity-30 cursor-pointer p-2 transition-colors overflow-hidden rounded-sm", style?.input)} {...form.register(name)} />
 
-                                <div className="overflow-hidden w-full h-full flex justify-center items-center min-h-32 max-h-36 sm:min-h-40 sm:max-h-44">
+                                <div className="overflow-hidden w-full h-full flex justify-center items-center min-h-36 max-h-36 ">
                                     {
                                     
                                     getUrlImage({ fileList: form.watch(name) as FileList })
@@ -65,9 +65,9 @@ export const FormFieldInputFileImage = ({ form, name, labelText, style }: Props)
 
 const getUrlImage = ({ fileList }: { fileList: FileList }): string | null => {
     try {
-        //This error is controlled in URL.createObjectURL function
-        const value = URL.createObjectURL(fileList.item(0) ?? new Blob([]));
-        return (value != '') ? value: null;;
+        //Controlled error in fileList.item(0)
+        if(fileList.item(0)) return URL.createObjectURL(fileList.item(0) ?? new Blob())
+        return null;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
         return null;
