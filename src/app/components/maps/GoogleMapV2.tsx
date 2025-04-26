@@ -13,6 +13,8 @@ import { Coords } from "@/interfaces/coords.interface";
 
 
 interface Props {
+  initialCoords: Coords;
+  initialZoom?:number;
   getCoordsSelectedCallback?: ( coord:Coords)=>Promise<void>; 
   className?: string;
   classNameMap?: string;
@@ -20,15 +22,22 @@ interface Props {
   classNameInputDiv?: string;
 }
 
-export const GoogleMapV2 = ({ className, classNameInput, classNameMap, classNameInputDiv, getCoordsSelectedCallback }: Props) => {
+export const GoogleMapV2 = ({ className, classNameInput, classNameMap, classNameInputDiv, initialCoords, initialZoom=15, getCoordsSelectedCallback }: Props) => {
 
-  const [initialLocation, setInitialLocation] = useState<{ lat: number, lng: number }>({"lat":4.570868,"lng":-74.297333});
-  const [location, setLocation] = useState<{ lat: number, lng: number }>({"lat":4.570868,"lng":-74.297333});
+  // There are 2 states to prevent the effect from being projected
+  const [initialLocation, setInitialLocation] = useState<{ lat: number, lng: number }>(initialCoords);
+  const [location, setLocation] = useState<{ lat: number, lng: number }>(initialCoords);
 
   const mapRef = useRef<HTMLDivElement>(null);
   const autocompleteRef = useRef<HTMLInputElement>(null);
 
   const theme = useTheme();
+  
+  // posibilidad de mejora para uso con useCurrentLocation
+  useEffect(() => {
+    setInitialLocation(initialCoords)
+  }, [initialCoords])
+  
 
   useEffect(() => {
 
@@ -46,7 +55,7 @@ export const GoogleMapV2 = ({ className, classNameInput, classNameMap, className
 
       const options: google.maps.MapOptions = {
         center: initialLocation,
-        zoom: 16,
+        zoom: initialZoom,
         mapId: 'map',
         controlSize: 25,
         colorScheme: theme.theme?.toUpperCase(),
@@ -135,7 +144,7 @@ export const GoogleMapV2 = ({ className, classNameInput, classNameMap, className
         mapClickEvent.remove();
       })
      }    
-  }, [initialLocation, theme])
+  }, [initialLocation,initialZoom, theme])
 
 
   return (
@@ -147,8 +156,6 @@ export const GoogleMapV2 = ({ className, classNameInput, classNameMap, className
       <BackButton className="rounded-full w-12 h-12 absolute right-8 bottom-6 "
       actionCallback={ async()=>{
         if(getCoordsSelectedCallback) getCoordsSelectedCallback(location)
-        alert("Guardando en estado global y en DB"+JSON.stringify(location))
-        //TODO: Insertar ubicacion en ESTADO y en DB si esta logueado
       }}
       >
         <IoIosSave className="h-full w-full" />
