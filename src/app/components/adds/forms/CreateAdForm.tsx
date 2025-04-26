@@ -30,6 +30,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { GoogleMapV2 } from "../../maps/GoogleMapV2";
+import { useEffect } from "react";
+import { customSonnerToast } from "../../custom-sonner-toast/customSonnerToast";
+import { useCurrentPosition } from "../../maps/useCurrentPosition";
 
 
 
@@ -47,8 +50,10 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
         defaultValues: createAdFormSchemaDefaultValues,
     });
 
+    const { location }= useCurrentPosition({});
 
 
+    const coordsState = form.getFieldState('coords');
 
     function onSubmit(values: z.infer<typeof createAdFormSchema>) {
         // Do something with the form values.
@@ -57,6 +62,19 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
 
 
     }
+
+
+
+    useEffect(() => {
+        if (coordsState.error) {
+            customSonnerToast({
+                title:'No has guardado ninguna ubicación',
+                variant:'destructive',
+                duration: 2000,
+                description: "Debes seleccionar alguna ubicación en el mapa para el anuncio que quieres publicar.",
+            })
+        }
+    }, [coordsState])
 
 
 
@@ -561,10 +579,23 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                         <div className="w-full relative">
                             <h2 className="text-md font-thin px-12 text-center p-2 pt-6">Selecciona en el mapa la ubicación donde se encuentra el inmueble</h2>
                             <div className="">
-                                <GoogleMapV2 className="h-full p-0" classNameInputDiv="relative p-0" classNameInput="absolute top-4 bg-background w-[80%] right-[10%] xl:w-[50%] xl:right-[25%]" classNameMap="h-full min-h-96" getCoordsSelectedCallback={async ({ lat, lng }) => {
-                                    //insertar coordenadas a ls valores del formulario
-                                    form.setValue('coords', { lat, lng });
-                                }} />
+                                <GoogleMapV2
+                                    className="h-full p-0"
+                                    classNameInputDiv="relative p-0"
+                                    classNameInput="absolute top-4 bg-background w-[80%] right-[10%] xl:w-[50%] xl:right-[25%]"
+                                    classNameMap="h-full min-h-96"
+                                    initialCoords={location}
+                                    initialZoom={7}
+                                    getCoordsSelectedCallback={async ({ lat, lng }) => {
+                                        //insertar coordenadas a ls valores del formulario
+                                        form.setValue('coords', { lat, lng });
+                                        customSonnerToast({
+                                            title:'Nueva Ubicación Seleccionada',
+                                            variant:'success',
+                                            duration: 2000,
+                                            description:'Has seleccionado una nueva ubicación para tu anuncio'
+                                        })
+                                    }} />
                             </div>
                         </div>
                     </div>
@@ -578,6 +609,7 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
         </div>
     )
 }
+
 
 
 
