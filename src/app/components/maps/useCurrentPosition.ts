@@ -8,7 +8,8 @@ interface Props{
 }
 
 export const useCurrentPosition = ({ autorefresh=false }:Props) => {
-    const [location, setLocation] = useState<Coords>({ lat: 4.570868, lng:  -74.297333 });
+    const defaultValues = { lat: 4.570868, lng:  -74.297333 }
+    const [location, setLocation] = useState<Coords>( defaultValues);
     const [error, setError] = useState('');
 
     useEffect(() => {
@@ -18,7 +19,7 @@ export const useCurrentPosition = ({ autorefresh=false }:Props) => {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const refreshCondition = (autorefresh==false) 
-                                                ? location.lat ==0 && location.lng ==0 
+                                                ? location.lat ==defaultValues.lat && location.lng ==defaultValues.lng 
                                                 : true
                     if ( refreshCondition && (position.coords.latitude != location.lat || position.coords.longitude != location.lng ) ) {
                         setLocation({
@@ -35,7 +36,7 @@ export const useCurrentPosition = ({ autorefresh=false }:Props) => {
         } else {
             setError("El navegador no soporta geolocalización");
         }
-    }, [location, autorefresh]); // Solo se ejecuta al montar el componente
+    }, [location, autorefresh, defaultValues]); // Solo se ejecuta al montar el componente
 
     return { location, error };
 };
