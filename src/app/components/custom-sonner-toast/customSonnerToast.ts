@@ -13,7 +13,7 @@ const  Variants = {
     success: {
         toast: 'group-[.toaster]:bg-emerald-700 group-[.toaster]:text-emerald-100',
             title: 'font-bold',
-            description: 'group-[.toast]:text-emerald-200',
+            description: 'group-[.toast]:text-slate-200',
             content: 'text-white'
     }
 } as const;
