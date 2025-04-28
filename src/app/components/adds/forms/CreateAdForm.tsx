@@ -33,6 +33,7 @@ import { GoogleMapV2 } from "../../maps/GoogleMapV2";
 import { useEffect } from "react";
 import { customSonnerToast } from "../../custom-sonner-toast/customSonnerToast";
 import { useCurrentPosition } from "../../maps/useCurrentPosition";
+import { useSession } from "next-auth/react";
 
 
 
@@ -50,7 +51,8 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
         defaultValues: createAdFormSchemaDefaultValues,
     });
 
-    const { location }= useCurrentPosition({});
+    const session = useSession();
+    const {location}= useCurrentPosition({autorefresh:false});
 
 
     const coordsState = form.getFieldState('coords');
@@ -584,8 +586,8 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                                     classNameInputDiv="relative p-0"
                                     classNameInput="absolute top-4 bg-background w-[80%] right-[10%] xl:w-[50%] xl:right-[25%]"
                                     classNameMap="h-full min-h-96"
-                                    initialCoords={location}
-                                    initialZoom={7}
+                                    initialZoom={ session.status == 'authenticated' ? 16 : 15 }
+                                    initialCoords={ session.status == 'authenticated' ? session.data.user.data.coords : location}
                                     getCoordsSelectedCallback={async ({ lat, lng }) => {
                                         //insertar coordenadas a ls valores del formulario
                                         form.setValue('coords', { lat, lng });

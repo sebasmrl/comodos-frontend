@@ -5,10 +5,11 @@ import { Coords } from './../../../interfaces/coords.interface';
 
 interface Props{
     autorefresh?:boolean;
+    defaultValues?: Coords
 }
 
-export const useCurrentPosition = ({ autorefresh=false }:Props) => {
-    const defaultValues = { lat: 4.570868, lng:  -74.297333 }
+
+export const useCurrentPosition = ({ autorefresh=false, defaultValues = {lat: 4.657757999999999, lng: -74.0941234   } }:Props) => {
     const [location, setLocation] = useState<Coords>( defaultValues);
     const [error, setError] = useState('');
 
