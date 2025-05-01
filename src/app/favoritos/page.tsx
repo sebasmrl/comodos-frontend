@@ -6,7 +6,7 @@ import { getFavoriteAdsAction } from "@/actions/cookies/server/favorites/favorit
 import { getPublicUserProfileById } from "@/actions/user/get-public-user-profile";
 
 import type { Metadata } from 'next'
-import { FavoriteAdCard } from "../components/adds/FavoriteAdCard";
+import { FavoriteAdCard } from "../components/ads/FavoriteAdCard";
 import { PublicUserProfile } from "@/interfaces/user";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { cn } from "@/lib/utils";

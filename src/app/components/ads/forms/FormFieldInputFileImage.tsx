@@ -6,7 +6,7 @@ import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/f
 import { Input } from "@/components/ui/input";
 import { FieldPath, UseFormReturn } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import { createAdFormSchema } from "./create-ad-form-schema";
+import { createAdFormSchema } from "./schemas/create-ad-form-schema";
 import { z } from "zod";
 import { LuImageUp } from "react-icons/lu";
 
@@ -15,6 +15,7 @@ interface Props {
     form: UseFormReturn<z.infer<typeof createAdFormSchema>>,
     name: FieldPath<z.infer<typeof createAdFormSchema>>;
     labelText: string;
+    imageUrl?:string | null;
     style?: {
         div?: string;
         input?: string
@@ -23,7 +24,7 @@ interface Props {
     };
 }
 
-export const FormFieldInputFileImage = ({ form, name, labelText, style }: Props) => {
+export const FormFieldInputFileImage = ({ form, name, labelText, imageUrl, style }: Props) => {
     return (
         <FormField
             control={form.control}
@@ -42,6 +43,15 @@ export const FormFieldInputFileImage = ({ form, name, labelText, style }: Props)
                                     ?
                                     <Image
                                         src={getUrlImage({ fileList: form.watch(name) as FileList }) ?? ''}
+                                        alt={""}
+                                        width={100}
+                                        height={100}
+                                        className={cn("w-full h-auto min-h-20 scale-150 ", style?.image)}
+                                    />
+                                    :  imageUrl
+                                    ?
+                                    <Image
+                                        src={ imageUrl ?? ''}
                                         alt={""}
                                         width={100}
                                         height={100}
