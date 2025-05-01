@@ -1,7 +1,7 @@
 import { GenericErrorResponse } from "@/interfaces";
 import { AxiosResponse } from "axios";
 import { api } from "@/config/axios.config";
-import { Ad } from "@/interfaces/ads";
+import { Ad } from "@/interfaces/ads/ads.interface";
 
 
 export const getAdsByUserId = async (userId:string) =>{
