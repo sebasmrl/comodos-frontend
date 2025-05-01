@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { GoogleMapV2 } from "../components/maps/GoogleMapV2";
-import { useCurrentPosition } from "../components/maps/useCurrentPosition";
+import { useCurrentPosition } from "../../hooks/custom/useCurrentPosition";
 import { useRouter } from "next/navigation";
 import { customSonnerToast } from "../components/custom-sonner-toast/customSonnerToast";
 
