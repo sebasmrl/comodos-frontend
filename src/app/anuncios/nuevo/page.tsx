@@ -1,4 +1,4 @@
-import { CreateAdForm } from "@/app/components/adds/forms/CreateAdForm";
+import { CreateAdForm } from "@/app/components/ads/forms/CreateAdForm";
 import { AuroraText } from "@/components/magicui/aurora-text";
 import { Metadata } from "next";
 

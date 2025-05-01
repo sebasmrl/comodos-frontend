@@ -126,7 +126,7 @@ export const createAdFormSchemaDefaultValues = {
         squareMeters:                   0,
         motoParking:                    false,
         carParking:                     false,
-        adminitrationCost:              0,
+        administrationCost:              0,
         hasKitchen:                     true, //TODO:debe ser añadida en backend
         isSharedKitchen:                false,
         furnished:                      false,

@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { NavBar } from "./components/navbar/NavBar";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { AdCard } from "./components/adds/AdCard";
+import { AdCard } from "./components/ads/AdCard";
 import { getMainAds } from "@/actions/ads/get-main-ads.action";
 import { MainAd } from "@/interfaces/ads/main-ads.interface";
 import { FilterMenu } from "./components/filter-menu/FilterMenu";

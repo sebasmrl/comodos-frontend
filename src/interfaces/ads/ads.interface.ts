@@ -1,4 +1,7 @@
 import { Coords } from "../coords.interface";
+import { Image } from "../image/image.interface";
+import { AdPeriod } from "../ad-period/ad-period.interface";
+import { PropertyType } from "../property-types/property-type.interface";
 
 export interface Ad {
     id:                           string;
@@ -21,7 +24,7 @@ export interface Ad {
     squareMeters:                 number;
     motoParking:                  boolean;
     carParking:                   boolean;
-    adminitrationCost?:           number;
+    administrationCost?:           number;
     isSharedKitchen:              boolean;
     furnished:                    boolean;
     hasElectricLightService:      boolean;
@@ -33,7 +36,7 @@ export interface Ad {
     updateAt:                     Date;
     createdAt:                    Date;
     images:                       Image[];
-    period:                       Period;
+    period:                       AdPeriod;
     propertyType:                 PropertyType;
 }
 
@@ -41,19 +44,13 @@ export interface FavoriteAd extends Ad{
     user: string
 }
 
-
-export interface Image {
-    id:        string;
-    fieldName: string;
-    key:       string;
+export interface AdWithUserId extends Ad{
+    user: string
 }
 
-export interface Period {
-    id:   string;
-    name: string;
-}
-export interface PropertyType {
-    id:   string;
-    name: string;
-}
+
+
+
+
+
 

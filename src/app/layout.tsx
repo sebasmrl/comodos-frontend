@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider, ThemeProvider } from "@/providers";
+import { ClientInitializer } from "./components/client-initializer/ClientInitializer";
 
 
 const geistSans = Geist({
@@ -29,11 +30,14 @@ export const metadata: Metadata = {
 
 };
 
+const baseURL = `${process.env.BACKEND_DOMAIN}/api`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="es" >
       <body
@@ -47,6 +51,7 @@ export default function RootLayout({
         >
           <AuthProvider>
               {children}
+              <ClientInitializer baseURL={baseURL}/>
           </AuthProvider>
         </ThemeProvider>
         <Toaster />
