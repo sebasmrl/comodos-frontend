@@ -1,6 +1,6 @@
 'use client';
 
-import { getAllPropertyTypesFromClient } from '@/actions/property-types/client/get-all-property-types';
+import { getAllPropertyTypesFromClientSide } from '@/actions/property-types/client/get-all-property-types';
 import { customSonnerToast } from '@/app/components/custom-sonner-toast/customSonnerToast';
 import { PropertyType } from '@/interfaces/property-types/property-type.interface';
 import { useEffect, useState } from 'react';
@@ -15,7 +15,7 @@ const usePropertyTypes = () => {
         const getPropertyTypes = async () => {
                 try{
                     setIsLoadingPropertyTypes(true)
-                    const rs = await getAllPropertyTypesFromClient() ;
+                    const rs = await getAllPropertyTypesFromClientSide() ;
                     setPropertyTypes(rs.data as PropertyType[])
                 }catch(e){
                     customSonnerToast({ title:'Error al  traer tipos de propiedad', description:`${e}`, variant:'destructive'})
