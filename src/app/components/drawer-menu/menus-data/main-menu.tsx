@@ -7,12 +7,13 @@ export const mainMenu: Menu[] = [
         icon: <MdPostAdd />,
         href: "/anuncios",
         title: "Anuncios",
-        auth:false //TODO: Deber ser true en produccion
+        auth:true 
     },
     {
         icon: <CiLocationOn />,
         href: "/ubicacion",
-        title: "Ubicación"
+        title: "Ubicación",
+        auth:false
     },
     {
         icon: <CiShoppingTag />,
@@ -24,7 +25,7 @@ export const mainMenu: Menu[] = [
         icon: <MdOutlineFavorite />,
         href: "/favoritos",
         title: "Favoritos",
-        auth:false //TODO: Deber ser true en produccion
+        auth:false
     }
 
 ];
