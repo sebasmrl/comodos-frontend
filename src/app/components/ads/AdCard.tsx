@@ -75,8 +75,10 @@ export function AdCard({ className, adData }: Props) {
             {/* Anunciante y contacto */}
             <div className="sm:px-6 pt-2 flex justify-between items-center col-span-3">
               <Link href={`/usuarios/publico/${adData.owner.id}`}>
-                <div className="flex items-center hover:rounded-md hover:bg-primary/5 p-2  shadow-sm rounded-md m-1">
-                  <Image width={35} height={35} src={ `${CLOUDFRONT_URL}/${adData.owner.profileImage.key}` } alt="Imagen de perfil" className="mr-2 rounded-full object-cover " />
+                <div className="flex items-center hover:rounded-md hover:bg-primary/5 p-2 px-4  shadow-sm rounded-md m-1 gap-2" >
+                  <div className="overflow-hidden aspect-square w-12 h-12 max-w-20 max-h-20 rounded-full">
+                    <Image width={35} height={35} src={ `${CLOUDFRONT_URL}/${adData.owner.profileImage.key}` } alt="Imagen de perfil" className="mr-2 rounded-full h-full w-full  object-cover" />
+                  </div>
                   <div>
                     <p className="text-sm font-medium text-gray-800 dark:text-gray-100 "><span>{toUpperCamelCase(`${adData.owner.names.split(' ')[0]} ${adData.owner.lastnames.split(' ')[0]}`)}</span></p>
                     <p className="text-xs text-gray-600 dark:text-gray-400">Arrendador</p>

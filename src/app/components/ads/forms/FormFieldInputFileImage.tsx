@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { createAdFormSchema } from "./schemas/create-ad-form-schema";
 import { z } from "zod";
 import { LuImageUp } from "react-icons/lu";
+import { getUrlImageFromFileList } from "@/utils/get-url-image-from-filelist";
 
 
 interface Props {
@@ -39,10 +40,10 @@ export const FormFieldInputFileImage = ({ form, name, labelText, imageUrl, style
                                 <div className="overflow-hidden w-full h-full flex justify-center items-center min-h-36 max-h-36 ">
                                     {
                                     
-                                    getUrlImage({ fileList: form.watch(name) as FileList })
+                                    getUrlImageFromFileList({ fileList: form.watch(name) as FileList })
                                     ?
                                     <Image
-                                        src={getUrlImage({ fileList: form.watch(name) as FileList }) ?? ''}
+                                        src={getUrlImageFromFileList({ fileList: form.watch(name) as FileList }) ?? ''}
                                         alt={""}
                                         width={100}
                                         height={100}
@@ -51,7 +52,7 @@ export const FormFieldInputFileImage = ({ form, name, labelText, imageUrl, style
                                     :  imageUrl
                                     ?
                                     <Image
-                                        src={ imageUrl ?? ''}
+                                        src={ `${imageUrl}?time=${Date.now()}`}
                                         alt={""}
                                         width={100}
                                         height={100}
@@ -72,13 +73,4 @@ export const FormFieldInputFileImage = ({ form, name, labelText, imageUrl, style
 }
 
 
-const getUrlImage = ({ fileList }: { fileList: FileList }): string | null => {
-    try {
-        //Controlled error in fileList.item(0)
-        if(fileList.item(0)) return URL.createObjectURL(fileList.item(0) ?? new Blob())
-        return null;
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (e) {
-        return null;
-    }
-}
+

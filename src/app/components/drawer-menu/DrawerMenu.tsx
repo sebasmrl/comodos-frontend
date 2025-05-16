@@ -25,18 +25,20 @@ import { SignOutButton } from "../SignOutButton";
 import { Separator } from "@/components/ui/separator";
 
 import { IoMenuOutline } from "react-icons/io5";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu } from "@/interfaces";
 
 
 interface Props{
+  cloudfrontUrl:string;
   menu: Menu[];
 }
 
-export const DrawerMenu = ({ menu}:Props) => {
+export const DrawerMenu = ({ menu, cloudfrontUrl}:Props) => {
 
   const session = useSession();
   const path = usePathname();
+  const router = useRouter();
 
   return (
     <>
@@ -96,7 +98,7 @@ export const DrawerMenu = ({ menu}:Props) => {
                 <DropdownMenuTrigger>
                   <div className="flex items-center gap-4 hover:dark:bg-accent p-2 rounded-md">
                     <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
+                      <AvatarImage src={`${cloudfrontUrl}/${session.data.user.data.profileImage.key}`} />
                       <AvatarFallback>{`${session.data.user.data.names.substring(0, 1)}${session.data.user.data.lastnames.substring(0, 1)}`}</AvatarFallback>
                     </Avatar>
                     <p className="text-base font-semibold capitalize">
@@ -109,14 +111,16 @@ export const DrawerMenu = ({ menu}:Props) => {
                 <DropdownMenuContent className="border-border ">
                   <DropdownMenuLabel>Mi Cuenta</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem><Link href={'/cuenta'} className="w-full">Perfil</Link></DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Button variant={'ghost'} onClick={ ()=> router.push('/cuenta') }className="w-full">
+                      Perfil
+                    </Button>
+                  </DropdownMenuItem>
                   <DropdownMenuItem><SignOutButton /></DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-
-
-
             }
+            
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
