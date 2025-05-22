@@ -5,12 +5,12 @@ import {
 } from "@/components/ui/card"
 import { CLOUDFRONT_URL } from "@/config/env";
 import { MainAd } from "@/interfaces/ads/main-ads.interface";
-import { toLegiblePriceFormat, toUpperCamelCase } from "@/lib/custom/string";
+import { toLegiblePriceFormat } from "@/lib/custom/string";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { CiMapPin } from "react-icons/ci";
-import { FaBath, FaBed, FaPhone, FaWhatsapp } from 'react-icons/fa';
+import { FaBath, FaBed} from 'react-icons/fa';
 import { MdOutlineZoomOutMap } from "react-icons/md";
 import { TbSofa, TbSofaOff } from "react-icons/tb";
 import { FavoriteAdButton } from "./FavoriteAdButton";
@@ -40,7 +40,6 @@ export function AdCard({ className, adData }: Props) {
                 <div className="flex items-center hover:rounded-md  text-foreground">
                   <CiMapPin />
                   <p className="px-1 text-sm font-light text-gray-700 dark:text-inherit text-nowrap">{adData.address}, <span>{adData.location_city}</span></p>
-                 
                 </div>
                 <div className="flex items-center pt-2">
                   <div className="mr-2 rounded-full bg-blue-600 py-1 px-2 text-xs font-medium text-white">{adData.property_type}</div>
@@ -73,7 +72,7 @@ export function AdCard({ className, adData }: Props) {
             </div>
 
             {/* Anunciante y contacto */}
-            <div className="sm:px-6 pt-2 flex justify-between items-center col-span-3">
+            {/* <div className="sm:px-6 pt-2 flex justify-between items-center col-span-3">
               <Link href={`/usuarios/publico/${adData.owner.id}`}>
                 <div className="flex items-center hover:rounded-md hover:bg-primary/5 p-2 px-4  shadow-sm rounded-md m-1 gap-2" >
                   <div className="overflow-hidden aspect-square w-12 h-12 max-w-20 max-h-20 rounded-full">
@@ -93,13 +92,10 @@ export function AdCard({ className, adData }: Props) {
                   <FaWhatsapp className="w-full h-full p-1" />
                 </Link>
               </div>
-            </div>
+            </div> */}
           </div>
         </Link>
       </CardContent >
-      {/*     <CardFooter className="flex justify-between">
-        footer
-      </CardFooter> */}
     </Card >
   )
 }

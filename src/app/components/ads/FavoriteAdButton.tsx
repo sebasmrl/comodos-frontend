@@ -5,11 +5,11 @@ import { FavoriteButton } from "../favorite-button/FavoriteButton"
 import { addToFavoritesAd, deleteOneFavoriteAd, isPresentIdInFavorites } from "@/actions/cookies/client/favorites/favorites.action";
 import { usePathname, useRouter } from "next/navigation";
 
-interface Props{
+interface Props extends React.HTMLProps<HTMLElement>{
     id:string;
 }
 
-export const FavoriteAdButton = ({id}:Props) => {
+export const FavoriteAdButton = ({id, className}:Props) => {
 
     //TODO: Activate later session blocked 
     //const session = useSession();
@@ -19,7 +19,7 @@ export const FavoriteAdButton = ({id}:Props) => {
     
 
   return (
-    <FavoriteButton  isFavorite={isFavorite} /* disable={session.status != 'authenticated'} */ onClick={(isFavorite)=>{
+    <FavoriteButton className={className} isFavorite={isFavorite} /* disable={session.status != 'authenticated'} */ onCustomClick={(isFavorite)=>{
         console.log(path)
         if(isFavorite){ 
             deleteOneFavoriteAd(id) 
