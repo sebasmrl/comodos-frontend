@@ -6,7 +6,7 @@ import { AuroraText } from "@/components/magicui/aurora-text";
 
 import { getOneAdComplete } from "@/actions/ads/get-one-ad-complete";
 import { EditAdForm } from "@/app/components/ads/forms/EditAdForm";
-import { AdWithUserId } from "@/interfaces/ads/ads.interface";
+import { AdWithUser } from "@/interfaces/ads/ads.interface";
 import { getAllPropertyTypes } from "@/actions/property-types/server/get-all-property-types";
 import { PropertyType } from "@/interfaces/property-types/property-type.interface";
 import { getAllAdPeriods } from "@/actions/periods/server/get-all-ad-periods";
@@ -38,7 +38,7 @@ export default async function EditPage({params}:Props) {
     const adData = await getOneAdComplete((await params).id);
     if(adData.status != 200) redirect('/') // '/anuncios'
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { user, ...defaultData } =  adData.data as AdWithUserId;
+    const { user, ...defaultData } =  adData.data as AdWithUser;
 
     const queries = await Promise.all([getAllPropertyTypes(), getAllAdPeriods()]);
     const [propertyTypes, adPeriods] = queries;

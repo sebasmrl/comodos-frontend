@@ -26,7 +26,7 @@ export default async function AnuncioPage({
     return (
         <div className="px-4 py-8 w-full">
             <Card className="flex w-full shadow-none p-0 border-none">
-                <CardContent className="grid grid-cols-12 p-2 rounded-lg gap-6  w-full">
+                <CardContent className="grid grid-cols-12 p-1 sm:p-2 rounded-lg gap-6  w-full">
                     <section className="relative col-span-12 lg:col-span-8 flex flex-col  rounded-lg p-0 m-0 gap-2">
                         <ClientPhotoView
                             className="rounded-lg overflow-hidden"
