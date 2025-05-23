@@ -2,6 +2,7 @@ import { Coords } from "../coords.interface";
 import { Image } from "../image/image.interface";
 import { AdPeriod } from "../ad-period/ad-period.interface";
 import { PropertyType } from "../property-types/property-type.interface";
+import { PublicUserData } from "../user/public-user-profile.interface";
 
 export interface Ad {
     id:                           string;
@@ -46,6 +47,10 @@ export interface FavoriteAd extends Ad{
 
 export interface AdWithUserId extends Ad{
     user: string
+}
+
+export interface AdWithUser extends Ad {
+    user:PublicUserData
 }
 
 
