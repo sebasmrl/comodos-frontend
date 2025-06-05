@@ -14,15 +14,17 @@ import { Coords } from "@/interfaces/coords.interface";
 
 interface Props {
   initialCoords: Coords;
-  initialZoom?:number;
-  getCoordsSelectedCallback?: ( coord:Coords)=>Promise<void>; 
+  initialZoom?: number;
+  getCoordsSelectedCallback?: (coord: Coords) => Promise<void>;
   className?: string;
   classNameMap?: string;
   classNameInput?: string;
   classNameInputDiv?: string;
+  saveButtonAvailable?: boolean;
+  staticMarker?: boolean;
 }
 
-export const GoogleMapV2 = ({ className, classNameInput, classNameMap, classNameInputDiv, initialCoords, initialZoom=15, getCoordsSelectedCallback }: Props) => {
+export const GoogleMapV2 = ({ className, classNameInput, classNameMap, classNameInputDiv, saveButtonAvailable = true, staticMarker = false, initialCoords, initialZoom = 15, getCoordsSelectedCallback }: Props) => {
 
   // There are 2 states to prevent the effect from being projected
   const [initialLocation, setInitialLocation] = useState<{ lat: number, lng: number }>(initialCoords);
@@ -32,12 +34,12 @@ export const GoogleMapV2 = ({ className, classNameInput, classNameMap, className
   const autocompleteRef = useRef<HTMLInputElement>(null);
 
   const theme = useTheme();
-  
+
   // posibilidad de mejora para uso con useCurrentLocation
   useEffect(() => {
     setInitialLocation(initialCoords)
   }, [initialCoords])
-  
+
 
   useEffect(() => {
 
@@ -60,9 +62,9 @@ export const GoogleMapV2 = ({ className, classNameInput, classNameMap, className
         controlSize: 25,
         colorScheme: theme.theme?.toUpperCase(),
         mapTypeControl: true,
-        mapTypeControlOptions:{ position: google.maps.ControlPosition.BOTTOM_CENTER },
+        mapTypeControlOptions: { position: google.maps.ControlPosition.BOTTOM_CENTER },
         zoomControlOptions: { position: google.maps.ControlPosition.LEFT_BOTTOM },
-        streetViewControl:false,
+        streetViewControl: false,
       }
 
       const { AdvancedMarkerElement } = await loader.importLibrary('marker') as google.maps.MarkerLibrary;
@@ -75,7 +77,7 @@ export const GoogleMapV2 = ({ className, classNameInput, classNameMap, className
         position: map.getCenter(),
         map: map,
         title: 'Ubicación de consulta',
-        gmpDraggable: true,
+        gmpDraggable: !staticMarker ?  true : false,
       })
 
 
@@ -105,30 +107,33 @@ export const GoogleMapV2 = ({ className, classNameInput, classNameMap, className
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const markerDragedEvent = marker.addListener('dragend', (event: DragEvent) => {
-        const position = marker.position as google.maps.LatLngLiteral;
-        if(position) setLocation({lat:position.lat, lng:position.lng})
+        if (!staticMarker) {
+          const position = marker.position as google.maps.LatLngLiteral;
+          if (position) setLocation({ lat: position.lat, lng: position.lng })
+        }
       });
-      
+
       const markerClickEvent = marker.addListener("click", () => {
         map.setZoom(18);
         map.setCenter(marker.position as google.maps.LatLng);
       });
 
 
-      const mapClickEvent = map.addListener('click', (e:google.maps.MapMouseEvent)=>{
-        const data = {
-          lat: e?.latLng?.lat() ?? map.getCenter()?.lat() ?? initialLocation.lat,
-          lng: e?.latLng?.lng() ?? map.getCenter()?.lng() ?? initialLocation.lng
+      const mapClickEvent = map.addListener('click', (e: google.maps.MapMouseEvent) => {
+        if (!staticMarker) {
+          const data = {
+            lat: e?.latLng?.lat() ?? map.getCenter()?.lat() ?? initialLocation.lat,
+            lng: e?.latLng?.lng() ?? map.getCenter()?.lng() ?? initialLocation.lng
+          }
+          marker.position = data;
+          /* setTimeout(() => {
+            if(map && marker) map.setCenter(data);
+          }, 600);     */
+          setLocation(data);
         }
-        marker.position = data;
-        /* setTimeout(() => {
-          if(map && marker) map.setCenter(data);
-        }, 600);     */    
-        setLocation(data);
-
       });
 
-      return { placeChangedEvent,markerClickEvent, markerDragedEvent, mapClickEvent};
+      return { placeChangedEvent, markerClickEvent, markerDragedEvent, mapClickEvent };
     }
 
 
@@ -136,30 +141,37 @@ export const GoogleMapV2 = ({ className, classNameInput, classNameMap, className
 
     //Destroy
     return () => {
-      mapEvents.then( events =>{
-        const { placeChangedEvent,markerClickEvent, markerDragedEvent, mapClickEvent} = events;
+      mapEvents.then(events => {
+        const { placeChangedEvent, markerClickEvent, markerDragedEvent, mapClickEvent } = events;
         placeChangedEvent.remove();
         markerClickEvent.remove();
         markerDragedEvent.remove();
         mapClickEvent.remove();
       })
-     }    
-  }, [initialLocation,initialZoom, theme])
+    }
+  }, [initialLocation, initialZoom, theme, staticMarker])
 
 
   return (
     <div className={cn("p-1 w-full h-full", className)}>
+
+
       <div className={cn("pb-2 w-full", classNameInputDiv)}>
         <Input ref={autocompleteRef} className={cn("w-full px-4 py-2 rounded-md min-w-24 z-50", classNameInput)} autoComplete="off" />
       </div>
+
       <div ref={mapRef} className={cn("min-w-80 min-h-80 w-full h-[90%] rounded-md", classNameMap)}></div>
-      <BackButton className="rounded-full w-12 h-12 absolute right-8 bottom-6 "
-      actionCallback={ async()=>{
-        if(getCoordsSelectedCallback) getCoordsSelectedCallback(location)
-      }}
-      >
-        <IoIosSave className="h-full w-full" />
-      </BackButton>
+
+      {
+        saveButtonAvailable &&
+        <BackButton className="rounded-full w-12 h-12 absolute right-8 bottom-6 "
+          actionCallback={async () => {
+            if (getCoordsSelectedCallback) getCoordsSelectedCallback(location)
+          }}
+        >
+          <IoIosSave className="h-full w-full" />
+        </BackButton>
+      }
     </div>
   )
 }

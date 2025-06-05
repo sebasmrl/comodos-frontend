@@ -6,8 +6,11 @@ export interface PublicUserData{
     id:string;
     names:string; 
     lastnames:string;
-    lastConnection:Date 
-    profileImage: ProfileImage  
+    lastConnection:Date;
+    profileImage: ProfileImage;
+    phone:number;
+    phoneCode:number;
+    nationality:string;
 }
 
 export interface PublicUserProfile extends PublicUserData{

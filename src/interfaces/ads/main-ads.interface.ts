@@ -28,25 +28,14 @@ export interface MainAd{
     period:string;
     property_type:string;
     distance:number;
-    owner: Owner
     images: Image[]
 }
 
-interface Owner{
-        id:string,
-        names:string;
-        lastnames:string;
-        profileImage:ProfileImage
-}
 
-interface Image{
+export interface Image{
     id:string;
     fieldName:string;
     key:string;
 }
 
-interface ProfileImage{
-    id:string;
-    key:string,
-}
 
