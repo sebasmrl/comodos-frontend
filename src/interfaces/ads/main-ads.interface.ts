@@ -10,6 +10,7 @@ export interface MainAdsRequestParams{
     maxPrice?:number;
     minPrice?:number;
     propertyType?:string;
+    period?: string;
 }
 
 

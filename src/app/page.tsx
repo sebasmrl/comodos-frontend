@@ -9,26 +9,17 @@ import Image from "next/image";
 import { getGoogleMapsApikey } from "@/actions/maps/get-google-map-apikey";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
+import { SearchParamsPromise } from "@/interfaces/search-params.type";
 
 
 
 export const dynamicParams = true
 
 //type Params = Promise<{ slug: string }>
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined }
-  | {
-    range: number;
-    lat: number;
-    lng: number;
-    offset: number;
-    limit: number;
-    maxPrice: number;
-    minPrice: number;
-    propertyType: string;
-  }>
+
 
 interface HomeProps {
-  searchParams: SearchParams;
+  searchParams: SearchParamsPromise;
 }
 
 export default async function Home({ searchParams }: HomeProps) {
@@ -42,6 +33,7 @@ export default async function Home({ searchParams }: HomeProps) {
   //TODO: obtener la ubicacion y mandarla por defecto
   const adds = await getMainAds({ ...{ lat: 40.60562365, lng: -74.0554853141819, range: 25, propertyType: 'Casa' }, ...queryParams });
   const  googleApiKey = await getGoogleMapsApikey() ?? '';  
+  
 
 
   return (

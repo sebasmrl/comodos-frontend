@@ -26,6 +26,7 @@ import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useQueryParams } from "@/hooks/use-query-params";
+import { filterScheme, filterSchemeDefaultValues } from "./filterScheme";
   
 
 
@@ -35,29 +36,15 @@ interface Props extends React.AllHTMLAttributes<HTMLDivElement> {
     onOpenAndCloseDialog: (v:boolean)=>void
 }
 
-const formSchema = z.object({
-    propertyType: z.string().min(2, {
-        message: "El tipo de propiedad debe ser uno válido",
-    }),
-    range: z.array(z.number()),
-    minPrice: z.string().refine((val) => !isNaN(Number(val)), { message: "Debe ser un número válido" }) // Validar string numérico
-            .transform((val) => Number(val)), // Transformar a número
-    maxPrice: z.string().refine((val) => !isNaN(Number(val)), { message: "Debe ser un número válido" }) // Validar string numérico
-            .transform((val) => Number(val)), // Transformar a número
-})
+
 
 export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props) => {
 
     
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            propertyType: "",
-            range:[0],
-            minPrice: 0,
-            maxPrice: 1
-        },
+    const form = useForm<z.infer<typeof filterScheme>>({
+        resolver: zodResolver(filterScheme),
+        defaultValues: filterSchemeDefaultValues,
     });
 
     const router= useRouter();
@@ -66,7 +53,7 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
 
     
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
+    function onSubmit(values: z.infer<typeof filterScheme>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         console.log(values)
@@ -152,12 +139,12 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
                     
                     <FormField
                         control={form.control}
-                        name="minPrice"
+                        name="maxPrice"
                         render={({ field }) => (
                             <FormItem className="space-y-0 items-center gap-1">
-                                <FormLabel className="text-nowrap">Precio Mínimo</FormLabel>
+                                <FormLabel className="text-nowrap">Precio Máximo</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder="minPrice" className="min-w-20"/>
+                                    <Input type="number"{...field} placeholder="Precio máximo" className="min-w-20"/>
                                 </FormControl>   
                                 <FormMessage />
                             </FormItem>
