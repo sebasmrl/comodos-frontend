@@ -10,6 +10,7 @@ import { getGoogleMapsApikey } from "@/actions/maps/get-google-map-apikey";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
 import { SearchParamsPromise } from "@/interfaces/search-params.type";
+import { getFilterAdsCookiesAction } from "@/actions/cookies/server/filter/filter";
 
 
 
@@ -26,15 +27,16 @@ export default async function Home({ searchParams }: HomeProps) {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const session = await auth();
+  const filterCookies = await getFilterAdsCookiesAction();
+
   const queryParams = await searchParams;
   console.log({ query: queryParams.range })
 
 
-  //TODO: obtener la ubicacion y mandarla por defecto
-  const adds = await getMainAds({ ...{ lat: 40.60562365, lng: -74.0554853141819, range: 25, propertyType: 'Casa' }, ...queryParams });
+  //TODO: validar tipos de los queryParams
+  const adds = await getMainAds({ ...{ lat: 40.60562365, lng: -74.0554853141819, range: 25, propertyType: 'Casa' }, ...filterCookies,...queryParams, });
   const  googleApiKey = await getGoogleMapsApikey() ?? '';  
   
-
 
   return (
 

@@ -15,14 +15,16 @@ import { TbSofa, TbSofaOff } from "react-icons/tb";
 import { FavoriteAdButton } from "./FavoriteAdButton";
 import { getDistanceBetween2Coords } from "@/utils";
 import { Ad } from "@/interfaces/ads/ads.interface";
+import { Coords } from "@/interfaces/coords.interface";
 
 interface Props {
   className?: string | undefined;
   adData: Ad;
+  selectedCoords: Coords
 }
 
-export function FavoriteAdCard({ className, adData }: Props) {
-  const distance = getDistanceBetween2Coords({ lat: 40.60562365, lng: -74.0554853141819 }, adData.coords)
+export function FavoriteAdCard({ className, adData, selectedCoords }: Props) {
+  const distance = getDistanceBetween2Coords(selectedCoords, adData.coords)
 
   return (
     <Card key={adData.id} className={cn(" border-border bg-background  after:bg-slate-200 after:shadow-lg after:-z-10 after:blur-sm after:saturate-150 after:w-full after:h-full after:scale-150 dark:shadow-orange-950/40 dark:hover:border-orange-950/80  hover:border-primary/30 transition-color duration-200 cursor-pointer", className)}>

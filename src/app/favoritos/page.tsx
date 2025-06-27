@@ -8,6 +8,8 @@ import type { Metadata } from 'next'
 import { FavoriteAdCard } from "../components/ads/FavoriteAdCard";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
+import { getFilterAdsCookiesAction } from "@/actions/cookies/server/filter/filter";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: 'Favoritos',
@@ -18,8 +20,10 @@ export const metadata: Metadata = {
 
 export default async function FavoritosPage() {
   //TODO: Activate later session blocked 
-  //const session = await auth();
+  const session = await auth();
   //if (!(session?.user)) redirect('/');
+
+  const { lat, lng } = await getFilterAdsCookiesAction();
 
   const favoriteAds = await getFavoriteAdsAction() ?? [];
 
@@ -49,6 +53,7 @@ export default async function FavoritosPage() {
         {
           favoriteAds.length > 0 && favoriteAds.map(async (ad) => {
             return <FavoriteAdCard
+              selectedCoords={  session?.user.data.coords ? session?.user.data.coords :  (lat && lng) ? {lat: Number(lat), lng: Number(lng)} : { lat: 40.60562365, lng: -74.0554853141819 } }
               className="col-span-12 sm:mx-10 md:mx-0 md:col-start-2 md:col-span-10 xl:col-start-3 xl:col-span-8"
               key={ad.id}
               adData={ad}

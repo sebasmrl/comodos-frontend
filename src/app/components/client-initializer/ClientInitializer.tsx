@@ -1,10 +1,13 @@
 'use client'
 
 import { apiClient } from "@/config/axios-client.config";
+import { usePeriodsStore } from "@/store/periods.store copy";
+import { usePropertyTypesStore } from "@/store/property-types.store";
+import { useLayoutEffect } from "react";
 
 
-interface ClientInitializerProps{
-    baseURL:string;
+interface ClientInitializerProps {
+    baseURL: string;
 }
 
 
@@ -13,8 +16,16 @@ interface ClientInitializerProps{
  * e instancias que se usan en toda la aplicación de forma monolítica
  * @returns <></> Un fragmento vacío
  */
-export const ClientInitializer = ({ baseURL}:ClientInitializerProps) => {
+export const ClientInitializer = ({ baseURL }: ClientInitializerProps) => {
     apiClient.setBaseURL = baseURL;
+
+    const { fetchPropertyTypes } = usePropertyTypesStore();
+    const { fetchPeriods } = usePeriodsStore();
+    useLayoutEffect(() => {
+        fetchPropertyTypes();
+        fetchPeriods();
+    }, [fetchPropertyTypes, fetchPeriods]);
+    
     return (
         <></>
     )
