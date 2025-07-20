@@ -41,7 +41,7 @@ export const UserAdCardItem = ({ ad, className, baseUrl }: Props) => {
           {
             ((baseUrl && adImageKey)) ?
               <Image
-                src={(baseUrl && adImageKey) ? `${baseUrl}/${adImageKey}` : '/svgs/no-data.svg'}
+                src={(baseUrl && adImageKey) ? `${baseUrl}/${adImageKey}?v=${Date.now()}` : '/svgs/no-data.svg'}
                 alt={"imagen del anuncio"}
                 width={300}
                 height={300}

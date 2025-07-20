@@ -31,6 +31,7 @@ import { Badge } from "@/components/ui/badge";
 
 const CLOUDFRONT_URL = process.env.AWS_CLOUDFRONT_DOMAIN ?? '';
 
+
 export default async function AnuncioPage({
     params
 }: {

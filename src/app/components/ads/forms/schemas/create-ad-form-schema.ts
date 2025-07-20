@@ -30,7 +30,7 @@ export const createAdFormSchema = z.object({
     address: z.string().min(2, {
         message: "Direccion es requerida",
     }),
-    price: z.number({message:'El precio es requerido'}), 
+    price: z.string({message:'El precio es requerido'}).refine((val) => !isNaN(Number(val)), { message: "Precio debe ser un numero válido" }), // Validar string numérico,, 
     currency: z.string().min(3, {
         message: "La divisa es requerida",
     }),
@@ -42,25 +42,21 @@ export const createAdFormSchema = z.object({
     isSharedBathroom: z.boolean({
         message: "Es baño compartido es requerido",
     }),
-    floors: z.number({message:'El piso o número de pisos del inmueble es requerido'}),
+    floors: z.string({message:'El piso o número de pisos del inmueble es requerido'}).refine((val) => !isNaN(Number(val)), { message: "Debe ser un numero válido" }),
     stratum: z.string().min(1, {
         message: "Estrato debe ser una cadena de texto",
     }),
     yard: z.boolean({
         message: "Tiene patio o zona verde es requerido",
     }),
-    squareMeters: z.number( {
-        message: "Metros cuadrados es requerido",
-    }),
+    squareMeters: z.string({message:'Metros cuadrados es requerido'}).refine((val) => !isNaN(Number(val)), { message: "Metros cuadrados debe ser un numero válido" }), // Validar string numérico
     motoParking: z.boolean({
         message: "Tiene parqueadero de moto es requerido",
     }),
     carParking: z.boolean({
         message: "Tiene parqueadero de carro es requerido",
     }),
-    administrationCost: z.number( {
-        message: "Costo de administación es requerido",
-    }),
+    administrationCost: z.string({message:'Costo de administación es requerido'}).refine((val) => !isNaN(Number(val)), { message: "Costo de administración debe ser un numero válido" }), // Validar string numérico
     hasKitchen: z.boolean({
         message: "Tiene cocina es requerido",
     }),
@@ -82,25 +78,25 @@ export const createAdFormSchema = z.object({
     hasInternetServiceIntegrated: z.boolean({
         message: "Tiene servicio de Internet integrado es requerido",
     }),
-    mainImage: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000, {
+    main: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000, {
         message: "El archivo es requerido y debe ser menor a 2.5MB",
     }),    
-    adImage1: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
+    ad_image_1: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
         message: "El archivo debe ser menor a 2.5MB",
     }).optional().nullable(),    
-    adImage2: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
+    ad_image_2: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
         message: "El archivo debe ser menor a 2.5MB",
     }).optional().nullable(),    
-    adImage3: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
+    ad_image_3: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
         message: "El archivo debe ser menor a 2.5MB",
     }).optional().nullable(),    
-    adImage4: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
+    ad_image_4: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
         message: "El archivo debe ser menor a 2.5MB",
     }).optional().nullable(),    
-    adImage5: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
+    ad_image_5: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
         message: "El archivo debe ser menor a 2.5MB",
     }).optional().nullable(),    
-    adImage6: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
+    ad_image_6: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] ==null, {
         message: "El archivo debe ser menor a 2.5MB",
     }).optional().nullable(),    
 
@@ -114,19 +110,19 @@ export const createAdFormSchemaDefaultValues = {
         locationState:                 '', 
         locationCity:                  '', 
         address:                       '', 
-        price:                          0, 
+        price:                          '0',
         currency:                      'COP',  //?? Por defecto es COP en backend
         rooms:                          '1', 
         livingRoom:                     true,
         bathrooms:                      '1', 
         isSharedBathroom:               false,
-        floors:                         1, 
+        floors:                         '1', 
         stratum:                        '',
         yard:                           false,
-        squareMeters:                   0,
+        squareMeters:                   '0',
         motoParking:                    false,
         carParking:                     false,
-        administrationCost:              0,
+        administrationCost:              '0',
         hasKitchen:                     true, //TODO:debe ser añadida en backend
         isSharedKitchen:                false,
         furnished:                      false,

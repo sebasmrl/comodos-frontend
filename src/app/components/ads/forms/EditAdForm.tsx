@@ -40,6 +40,10 @@ import { GoogleMapV2 } from "../../maps/GoogleMapV2";
 import { Ad } from "@/interfaces/ads/ads.interface";
 import { PropertyType } from "@/interfaces/property-types/property-type.interface";
 import { AdPeriod } from "@/interfaces/ad-period/ad-period.interface";
+import { updateAdImages } from "@/actions/ads/client-side/update_ad_images.action";
+import { useSession } from "next-auth/react";
+import { redirect, useRouter } from "next/navigation";
+import { updateAd } from "@/actions/ads/client-side/update-ad.action";
 
 
 
@@ -55,14 +59,21 @@ interface Props extends React.AllHTMLAttributes<HTMLDivElement> {
 
 export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, imagesServerDomain, ...props }: Props) => {
 
-    const { propertyType, period, images, rooms, bathrooms, price, administrationCost, coords, ...rest } = defaultData;
+
+    const session = useSession();
+    const router = useRouter();
+
+    const { propertyType, period, images, rooms, bathrooms, price, administrationCost, coords, squareMeters, floors, ...rest } = defaultData;
+    console.log('DEFAUL_DATA: ', defaultData)
     const defaultFormValues = {
         propertyType: propertyType.id,
         period: period.id,
-        price: Number(price),
-        rooms:String(rooms),
-        bathrooms:String(bathrooms),
-        administrationCost: administrationCost ? administrationCost : 0 ,
+        price: String(price),
+        floors: String(floors),
+        squareMeters: String(squareMeters),
+        rooms: String(rooms),
+        bathrooms: String(bathrooms),
+        administrationCost: administrationCost ? String(administrationCost) : '0',
         coords,
         ...rest
     }
@@ -76,15 +87,68 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
 
     const coordsState = form.getFieldState('coords');
 
-    function onSubmit(values: z.infer<typeof editAdFormSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        customSonnerToast({
-            title: 'Anuncio actualizado con exito',
-            variant: 'success',
-            duration: 4000,
-            description: `Informacion: ${JSON.stringify(values)}`
-        })
+    async function onSubmit(values: z.infer<typeof editAdFormSchema>) {
+
+        if (!(session?.data?.user)) redirect('/auth/login');
+
+
+
+        const { main, ad_image_1, ad_image_2, ad_image_3, ad_image_4, ad_image_5, ad_image_6, ...data } = values;
+
+        const reformatData = {
+            ...data,
+            rooms: Number(data.rooms),
+            floors: Number(data.floors),
+            administrationCost: Number(data.administrationCost),
+            bathrooms: Number(data.bathrooms),
+            squareMeters: Number(data.squareMeters),
+            price: Number(data.price)
+        }
+
+        const updatedAd = await updateAd(defaultData.id, reformatData, session.data.user.data.backendTokens.accessToken)
+        if (updatedAd.status >= 400) {
+            customSonnerToast({
+                title: 'Upps!! No se pudo actualizar el anuncio',
+                variant: 'destructive',
+                duration: 4000,
+                description: `Ha occurido un error inesperado y no se ha podido actulizar tu anuncio, intentalo nuevamente`
+            })
+        } else {
+            customSonnerToast({
+                title: 'Anuncio actualizado con exito',
+                variant: 'success',
+                duration: 4000,
+                description: `El anuncio '${values.name}' ha sido actualizado con éxito`
+            });
+        }
+
+
+        const images = {
+            main,
+            ad_image_1,
+            ad_image_2,
+            ad_image_3,
+            ad_image_4,
+            ad_image_5,
+            ad_image_6
+        };
+
+        const imagenesSubidas = await updateAdImages(
+            defaultFormValues.id,
+            images,
+            session.data?.user.data.backendTokens.accessToken ?? ''
+        );
+        if (imagenesSubidas != null && imagenesSubidas?.status >= 400) {
+            customSonnerToast({
+                title: 'Upps!! No se pudieron subir tus imagenes',
+                variant: 'destructive',
+                duration: 4000,
+                description: 'Ha ocurrido un error inesperado y las imagenes de tu anuncio no fueron correctamente guardadas '
+            })
+        }
+
+        router.push('/anuncios');
+
     }
 
 
@@ -438,7 +502,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
                                                     checked={field.value}
                                                     onCheckedChange={(isChecked) => {
                                                         field.onChange(isChecked)
-                                                        if(isChecked) form.setValue('hasKitchen', true)
+                                                        if (isChecked) form.setValue('hasKitchen', true)
                                                     }} value={field.value ? 1 : 0} />
                                             </div>
                                         </FormControl>
@@ -616,7 +680,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
                             <FormFieldInputFileImage
                                 form={form}
                                 labelText="Portada"
-                                name={'mainImage'}
+                                name={'main'}
                                 imageUrl={
                                     images.filter(image => image.fieldName == 'main')[0] && imagesServerDomain
                                         ? `${imagesServerDomain}/${images.filter(image => image.fieldName == 'main')[0].key}`
@@ -624,7 +688,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
                             />
                             <FormFieldInputFileImage
                                 form={form}
-                                name={'adImage1'}
+                                name={'ad_image_1'}
                                 labelText="1"
                                 imageUrl={
                                     images.filter(image => image.fieldName == 'ad_image_1')[0] && imagesServerDomain
@@ -634,7 +698,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
                             />
                             <FormFieldInputFileImage
                                 form={form}
-                                name={'adImage2'}
+                                name={'ad_image_2'}
                                 labelText="2"
                                 imageUrl={
                                     images.filter(image => image.fieldName == 'ad_image_2')[0] && imagesServerDomain
@@ -644,7 +708,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
                             />
                             <FormFieldInputFileImage
                                 form={form}
-                                name={'adImage3'}
+                                name={'ad_image_3'}
                                 labelText="3"
                                 imageUrl={
                                     images.filter(image => image.fieldName == 'ad_image_3')[0] && imagesServerDomain
@@ -654,7 +718,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
                             />
                             <FormFieldInputFileImage
                                 form={form}
-                                name={'adImage4'}
+                                name={'ad_image_4'}
                                 labelText="4"
                                 imageUrl={
                                     images.filter(image => image.fieldName == 'ad_image_4')[0] && imagesServerDomain
@@ -664,7 +728,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
                             />
                             <FormFieldInputFileImage
                                 form={form}
-                                name={'adImage5'}
+                                name={'ad_image_5'}
                                 labelText="5"
                                 imageUrl={
                                     images.filter(image => image.fieldName == 'ad_image_5')[0] && imagesServerDomain
@@ -674,7 +738,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
                             />
                             <FormFieldInputFileImage
                                 form={form}
-                                name={'adImage6'}
+                                name={'ad_image_6'}
                                 labelText="6"
                                 imageUrl={
                                     images.filter(image => image.fieldName == 'ad_image_6')[0] && imagesServerDomain

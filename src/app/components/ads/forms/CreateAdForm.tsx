@@ -35,16 +35,19 @@ import { customSonnerToast } from "../../custom-sonner-toast/customSonnerToast";
 import { useCurrentPosition } from "../../../../hooks/custom/useCurrentPosition";
 import { useSession } from "next-auth/react";
 import { IoIosAddCircle } from "react-icons/io";
+import { AdPeriod } from "@/interfaces/ad-period/ad-period.interface";
+import { PropertyType } from "@/interfaces/property-types/property-type.interface";
 
 
 
 interface Props extends React.AllHTMLAttributes<HTMLDivElement> {
     name?: string;
-
+    propertyTypes: PropertyType[];
+    adPeriods: AdPeriod[];
 }
 
 
-export const CreateAdForm = ({ className, ...props }: Props) => {
+export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: Props) => {
 
 
     const form = useForm<z.infer<typeof createAdFormSchema>>({
@@ -53,7 +56,7 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
     });
 
     const session = useSession();
-    const {location}= useCurrentPosition({autorefresh:false});
+    const { location } = useCurrentPosition({ autorefresh: false });
 
 
     const coordsState = form.getFieldState('coords');
@@ -71,8 +74,8 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
     useEffect(() => {
         if (coordsState.error) {
             customSonnerToast({
-                title:'No has guardado ninguna ubicación',
-                variant:'destructive',
+                title: 'No has guardado ninguna ubicación',
+                variant: 'destructive',
                 duration: 2000,
                 description: "Debes seleccionar alguna ubicación en el mapa para el anuncio que quieres publicar.",
             })
@@ -128,10 +131,15 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                                                 <SelectValue placeholder="Tipo de Propiedad" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="casa">Casa</SelectItem>
-                                                <SelectItem value="apartamento urbano">Apto Urbano</SelectItem>
-                                                <SelectItem value="apartamento residencial">Apto Residencial</SelectItem>
-                                                <SelectItem value="pension">Pensión</SelectItem>
+                                                {
+                                                    propertyTypes.map(propertyType => (
+                                                        <SelectItem
+                                                            key={propertyType.id}
+                                                            value={propertyType.id}>
+                                                            {propertyType.name}
+                                                        </SelectItem>
+                                                    ))
+                                                }
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -217,10 +225,15 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                                                 <SelectValue placeholder="Periodo" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="Dia">Por día</SelectItem>
-                                                <SelectItem value="Semana">Semanal</SelectItem>
-                                                <SelectItem value="Mes">Mensual</SelectItem>
-                                                <SelectItem value="Año">Anual</SelectItem>
+                                                {
+                                                    adPeriods.map(adPeriod => (
+                                                        <SelectItem
+                                                            key={adPeriod.id}
+                                                            value={adPeriod.id}>
+                                                            {adPeriod.name}
+                                                        </SelectItem>
+                                                    ))
+                                                }
                                             </SelectContent>
                                         </Select>
                                     </FormControl>
@@ -571,13 +584,13 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                     <div className="col-span-12 md:col-span-7 md:col-start-6  lg:col-span-5 flex flex-col">
                         <h2 className="text-center self-center p-2 font-thin">Selecciona las imagenes que mostrarás en tu publicación</h2>
                         <div className="col-span-5 grid grid-cols-3 gap-2 p-4 border border-slate-300/40 shadow-sm dark:border-slate-300/10 rounded-lg dark:hover:border-slate-300/20 hover:border-slate-300/60 hover:shadow-md transition-all">
-                            <FormFieldInputFileImage form={form} labelText="Portada" name={'mainImage'} />
-                            <FormFieldInputFileImage form={form} name={'adImage1'} labelText="1" style={{ label: 'bg-slate-800 font-thin' }} />
-                            <FormFieldInputFileImage form={form} name={'adImage2'} labelText="2" style={{ label: 'bg-slate-800 font-thin' }} />
-                            <FormFieldInputFileImage form={form} name={'adImage3'} labelText="3" style={{ label: 'bg-slate-800 font-thin' }} />
-                            <FormFieldInputFileImage form={form} name={'adImage4'} labelText="4" style={{ label: 'bg-slate-800 font-thin' }} />
-                            <FormFieldInputFileImage form={form} name={'adImage5'} labelText="5" style={{ label: 'bg-slate-800 font-thin' }} />
-                            <FormFieldInputFileImage form={form} name={'adImage6'} labelText="6" style={{ label: 'bg-slate-800 font-thin' }} />
+                            <FormFieldInputFileImage form={form} labelText="Portada" name={'main'} />
+                            <FormFieldInputFileImage form={form} name={'ad_image_1'} labelText="1" style={{ label: 'bg-slate-800 font-thin' }} />
+                            <FormFieldInputFileImage form={form} name={'ad_image_2'} labelText="2" style={{ label: 'bg-slate-800 font-thin' }} />
+                            <FormFieldInputFileImage form={form} name={'ad_image_3'} labelText="3" style={{ label: 'bg-slate-800 font-thin' }} />
+                            <FormFieldInputFileImage form={form} name={'ad_image_4'} labelText="4" style={{ label: 'bg-slate-800 font-thin' }} />
+                            <FormFieldInputFileImage form={form} name={'ad_image_5'} labelText="5" style={{ label: 'bg-slate-800 font-thin' }} />
+                            <FormFieldInputFileImage form={form} name={'ad_image_6'} labelText="6" style={{ label: 'bg-slate-800 font-thin' }} />
                         </div>
                         <div className="w-full relative">
                             <h2 className="text-md font-thin px-12 text-center p-2 pt-6">Selecciona en el mapa la ubicación donde se encuentra el inmueble</h2>
@@ -587,16 +600,16 @@ export const CreateAdForm = ({ className, ...props }: Props) => {
                                     classNameInputDiv="relative p-0"
                                     classNameInput="absolute top-4 bg-background w-[80%] right-[10%] xl:w-[50%] xl:right-[25%]"
                                     classNameMap="h-full min-h-96"
-                                    initialZoom={ session.status == 'authenticated' ? 16 : 15 }
-                                    initialCoords={ session.status == 'authenticated' ? session.data.user.data.coords : location}
+                                    initialZoom={session.status == 'authenticated' ? 16 : 15}
+                                    initialCoords={session.status == 'authenticated' ? session.data.user.data.coords : location}
                                     getCoordsSelectedCallback={async ({ lat, lng }) => {
                                         //insertar coordenadas a ls valores del formulario
                                         form.setValue('coords', { lat, lng });
                                         customSonnerToast({
-                                            title:'Nueva Ubicación Seleccionada',
-                                            variant:'success',
+                                            title: 'Nueva Ubicación Seleccionada',
+                                            variant: 'success',
                                             duration: 2000,
-                                            description:'Has seleccionado una nueva ubicación para tu anuncio'
+                                            description: 'Has seleccionado una nueva ubicación para tu anuncio'
                                         })
                                     }} />
                             </div>

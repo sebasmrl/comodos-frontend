@@ -25,15 +25,17 @@ export const metadata: Metadata = {
 
 };
 
+export const dynamic = "force-dynamic";
+
 interface Props{
     params: Promise<{ id: string }>
 }
 
 export default async function EditPage({params}:Props) {
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  
     const session = await auth();
-    //if (!(session?.user)) redirect('/auth/login');
+    if (!(session?.user)) redirect('/auth/login');
 
     const adData = await getOneAdComplete((await params).id);
     if(adData.status != 200) redirect('/') // '/anuncios'

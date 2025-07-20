@@ -60,6 +60,8 @@ export function RegisterForm() {
     })
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
+
+        
         toast({
             title: "Has hecho registro con los siguientes valores:",
             description: (
