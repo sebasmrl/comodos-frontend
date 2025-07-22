@@ -35,7 +35,7 @@ export interface LoginParams {
 }
 
 export interface GenericErrorResponse {
-    message: string;
+    message: string | string[];
     error?: string;
     statusCode: number;
 }

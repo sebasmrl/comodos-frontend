@@ -90,9 +90,6 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
     async function onSubmit(values: z.infer<typeof editAdFormSchema>) {
 
         if (!(session?.data?.user)) redirect('/auth/login');
-
-
-
         const { main, ad_image_1, ad_image_2, ad_image_3, ad_image_4, ad_image_5, ad_image_6, ...data } = values;
 
         const reformatData = {
@@ -111,11 +108,11 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
                 title: 'Upps!! No se pudo actualizar el anuncio',
                 variant: 'destructive',
                 duration: 4000,
-                description: `Ha occurido un error inesperado y no se ha podido actulizar tu anuncio, intentalo nuevamente`
+                description: `Ha occurido un error inesperado y no se ha podido actualizar tu anuncio, intentalo nuevamente`
             })
         } else {
             customSonnerToast({
-                title: 'Anuncio actualizado con exito',
+                title: 'Anuncio actualizado con éxito',
                 variant: 'success',
                 duration: 4000,
                 description: `El anuncio '${values.name}' ha sido actualizado con éxito`

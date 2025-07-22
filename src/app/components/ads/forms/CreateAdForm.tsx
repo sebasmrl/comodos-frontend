@@ -37,6 +37,11 @@ import { useSession } from "next-auth/react";
 import { IoIosAddCircle } from "react-icons/io";
 import { AdPeriod } from "@/interfaces/ad-period/ad-period.interface";
 import { PropertyType } from "@/interfaces/property-types/property-type.interface";
+import { createAd } from "@/actions/ads/client-side/create-ad.action";
+import { redirect } from "next/navigation";
+import { updateAdImages } from "@/actions/ads/client-side/update_ad_images.action";
+import { CreateAdResponse } from "@/interfaces/ads/create-ad.interface";
+import { GenericErrorResponse } from "@/interfaces";
 
 
 
@@ -56,19 +61,78 @@ export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: 
     });
 
     const session = useSession();
+    if (!session.data?.user) redirect('/auth/login');
+
     const { location } = useCurrentPosition({ autorefresh: false });
 
 
     const coordsState = form.getFieldState('coords');
 
-    function onSubmit(values: z.infer<typeof createAdFormSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        alert(JSON.stringify(values))
+    async function onSubmit(values: z.infer<typeof createAdFormSchema>) {
+
+        const user = session.data?.user;
+        if (!user) redirect('/auth/login');
+
+        const { main, ad_image_1, ad_image_2, ad_image_3, ad_image_4, ad_image_5, ad_image_6, ...plainValues } = values;
+
+        const requestBody = {
+            ...plainValues,
+            rooms: Number(values.rooms),
+            floors: Number(values.floors),
+            administrationCost: Number(values.administrationCost),
+            bathrooms: Number(values.bathrooms),
+            squareMeters: Number(values.squareMeters),
+            price: Number(values.price)
+        }
+    
+
+        const data = await createAd(requestBody, user.data.backendTokens.accessToken);
+
+        if (data?.status >= 200 && data?.status < 300) { 
+            customSonnerToast({
+                title: `Anuncio creado exitosamente`,
+                variant: 'destructive',
+                duration: 4000,
+                description: `El anuncio '${values.name}' ha sido creado exitosamente`
+            })
+
+
+            const images = {
+                main,
+                ad_image_1,
+                ad_image_2,
+                ad_image_3,
+                ad_image_4,
+                ad_image_5,
+                ad_image_6
+            };
+
+            const imagenesSubidas = await updateAdImages(
+                (data?.data as CreateAdResponse).id,
+                images,
+                session.data?.user.data.backendTokens.accessToken ?? ''
+            );
+
+            if (imagenesSubidas != null && imagenesSubidas?.status >= 400) {
+                customSonnerToast({
+                    title: 'Upps!! No se pudieron subir tus imagenes',
+                    variant: 'destructive',
+                    duration: 4000,
+                    description: 'Ha ocurrido un error inesperado y las imagenes de tu anuncio no fueron correctamente guardadas '
+                });
+            }
+        } else {
+            const errorMessage = (data.data as GenericErrorResponse).message;
+            customSonnerToast({
+                title: 'Upps!! No se pudo crear el anuncio',
+                variant: 'destructive',
+                duration: 4000,
+                description: `${(typeof errorMessage === 'string') ? errorMessage : (errorMessage as string[]).join('\n')}`
+            });
+        }
 
 
     }
-
 
 
     useEffect(() => {
