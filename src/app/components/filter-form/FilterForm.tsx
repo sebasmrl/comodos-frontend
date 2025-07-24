@@ -30,6 +30,7 @@ import { usePropertyTypesStore } from "@/store/property-types.store";
 import { usePeriodsStore } from "@/store/periods.store copy";
 import { getCookieFilterAds, setCompleteCookieFilterAdsProp } from "@/actions/cookies/client/filter/filter";
 import { useState } from "react";
+import { useQueryParams } from "@/hooks/use-query-params";
 
 
 
@@ -43,6 +44,13 @@ interface Props extends React.AllHTMLAttributes<HTMLDivElement> {
 
 export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props) => {
 
+    const router = useRouter();
+
+    //obtener page param de la url
+    const clientQueryParams = useQueryParams()
+    const page = clientQueryParams['page'];
+
+    //Obtener valores iniciales de la DB desde el estado gestionado por zustand
     const { propertyTypes } = usePropertyTypesStore();
     const { periods } = usePeriodsStore();
 
@@ -53,7 +61,7 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
         defaultValues: { ...filterSchemeDefaultValues, ...filterCookiesState, range: filterCookiesState.range ? [Number(filterCookiesState.range)] : filterSchemeDefaultValues.range },
     });
 
-    const router = useRouter();
+
 
     function onSubmit(values: z.infer<typeof filterScheme>) {
         onOpenAndCloseDialog(false);
@@ -77,8 +85,11 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
         setCompleteCookieFilterAdsProp({ ...paramsArrToObj, lat: filterCookiesState?.lat, lng: filterCookiesState?.lng });
         setFilterCookiesState(getCookieFilterAds());
 
-        router.push(`?${params}`);
+
+        router.push(`?${params}${(page != undefined && !isNaN(Number(page))) ? `&page=${page}` : ''}`);
     }
+
+
 
     return (
         <div
