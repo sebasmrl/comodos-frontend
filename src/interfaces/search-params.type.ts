@@ -6,8 +6,9 @@ export type SearchParams = {
     range: number;
     lat: number;
     lng: number;
-    offset: number;
-    limit: number;
+    page ?: number;
+    //offset: number;
+    //limit: number;
     maxPrice: number;
     minPrice: number;
     propertyType: string;

@@ -33,12 +33,15 @@ export default async function Home({ searchParams }: HomeProps) {
   const session = await auth();
   const filterCookies = await getFilterAdsCookiesAction();
 
-  const queryParams = await searchParams;
-  console.log({ query: queryParams.range })
+  const { page, ...queryParams } = await searchParams;
 
+  let limit = 10, offset = 0;
+  if (page != undefined && !isNaN(Number(page)) && Number(page) > 0) {
+    limit = 10 * Number(page);
+    offset = limit - 10;
+  }
 
-  //TODO: validar tipos de los queryParams
-  const ads = await getMainAds({ ...{ lat: 40.60562365, lng: -74.0554853141819 }, ...filterCookies, ...queryParams, });
+  const ads = await getMainAds({ ...{ lat: 40.60562365, lng: -74.0554853141819 }, ...filterCookies, ...queryParams, limit, offset });
   const googleApiKey = await getGoogleMapsApikey() ?? '';
 
 
@@ -71,7 +74,7 @@ export default async function Home({ searchParams }: HomeProps) {
           </div>
         </section>
 
-       
+
 
         <AnimatedGridPattern
           numSquares={30}
@@ -96,7 +99,7 @@ export default async function Home({ searchParams }: HomeProps) {
                 />
               )) : <div
                 className="flex  flex-col col-span-12 min-h-full rounded-md justify-center items-center gap-2 py-10 px-5 ">
-                <span className=" text-center font-medium text-xl bg-clip-text text-transparent dark:bg-gradient-to-t bg-slate-900 dark:from-amber-800/80  dark:to-orange-500">No hay anuncios disponibles para los filtros seleccionados</span>
+                <span className=" text-center font-medium text-xl bg-clip-text text-transparent bg-slate-900  dark:bg-primary">No hay anuncios disponibles para los filtros seleccionados</span>
                 <span className=" text-center font-light italic text-sm text-slate-600 dark:text-slate-400">Selecciona nuevos filtros para encontrar algún inmueble</span>
                 <Image src={"/svgs/no-data.svg"} priority alt={"imagen alusiva a sin resultados"} width={400} height={400} className="mt-8 h-auto" />
               </div>
@@ -104,7 +107,7 @@ export default async function Home({ searchParams }: HomeProps) {
         </div>
 
 
-           {/* Features */}
+        {/* Features */}
         <section className="py-16 max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-4 col-span-12">
           <div className="text-center">
             <div className="text-orange-500 text-4xl mb-4">🏠</div>
@@ -130,9 +133,9 @@ export default async function Home({ searchParams }: HomeProps) {
           <Link href="/anuncios/nuevo" className="bg-white text-orange-500 px-6 py-3 rounded-xl font-semibold hover:bg-gray-100">Publicar ahora</Link>
         </section>
 
-        
 
-          <Footer className="col-span-12" />
+
+        <Footer className="col-span-12" />
 
       </div>
     </ScrollArea>
