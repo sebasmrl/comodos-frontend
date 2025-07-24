@@ -28,7 +28,7 @@ import { useRouter } from "next/navigation";
 import { filterScheme, filterSchemeDefaultValues } from "./filterScheme";
 import { usePropertyTypesStore } from "@/store/property-types.store";
 import { usePeriodsStore } from "@/store/periods.store copy";
-import { getCookieFilterAds, setCompleteCookieFilterAdsProp} from "@/actions/cookies/client/filter/filter";
+import { getCookieFilterAds, setCompleteCookieFilterAdsProp } from "@/actions/cookies/client/filter/filter";
 import { useState } from "react";
 
 
@@ -50,7 +50,7 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
 
     const form = useForm<z.infer<typeof filterScheme>>({
         resolver: zodResolver(filterScheme),
-        defaultValues: {...filterSchemeDefaultValues, ...filterCookiesState, range: filterCookiesState.range ? [Number(filterCookiesState.range)] : filterSchemeDefaultValues.range},
+        defaultValues: { ...filterSchemeDefaultValues, ...filterCookiesState, range: filterCookiesState.range ? [Number(filterCookiesState.range)] : filterSchemeDefaultValues.range },
     });
 
     const router = useRouter();
@@ -69,12 +69,12 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
             return `${k}=${v}`;
         }).join('&')
 
-        
-        const paramsArrToObj = paramsObj.reduce( (prev, curr)=>{
-            const obj = { [curr[0]] : curr[1] }
-            return  {...prev, ...obj}
+
+        const paramsArrToObj = paramsObj.reduce((prev, curr) => {
+            const obj = { [curr[0]]: curr[1] }
+            return { ...prev, ...obj }
         }, {})
-        setCompleteCookieFilterAdsProp({...paramsArrToObj, lat: filterCookiesState?.lat, lng:filterCookiesState?.lng}); 
+        setCompleteCookieFilterAdsProp({ ...paramsArrToObj, lat: filterCookiesState?.lat, lng: filterCookiesState?.lng });
         setFilterCookiesState(getCookieFilterAds());
 
         router.push(`?${params}`);
@@ -115,9 +115,13 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
                                             <SelectValue placeholder="Tipo de Propiedad" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {propertyTypes.map(property => (
-                                                <SelectItem key={property.id} value={property.name} className="capitalize">{property.name}</SelectItem>
-                                            ))}
+                                            {
+                                                (propertyTypes)
+                                                    ? propertyTypes.map(property => (
+                                                        <SelectItem key={property.id} value={property.name} className="capitalize">{property.name}</SelectItem>
+                                                    ))
+                                                    : <></>
+                                            }
                                             <SelectItem key={'key_property_type'} value="all">Todas</SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -138,9 +142,13 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
                                             <SelectValue placeholder="Periodo de facturación" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            {periods.map(period => (
-                                                <SelectItem key={period.id} value={period.name} className="capitalize">{period.name}</SelectItem>
-                                            ))}
+                                            {
+                                                (periods)
+                                                    ? periods.map(period => (
+                                                        <SelectItem key={period.id} value={period.name} className="capitalize">{period.name}</SelectItem>
+                                                    ))
+                                                    : <></>
+                                            }
                                             <SelectItem value="all">Todos</SelectItem>
                                         </SelectContent>
                                     </Select>
