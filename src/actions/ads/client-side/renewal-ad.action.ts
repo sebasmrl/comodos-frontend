@@ -2,7 +2,7 @@
 
 import { apiClient } from "@/config/axios-client.config";
 import { GenericErrorResponse } from "@/interfaces";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
 
 interface Args {
@@ -23,7 +23,7 @@ const renewevalAd = async ({ adId, token }: Args) => {
             })
         return rs;
     } catch (e) {
-        return e as AxiosResponse<GenericErrorResponse>;
+        return (e as AxiosError).response as AxiosResponse<GenericErrorResponse>;
     }
 }
 
