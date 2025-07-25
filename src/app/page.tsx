@@ -14,6 +14,7 @@ import { getFilterAdsCookiesAction } from "@/actions/cookies/server/filter/filte
 import { GoToMapButton } from "./components/maps/GoToMapButton";
 import { Footer } from "./components/footer/Footer";
 import Link from "next/link";
+import { PaginationAds } from "./components/pagination/PaginationAds";
 
 
 
@@ -94,7 +95,7 @@ export default async function Home({ searchParams }: HomeProps) {
               ? (ads.data as MainAd[]).map(ad => (
                 <AdCard
                   key={ad.id}
-                  className="col-span-12 sm:mx-10 md:mx-0 md:col-start-2 md:col-span-10 xl:col-start-3 xl:col-span-8  " //col-span-12 sm:mx-10 md:mx-0 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8 xl:col-start-5 xl:col-span-8
+                  className="col-span-12 sm:mx-10 md:mx-0 md:col-start-2 md:col-span-10 xl:col-start-3 xl:col-span-8" //col-span-12 sm:mx-10 md:mx-0 md:col-start-2 md:col-span-10 lg:col-start-3 lg:col-span-8 xl:col-start-5 xl:col-span-8
                   adData={ad}
                 />
               )) : <div
@@ -104,34 +105,48 @@ export default async function Home({ searchParams }: HomeProps) {
                 <Image src={"/svgs/no-data.svg"} priority alt={"imagen alusiva a sin resultados"} width={400} height={400} className="mt-8 h-auto" />
               </div>
           }
+          <PaginationAds
+            className="col-span-12 pt-5"
+            currentPage={(offset == 0) ? 1 : Number(page)}
+            existAds={ads.status != 400 && (ads.data as MainAd[])?.length > 0}
+          />
         </div>
 
 
         {/* Features */}
-        <section className="py-16 max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-4 col-span-12">
-          <div className="text-center">
-            <div className="text-orange-500 text-4xl mb-4">🏠</div>
-            <h3 className="font-semibold text-lg mb-2">Variedad de propiedades</h3>
-            <p className="text-gray-600">Apartamentos, casas, estudios y más. Encuentra lo que se ajusta a ti.</p>
-          </div>
-          <div className="text-center">
-            <div className="text-orange-500 text-4xl mb-4">🔎</div>
-            <h3 className="font-semibold text-lg mb-2">Búsqueda inteligente</h3>
-            <p className="text-gray-600">Filtros avanzados para que solo veas lo que realmente te interesa.</p>
-          </div>
-          <div className="text-center">
-            <div className="text-orange-500 text-4xl mb-4">📱</div>
-            <h3 className="font-semibold text-lg mb-2">100% móvil</h3>
-            <p className="text-gray-600">Busca desde tu celular con nuestra interfaz optimizada.</p>
-          </div>
-        </section>
+        {
+          (offset == 0) 
+            ? < section className="py-16 max-w-6xl mx-auto grid md:grid-cols-3 gap-8 px-4 col-span-12" >
+                <div className="text-center">
+                  <div className="text-orange-500 text-4xl mb-4">🏠</div>
+                  <h3 className="font-semibold text-lg mb-2">Variedad de propiedades</h3>
+                  <p className="text-gray-600">Apartamentos, casas, estudios y más. Encuentra lo que se ajusta a ti.</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-orange-500 text-4xl mb-4">🔎</div>
+                  <h3 className="font-semibold text-lg mb-2">Búsqueda inteligente</h3>
+                  <p className="text-gray-600">Filtros avanzados para que solo veas lo que realmente te interesa.</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-orange-500 text-4xl mb-4">📱</div>
+                  <h3 className="font-semibold text-lg mb-2">100% móvil</h3>
+                  <p className="text-gray-600">Busca desde tu celular con nuestra interfaz optimizada.</p>
+                </div>
+              </section>
+            : <></>
+        }
+
 
         {/* CTA */}
-        <section className="bg-primary text-white text-center py-16 col-span-12">
-          <h2 className="text-3xl font-bold mb-4">¿Tienes un inmueble para alquilar?</h2>
-          <p className="mb-6">Publica gratis y encuentra inquilinos rápidamente.</p>
-          <Link href="/anuncios/nuevo" className="bg-white text-orange-500 px-6 py-3 rounded-xl font-semibold hover:bg-gray-100">Publicar ahora</Link>
-        </section>
+        {
+          (offset == 0)
+            ? <section className="bg-primary text-white text-center py-16 col-span-12">
+                <h2 className="text-3xl font-bold mb-4">¿Tienes un inmueble para alquilar?</h2>
+                <p className="mb-6">Publica gratis y encuentra inquilinos rápidamente.</p>
+                <Link href="/anuncios/nuevo" className="bg-white text-orange-500 px-6 py-3 rounded-xl font-semibold hover:bg-gray-100">Publicar ahora</Link>
+              </section>
+            : <></>
+        }
 
 
 
