@@ -38,7 +38,7 @@ import { IoIosAddCircle } from "react-icons/io";
 import { AdPeriod } from "@/interfaces/ad-period/ad-period.interface";
 import { PropertyType } from "@/interfaces/property-types/property-type.interface";
 import { createAd } from "@/actions/ads/client-side/create-ad.action";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { updateAdImages } from "@/actions/ads/client-side/update_ad_images.action";
 import { CreateAdResponse } from "@/interfaces/ads/create-ad.interface";
 import { GenericErrorResponse } from "@/interfaces";
@@ -60,8 +60,8 @@ export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: 
         defaultValues: createAdFormSchemaDefaultValues,
     });
 
+    const router =  useRouter();
     const session = useSession();
-    if (!session.data?.user) redirect('/auth/login');
 
     const { location } = useCurrentPosition({ autorefresh: false });
 
@@ -91,7 +91,7 @@ export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: 
         if (data?.status >= 200 && data?.status < 300) { 
             customSonnerToast({
                 title: `Anuncio creado exitosamente`,
-                variant: 'destructive',
+                variant: 'success',
                 duration: 4000,
                 description: `El anuncio '${values.name}' ha sido creado exitosamente`
             })
@@ -120,7 +120,10 @@ export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: 
                     duration: 4000,
                     description: 'Ha ocurrido un error inesperado y las imagenes de tu anuncio no fueron correctamente guardadas '
                 });
+            }else{
+                router.push('/anuncios');
             }
+            
         } else {
             const errorMessage = (data.data as GenericErrorResponse).message;
             customSonnerToast({
@@ -130,6 +133,8 @@ export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: 
                 description: `${(typeof errorMessage === 'string') ? errorMessage : (errorMessage as string[]).join('\n')}`
             });
         }
+
+
 
 
     }

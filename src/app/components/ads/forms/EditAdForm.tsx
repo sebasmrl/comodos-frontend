@@ -64,7 +64,6 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
     const router = useRouter();
 
     const { propertyType, period, images, rooms, bathrooms, price, administrationCost, coords, squareMeters, floors, ...rest } = defaultData;
-    console.log('DEFAUL_DATA: ', defaultData)
     const defaultFormValues = {
         propertyType: propertyType.id,
         period: period.id,
