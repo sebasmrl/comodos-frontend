@@ -33,7 +33,7 @@ export const PaginationAds = ({ className, currentPage, existAds }: Props) => {
             <PaginationContent>
 
                 <PaginationItem>
-                    <PaginationPrevious href={(currentPage > 1 ? `?page=${currentPage-1}${newUrl}` : '/')} />
+                    <PaginationPrevious href={(currentPage > 1 ? `?page=${currentPage-1}${newUrl}` : `?page=${currentPage}${newUrl}`)} />
                 </PaginationItem>
                 {
                     Array.from({ length: 3 }, (_, index) => (currentPage>=2) ? index+currentPage-2 : index+currentPage-1)

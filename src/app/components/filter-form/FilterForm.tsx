@@ -30,7 +30,7 @@ import { usePropertyTypesStore } from "@/store/property-types.store";
 import { usePeriodsStore } from "@/store/periods.store copy";
 import { getCookieFilterAds, setCompleteCookieFilterAdsProp } from "@/actions/cookies/client/filter/filter";
 import { useState } from "react";
-import { useQueryParams } from "@/hooks/use-query-params";
+//import { useQueryParams } from "@/hooks/use-query-params";
 
 
 
@@ -47,8 +47,8 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
     const router = useRouter();
 
     //obtener page param de la url
-    const clientQueryParams = useQueryParams()
-    const page = clientQueryParams['page'];
+    //const clientQueryParams = useQueryParams()
+    //const page = clientQueryParams['page'];
 
     //Obtener valores iniciales de la DB desde el estado gestionado por zustand
     const { propertyTypes } = usePropertyTypesStore();
@@ -86,7 +86,8 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
         setFilterCookiesState(getCookieFilterAds());
 
 
-        router.push(`?${params}${(page != undefined && !isNaN(Number(page))) ? `&page=${page}` : ''}`);
+        router.push(`?${params}`);
+        //router.push(`?${params}${(page != undefined && !isNaN(Number(page))) ? `&page=${page}` : ''}`);
     }
 
 
