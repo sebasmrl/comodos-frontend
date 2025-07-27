@@ -7,7 +7,7 @@ export interface PublicUserData{
     names:string; 
     lastnames:string;
     lastConnection:Date;
-    profileImage: ProfileImage;
+    profileImage?: ProfileImage;
     phone:number;
     phoneCode:number;
     nationality:string;
