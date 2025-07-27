@@ -3,13 +3,13 @@
 //import { redirect } from "next/navigation";
 import { NavBar } from "../components/navbar/NavBar";
 import { getFavoriteAdsAction } from "@/actions/cookies/server/favorites/favorites.action";
-import { getPublicUserDataById } from "@/actions/user/get-public-user-data";
 
 import type { Metadata } from 'next'
 import { FavoriteAdCard } from "../components/ads/FavoriteAdCard";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { cn } from "@/lib/utils";
-import { PublicUserData } from "@/interfaces/user/public-user-profile.interface";
+import { getFilterAdsCookiesAction } from "@/actions/cookies/server/filter/filter";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: 'Favoritos',
@@ -20,8 +20,10 @@ export const metadata: Metadata = {
 
 export default async function FavoritosPage() {
   //TODO: Activate later session blocked 
-  //const session = await auth();
+  const session = await auth();
   //if (!(session?.user)) redirect('/');
+
+  const { lat, lng } = await getFilterAdsCookiesAction();
 
   const favoriteAds = await getFavoriteAdsAction() ?? [];
 
@@ -47,15 +49,14 @@ export default async function FavoritosPage() {
         <p className="text-xs font-semibold rounded-full bg-primary/20 min-w-5 min-h-5 text-center leading-relaxed">{favoriteAds.length}</p>
       </div>
 
-      <div className="grid grid-cols-12 col-span-12 overflow-x-hidden px-4 sm:p-4 gap-y-3 gap-2 py-4 rounded-xl ">
+      <div className="grid grid-cols-12 col-span-12 overflow-x-hidden px-4 sm:p-4 gap-y-3 gap-2 py-4 rounded-xl mb-10">
         {
           favoriteAds.length > 0 && favoriteAds.map(async (ad) => {
-            const publicUserProfile = await getPublicUserDataById(ad.user)
             return <FavoriteAdCard
+              selectedCoords={  session?.user.data.coords ? session?.user.data.coords :  (lat && lng) ? {lat: Number(lat), lng: Number(lng)} : { lat: 40.60562365, lng: -74.0554853141819 } }
               className="col-span-12 sm:mx-10 md:mx-0 md:col-start-2 md:col-span-10 xl:col-start-3 xl:col-span-8"
               key={ad.id}
               adData={ad}
-              publicUserData={publicUserProfile.data as PublicUserData}
             />
           })
         }

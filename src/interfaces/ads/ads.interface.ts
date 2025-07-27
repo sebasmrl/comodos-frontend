@@ -25,14 +25,15 @@ export interface Ad {
     squareMeters:                 number;
     motoParking:                  boolean;
     carParking:                   boolean;
-    administrationCost?:           number;
+    administrationCost?:          number;
     isSharedKitchen:              boolean;
+    hasKitchen:                   boolean;
     furnished:                    boolean;
     hasElectricLightService:      boolean;
     hasGasService:                boolean;
     hasWaterService:              boolean;
     hasInternetServiceIntegrated: boolean;
-    renevaldDate:                 Date;
+    renewalDate:                  Date;
     expiredDate:                  Date;
     updateAt:                     Date;
     createdAt:                    Date;

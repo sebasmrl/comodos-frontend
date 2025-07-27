@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { toast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 import {
     Form,
@@ -19,21 +18,27 @@ import Image from "next/image"
 import Link from "next/link"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
+//import { registerAction } from "@/actions/auth"
+import { registerUserClientAction } from "@/actions/auth/client-side/register-user.action"
+import { customSonnerToast } from "@/app/components/custom-sonner-toast/customSonnerToast"
+import { redirect, RedirectType } from "next/navigation"
+import { GenericErrorResponse, RegistratedUserResponse } from "@/interfaces"
+
 
 
 const FormSchema = z.object({
-    dni: z.coerce.number({message:"El campo no puede contener caracteres"}).int({ message: 'Tu cédula debe ser un numero entero' }).min(1000000,{message:'No es un numero de cedula válido'}),
+    dni: z.coerce.number({ message: "El campo no puede contener caracteres" }).int({ message: 'Tu cédula debe ser un numero entero' }).min(1000000, { message: 'No es un numero de cedula válido' }),
     email: z.string().email({ message: 'Debes insertar un correo válido' }),
     password: z.string().min(2, {
         message: "Tu contraseña no cumple los estandares requeridos",
     }),
-    repassword: z.string(),
+    repassword: z.string().optional(),
     names: z.string().min(2).trim(),
     lastnames: z.string().min(2).trim(),
     nationality: z.string().min(2).trim(),
     phone: z.string().regex(/^\d{10,}$/, { message: "El número de teléfono movil no coincide", }),
-    phoneCode: z.string().regex(/^\d{1,3}$/, { message: "EL indicatiovo telefonico no coincide con ningun registro" }).min(1,{ message:"EL indicatiovo telefonico no coincide con ningun registro"}),
-    birthdate: z.string().date(),
+    phoneCode: z.string().regex(/^\d{1,3}$/, { message: "EL indicatiovo telefonico no coincide con ningun registro" }).min(1, { message: "EL indicatiovo telefonico no coincide con ningun registro" }),
+    birthdate: z.string().date().transform((val) => val.split('/').join('-')),
     gender: z.string().optional().nullable()
 }).refine(data => data.password === data.repassword, {
     message: "Las contraseñas no coinciden.",
@@ -51,25 +56,48 @@ export function RegisterForm() {
             email: "",
             password: "",
             repassword: "",
+            nationality: "",
             names: "",
             lastnames: "",
             phone: "",
             phoneCode: "",
             birthdate: new Date().toLocaleString(),
         },
-    })
+    });
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        toast({
-            title: "Has hecho registro con los siguientes valores:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-                </pre>
-            ),
-        })
+        const reformatData = {
+            ...data,
+            phoneCode: Number(data.phoneCode),
+            phone: Number(data.phone),
+            dni: Number(data.dni),
+            birthdate: new Date(data.birthdate),
+            // oldBirth: data.birthdate
+        }
+        if (reformatData.repassword) { delete reformatData.repassword; }
+
+
+        // registerAction is a server action
+
+        const rs = await registerUserClientAction(reformatData);
+        if (rs.status >= 200 && rs.status < 300) {
+            const user = rs.data as RegistratedUserResponse;
+            customSonnerToast({
+                variant: 'success',
+                title: "Te has registrado exitosamente en Comodos",
+                description: `Te damos la bienvenida ${user.names.toLowerCase()}, ahora puedes iniciar sesión con nosotros`,
+            })
+            redirect('/auth/login', RedirectType.replace);
+        }else{
+            const errorMessage = (rs.data as GenericErrorResponse).message;
+            customSonnerToast({
+                variant: 'destructive',
+                title: 'Upps! No te has podido registrar, intentalo nuevamente',
+                description:`${(typeof errorMessage === 'string') ? errorMessage : (errorMessage as string[]).join('\n')}`
+            })
+        }
     }
-    
+
 
     return (
         <div className="flex flex-col justify-center w-full">
@@ -78,8 +106,8 @@ export function RegisterForm() {
 
                 <div className="flex col-span-8 justify-center flex-nowrap sm:justify-center mb-8">
                     <Link href={"/"} className="flex justify-center self-center">
-                    <Image src={"/logo/logo-comodos.svg"} alt={"Logo de Comodos"} width={50} height={50} className="" />
-                    <p className="self-end text-2xl font-semibold sm:text-3xl lg:text-5xl">omodos</p>
+                        <Image src={"/logo/logo-comodos.svg"} alt={"Logo de Comodos"} width={50} height={50} className="" />
+                        <p className="self-end text-2xl font-semibold sm:text-3xl lg:text-5xl">omodos</p>
                     </Link>
                     <p className="self-end text-2xl font-extralight sm:text-3xl lg:text-5xl px-2 sm:px-4 text-primary">Registro</p>
 
@@ -205,8 +233,8 @@ export function RegisterForm() {
                                         <FormControl>
                                             {/* <Input placeholder="2021-02-11" type="date" className="p-4 flex w-full justify-center"{...field} /> */}
                                             <Select >
-                                                <SelectTrigger className="" > 
-                                                    <SelectValue placeholder="Selecciona tu género" {...field}/>
+                                                <SelectTrigger className="" >
+                                                    <SelectValue placeholder="Selecciona tu género" {...field} />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem value="M">Masculino</SelectItem>
@@ -226,7 +254,7 @@ export function RegisterForm() {
                                     <FormItem className="col-span-2 sm:col-span-1 sm:row-start-5">
                                         <FormLabel>Indicativo</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="57" type="text" className="p-4 "{...field} />
+                                            <Input placeholder="57" type="text" maxLength={3} className="p-4 "{...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

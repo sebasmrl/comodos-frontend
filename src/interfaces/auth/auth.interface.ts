@@ -35,7 +35,7 @@ export interface LoginParams {
 }
 
 export interface GenericErrorResponse {
-    message: string;
+    message: string | string[];
     error?: string;
     statusCode: number;
 }
@@ -46,7 +46,7 @@ export interface RegistratedUserResponse{
     names: string;
     lastnames: string;
     lastConnection: Date;
-    state: boolean;
+    /* state: boolean; */
     coords: Coords;
     roles: string[];
     phone:number,
@@ -61,7 +61,7 @@ export interface RegisterUserRequestBody{
     email: string;
     names: string;
     lastnames: string;
-    state: boolean;
+    /* state: boolean; */
     phone:number,
     phoneCode: number;
     nationality:string;

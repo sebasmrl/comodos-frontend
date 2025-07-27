@@ -2,10 +2,12 @@
 
 import { api } from "@/config/axios.config";
 import { GenericErrorResponse, RegisterUserRequestBody, RegistratedUserResponse } from "@/interfaces";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 
-export const registerAction = async (body:RegisterUserRequestBody)=>{
-     const rs: AxiosResponse<RegistratedUserResponse | GenericErrorResponse> = await api.post(
+export const registerAction = async (body: RegisterUserRequestBody) => {
+
+    try {
+        const rs: AxiosResponse<RegistratedUserResponse | GenericErrorResponse> = await api.post(
             'auth/registry',
             body,
             {
@@ -13,4 +15,7 @@ export const registerAction = async (body:RegisterUserRequestBody)=>{
             }
         );
         return rs;
+    } catch (e) {
+        return (e as AxiosError).response as AxiosResponse<GenericErrorResponse>;
+    }
 }

@@ -21,62 +21,76 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-  } from "@/components/ui/select"
+} from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
-import { useQueryParams } from "@/hooks/use-query-params";
-  
+import { filterScheme, filterSchemeDefaultValues } from "./filterScheme";
+import { usePropertyTypesStore } from "@/store/property-types.store";
+import { usePeriodsStore } from "@/store/periods.store copy";
+import { getCookieFilterAds, setCompleteCookieFilterAdsProp } from "@/actions/cookies/client/filter/filter";
+import { useState } from "react";
+//import { useQueryParams } from "@/hooks/use-query-params";
+
 
 
 
 interface Props extends React.AllHTMLAttributes<HTMLDivElement> {
     name?: string;
-    onOpenAndCloseDialog: (v:boolean)=>void
+    onOpenAndCloseDialog: (v: boolean) => void
 }
 
-const formSchema = z.object({
-    propertyType: z.string().min(2, {
-        message: "El tipo de propiedad debe ser uno válido",
-    }),
-    range: z.array(z.number()),
-    minPrice: z.string().refine((val) => !isNaN(Number(val)), { message: "Debe ser un número válido" }) // Validar string numérico
-            .transform((val) => Number(val)), // Transformar a número
-    maxPrice: z.string().refine((val) => !isNaN(Number(val)), { message: "Debe ser un número válido" }) // Validar string numérico
-            .transform((val) => Number(val)), // Transformar a número
-})
+
 
 export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props) => {
 
-    
+    const router = useRouter();
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            propertyType: "",
-            range:[0],
-            minPrice: 0,
-            maxPrice: 1
-        },
+    //obtener page param de la url
+    //const clientQueryParams = useQueryParams()
+    //const page = clientQueryParams['page'];
+
+    //Obtener valores iniciales de la DB desde el estado gestionado por zustand
+    const { propertyTypes } = usePropertyTypesStore();
+    const { periods } = usePeriodsStore();
+
+    const [filterCookiesState, setFilterCookiesState] = useState(getCookieFilterAds());
+
+    const form = useForm<z.infer<typeof filterScheme>>({
+        resolver: zodResolver(filterScheme),
+        defaultValues: { ...filterSchemeDefaultValues, ...filterCookiesState, range: filterCookiesState.range ? [Number(filterCookiesState.range)] : filterSchemeDefaultValues.range },
     });
 
-    const router= useRouter();
-    const params = useQueryParams();
-    console.log({params})
 
-    
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // Do something with the form values.
-        // ✅ This will be type-safe and validated.
-        console.log(values)
+    function onSubmit(values: z.infer<typeof filterScheme>) {
         onOpenAndCloseDialog(false);
-        const options = {...values, range: values?.range[1], ...params }
-        console.log({options    })
+        const plainOptions = { ...values, range: values?.range[0] }
 
-        //TODO: realizar la peticion basada en url segun los datos del formulario de filtro
-        router.push(''); 
+        // parametros filtrados cuando no se tienen en cuenta pero deben tener un valor en el form
+        const paramsObj = Object.entries(plainOptions).filter(([k, v],) => {
+            if (!(v == 0 || v == 'all')) return [k, v];
+        });
+
+        // valores del filtro en cadena de texto de queryParams
+        const params = paramsObj.map(([k, v],) => {
+            return `${k}=${v}`;
+        }).join('&')
+
+
+        const paramsArrToObj = paramsObj.reduce((prev, curr) => {
+            const obj = { [curr[0]]: curr[1] }
+            return { ...prev, ...obj }
+        }, {})
+        setCompleteCookieFilterAdsProp({ ...paramsArrToObj, lat: filterCookiesState?.lat, lng: filterCookiesState?.lng });
+        setFilterCookiesState(getCookieFilterAds());
+
+
+        router.push(`?${params}`);
+        //router.push(`?${params}${(page != undefined && !isNaN(Number(page))) ? `&page=${page}` : ''}`);
     }
+
+
 
     return (
         <div
@@ -84,19 +98,19 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
         >
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className=" flex flex-col gap-y-2 items-stretch">
-                <FormField
+                    <FormField
                         control={form.control}
                         name="range"
                         render={({ field }) => (
                             <FormItem className="space-y-0 ">
                                 <FormLabel className="">Rango de Búsqueda</FormLabel>
                                 <FormControl>
-                                <div className="flex flex-nowrap gap-x-2 min-w-52">
-                                    <Slider defaultValue={field.value} max={60} step={1} value={field.value} onValueChange={field.onChange} className="cursor-pointer" />
-                                    <p className="text-nowrap">{field.value} km</p>
-                                </div>
+                                    <div className="flex flex-nowrap gap-x-2 min-w-52">
+                                        <Slider defaultValue={field.value} max={60} step={1} value={field.value} onValueChange={field.onChange} className="cursor-pointer" />
+                                        <p className="text-nowrap">{field.value} km</p>
+                                    </div>
 
-                                </FormControl>   
+                                </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
@@ -106,77 +120,84 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
                         name="propertyType"
                         render={({ field }) => (
                             <FormItem>
+                                <FormLabel className="">Tipo de propiedad</FormLabel>
                                 <FormControl>
                                     <Select onValueChange={field.onChange} value={field.value} name={field.name}  >
                                         <SelectTrigger className="w-full" >
-                                            <SelectValue placeholder="Tipo de Propiedad"/>
+                                            <SelectValue placeholder="Tipo de Propiedad" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="casa">Casa</SelectItem>
-                                            <SelectItem value="apartamento urbano">Apto Urbano</SelectItem>
-                                            <SelectItem value="apartamento residencial">Apto Residencial</SelectItem>
-                                            <SelectItem value="pension">Pensión</SelectItem>
+                                            {
+                                                (propertyTypes)
+                                                    ? propertyTypes.map(property => (
+                                                        <SelectItem key={property.id} value={property.name} className="capitalize">{property.name}</SelectItem>
+                                                    ))
+                                                    : <></>
+                                            }
+                                            <SelectItem key={'key_property_type'} value="all">Todas</SelectItem>
                                         </SelectContent>
                                     </Select>
-                                </FormControl>   
+                                </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
+                    <FormField
+                        control={form.control}
+                        name="period"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="">Periodo de facturación</FormLabel>
+                                <FormControl>
+                                    <Select onValueChange={field.onChange} value={field.value} name={field.name}  >
+                                        <SelectTrigger className="w-full" >
+                                            <SelectValue placeholder="Periodo de facturación" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {
+                                                (periods)
+                                                    ? periods.map(period => (
+                                                        <SelectItem key={period.id} value={period.name} className="capitalize">{period.name}</SelectItem>
+                                                    ))
+                                                    : <></>
+                                            }
+                                            <SelectItem value="all">Todos</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
+                    <FormField
+                        control={form.control}
+                        name="minPrice"
+                        render={({ field }) => (
+                            <FormItem className="space-y-0 items-center gap-1">
+                                <FormLabel className="text-nowrap">Precio Mínimo</FormLabel>
+                                <FormControl>
+                                    <Input {...field} type="number" placeholder="minPrice" className="min-w-20 [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden [&::-moz-number-spin-box]:hidden" />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
                     <FormField
                         control={form.control}
                         name="maxPrice"
                         render={({ field }) => (
-                            <FormItem className="space-y-0  items-center gap-x-1">
+                            <FormItem className="space-y-0 items-center gap-1">
                                 <FormLabel className="text-nowrap">Precio Máximo</FormLabel>
                                 <FormControl>
-                                    <Input {...field} placeholder="maxPrice" className="min-w-20"/>
-                                </FormControl>   
+                                    <Input type="number"{...field} placeholder="Precio máximo" className="min-w-20 [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden [&::-moz-number-spin-box]:hidden" />
+                                </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="minPrice"
-                        render={({ field }) => (
-                            <FormItem className="space-y-0 items-center gap-1">
-                                <FormLabel className="text-nowrap">Precio Mínimo</FormLabel>
-                                <FormControl>
-                                    <Input {...field} placeholder="minPrice" className="min-w-20"/>
-                                </FormControl>   
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    
-                    <FormField
-                        control={form.control}
-                        name="minPrice"
-                        render={({ field }) => (
-                            <FormItem className="space-y-0 items-center gap-1">
-                                <FormLabel className="text-nowrap">Precio Mínimo</FormLabel>
-                                <FormControl>
-                                    <Input {...field} placeholder="minPrice" className="min-w-20"/>
-                                </FormControl>   
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    {/* <FormField
-                        control={form.control}
-                        name="page"
-                        render={({ field }) => (
-                            <FormItem className="space-y-0 items-center inline-flex gap-1">
-                                <FormLabel className="text-nowrap">Precio Mínimo</FormLabel>
-                                <FormControl>
-                                    <Input {...field} placeholder="page" className="min-w-20"/>
-                                </FormControl>   
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    /> */}
-                    
+
                     <Button type="submit" className="self-end mt-6">Guardar</Button>
                 </form>
             </Form>

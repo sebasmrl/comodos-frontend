@@ -15,6 +15,7 @@ import { IoIosAddCircle } from "react-icons/io";
 
 const AWS_CLOUDFRONT_DOMAIN = process.env.AWS_CLOUDFRONT_DOMAIN ?? null;
 
+
 export const metadata: Metadata = {
   title: 'Comodos - Mis Anuncios',
   description: 'Gestiona tus anuncios',

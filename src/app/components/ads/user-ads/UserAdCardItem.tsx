@@ -8,7 +8,7 @@ import Link from "next/link"
 import { HTMLAttributes } from "react"
 import { CiMapPin, CiTimer } from "react-icons/ci"
 import { FaEdit, FaEye } from "react-icons/fa"
-import { MdAutorenew, MdDelete, MdOutlineImageNotSupported } from "react-icons/md"
+import { MdDelete, MdOutlineImageNotSupported } from "react-icons/md"
 
 import {
   Tooltip,
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Badge } from "@/components/ui/badge"
 import { getTimePeriodInDays } from "@/utils/time-period.util"
+import { RenewalAdButton } from "./RenewalAdButton"
 
 
 interface Props extends HTMLAttributes<HTMLElement> {
@@ -40,7 +41,7 @@ export const UserAdCardItem = ({ ad, className, baseUrl }: Props) => {
           {
             ((baseUrl && adImageKey)) ?
               <Image
-                src={(baseUrl && adImageKey) ? `${baseUrl}/${adImageKey}` : '/svgs/no-data.svg'}
+                src={(baseUrl && adImageKey) ? `${baseUrl}/${adImageKey}?v=${Date.now()}` : '/svgs/no-data.svg'}
                 alt={"imagen del anuncio"}
                 width={300}
                 height={300}
@@ -115,7 +116,7 @@ export const UserAdCardItem = ({ ad, className, baseUrl }: Props) => {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger className="absolute top-1 right-1 rounded-full w-10 h-10 hover:bg-accent p-0">
-            <MdAutorenew className="w-full" />
+            <RenewalAdButton adId={ad.id} key={ad.id}  />
           </TooltipTrigger>
           <TooltipContent className="bg-slate-600">
             <p>Renovar anuncio</p>

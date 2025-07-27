@@ -1,4 +1,5 @@
 import { Coords } from "../coords.interface";
+import { Image } from "../image/image.interface";
 
 export interface CreateAdFormPlainData {
     name:                         string;
@@ -33,6 +34,9 @@ export interface CreateAdFormPlainData {
     //user:                         string;
 }
 
-export interface CreateAdFormData extends CreateAdFormPlainData{
-    images: [],
+
+
+export interface CreateAdResponse extends CreateAdFormPlainData{
+    id:string;
+    images: Image[];
 }

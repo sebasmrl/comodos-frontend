@@ -98,7 +98,7 @@ export const DrawerMenu = ({ menu, cloudfrontUrl}:Props) => {
                 <DropdownMenuTrigger>
                   <div className="flex items-center gap-4 hover:dark:bg-accent p-2 rounded-md">
                     <Avatar>
-                      <AvatarImage src={`${cloudfrontUrl}/${session.data.user.data.profileImage.key}`} />
+                      <AvatarImage src={ session.data.user.data?.profileImage ? `${cloudfrontUrl}/${session.data.user.data.profileImage.key}` : ''} />
                       <AvatarFallback>{`${session.data.user.data.names.substring(0, 1)}${session.data.user.data.lastnames.substring(0, 1)}`}</AvatarFallback>
                     </Avatar>
                     <p className="text-base font-semibold capitalize">
