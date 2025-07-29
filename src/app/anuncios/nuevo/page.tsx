@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default async function NuevoAnuncioPage() {
 
   const session = await auth();
-  if (!session?.user) redirect('/auth/login')
+  if (!session?.user.data) redirect('/auth/login')
 
   const queries = await Promise.all([getAllPropertyTypes(), getAllAdPeriods()]);
   const [propertyTypes, adPeriods] = queries;

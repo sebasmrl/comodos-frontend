@@ -23,6 +23,11 @@ import { customSonnerToast } from "../../custom-sonner-toast/customSonnerToast"
 import Image from "next/image"
 import { getUrlImageFromFileList } from "@/utils/get-url-image-from-filelist"
 import { CompleteUserProfile } from "@/interfaces/user/complete-user-profile.interface"
+import { useSession } from "next-auth/react"
+import { updateUser } from "@/actions/user/client-side/update-user.action"
+import { UpdateUser } from "@/interfaces/user/update-user.interface"
+import { useRouter } from "next/navigation"
+import { updateProfileImage } from "@/actions/user/client-side/update-profile-image.action"
 
 
 
@@ -32,8 +37,8 @@ const FormSchema = z.object({
     }).optional().nullable(),
     names: z.string({ message: 'El campo nombres es requerido' }).min(2).trim(),
     lastnames: z.string({ message: 'El campo apellidos es requerido' }).min(2).trim(),
-    phone: z.string().regex(/^\d{10,}$/, { message: "El número de teléfono movil no coincide", }),
-    phoneCode: z.string().regex(/^\d{1,3}$/, { message: "EL indicatiovo telefonico no coincide con ningun registro" }).min(1, { message: "EL indicatiovo telefonico no coincide con ningun registro" }),
+    phone: z.string().regex(/^\d{6,}$/, { message: "El número de teléfono móvil debe contener al menos 6 dígitos", }),
+    phoneCode: z.string().regex(/^\d{1,3}$/, { message: "El indicativo telefónico no coincide con ningun registro" }).min(1, { message: "El indicativo telefónico no puede ser vacío" }),
     gender: z.string().optional().nullable()
 })
 
@@ -44,8 +49,11 @@ interface Props {
 }
 
 export function AccountEditForm({ cloudFrontUrl, userData }: Props) {
+
+    const session = useSession();
+    const router = useRouter();
+
     const { names, lastnames, phone, phoneCode, profileImage } = userData;
-    console.log({userData})
     const defaultValues = { names, lastnames, phone, phoneCode }
     const imageUrl = `${cloudFrontUrl}/${profileImage?.key}`;
 
@@ -54,12 +62,48 @@ export function AccountEditForm({ cloudFrontUrl, userData }: Props) {
         defaultValues: defaultValues,
     })
 
+
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        customSonnerToast({
-            variant: 'success',
-            title: 'Los cambios han sido guardados',
-            description: `${JSON.stringify(data, null, 3)}`
-        })
+
+        const { profileImage, ...rest} = data;
+        const requestData:UpdateUser= {
+            ...rest,
+            phone: Number(data.phone),
+            phoneCode: Number(data.phoneCode)
+        }
+
+        if (session.data?.user) {
+            const userWasUpdated = await updateUser({
+                data: requestData,
+                token: session.data.user.data.backendTokens.accessToken
+            });
+
+            if(profileImage?.length == 1){
+                await updateProfileImage({
+                    data: profileImage[0],
+                    token: session.data.user.data.backendTokens.accessToken
+                })
+            }
+
+            if (userWasUpdated?.status >= 200 && userWasUpdated?.status < 300) {
+                customSonnerToast({
+                    title: 'Datos actualizados correctamente',
+                    variant: 'success',
+                    duration: 3000,
+                    description: 'Tu información estará disponible en breve'
+                })
+                router.refresh();
+            } else {
+                customSonnerToast({
+                    title: 'No se pudo actualizar tu información',
+                    variant: 'destructive',
+                    duration: 3000,
+                });
+            }
+
+        } else {
+            router.push('auth/login')
+        }
     }
 
 
@@ -101,7 +145,7 @@ export function AccountEditForm({ cloudFrontUrl, userData }: Props) {
                                                                         height={100}
                                                                         className={"w-full h-auto min-h-20 scale-150 object-cover aspect-square"}
                                                                     />
-                                                                    : profileImage
+                                                                    : profileImage?.key
                                                                         ?
                                                                         <Image
                                                                             src={`${imageUrl}?time=${Date.now()}`}
@@ -180,7 +224,7 @@ export function AccountEditForm({ cloudFrontUrl, userData }: Props) {
                                     <FormItem className="col-span-2 ">
                                         <FormLabel>Indicativo</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="57" type="text" className="p-4 "{...field} />
+                                            <Input placeholder="57" maxLength={3} type="text" className="p-4 "{...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

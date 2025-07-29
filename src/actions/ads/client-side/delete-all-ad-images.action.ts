@@ -3,10 +3,16 @@ import { GenericErrorResponse } from "@/interfaces";
 import {  AxiosError, AxiosResponse } from "axios";
 
 
-const deleteAllAdImages = async(adId:string,  token:string) =>{
+
+interface DeleteAllAdImagesParams{
+    adId:string;
+    token: string;
+}
+
+const deleteAllAdImages = async({adId,  token}:DeleteAllAdImagesParams) =>{
      let rs: AxiosResponse<boolean | GenericErrorResponse>;
         try {
-            rs = await apiClient.instance.delete(`ad-images/ad/:${adId}`,
+            rs = await apiClient.instance.delete(`ad-images/ad/${adId}`,
                 {
                     headers: {
                             Authorization: `Bearer ${token}`,

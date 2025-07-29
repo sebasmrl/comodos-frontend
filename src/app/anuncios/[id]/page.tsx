@@ -119,7 +119,7 @@ export default async function AnuncioPage({
 
                         <div className="flex flex-col min-h-20 border border-border px-4 py-4 bg-accent rounded-md mt-2 gap-0">
                             <h2 className="font-bold text-foreground">Descripción</h2>
-                            <ShowMoreText text={ad.description} maxLength={20} />
+                            <ShowMoreText text={ad.description} maxLength={400} />
                         </div>
 
                         <div id="feautures" className="flex flex-col mt-4 gap-2">

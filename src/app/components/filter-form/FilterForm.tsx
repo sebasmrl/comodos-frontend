@@ -46,10 +46,6 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
 
     const router = useRouter();
 
-    //obtener page param de la url
-    //const clientQueryParams = useQueryParams()
-    //const page = clientQueryParams['page'];
-
     //Obtener valores iniciales de la DB desde el estado gestionado por zustand
     const { propertyTypes } = usePropertyTypesStore();
     const { periods } = usePeriodsStore();
@@ -72,6 +68,11 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
             if (!(v == 0 || v == 'all')) return [k, v];
         });
 
+        if(filterCookiesState?.lat && filterCookiesState?.lng){
+            paramsObj.push(['lat', String(filterCookiesState.lat)])
+            paramsObj.push(['lng', String(filterCookiesState.lng)])
+        }
+        
         // valores del filtro en cadena de texto de queryParams
         const params = paramsObj.map(([k, v],) => {
             return `${k}=${v}`;
@@ -87,7 +88,6 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
 
 
         router.push(`?${params}`);
-        //router.push(`?${params}${(page != undefined && !isNaN(Number(page))) ? `&page=${page}` : ''}`);
     }
 
 
