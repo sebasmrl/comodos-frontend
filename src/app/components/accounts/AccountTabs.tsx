@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CompleteUserProfile } from "@/interfaces/user/complete-user-profile.interface";
 import { AccountInformation } from "./AccountInformation";
 import { AccountEditForm } from "./forms/AccountEditForm";
-import { PasswordResetForm } from "./forms/PasswordResetForm";
+import { PasswordResetByRepeatMethodForm } from "./forms/PasswordResetByRepeatMethodForm";
 
 
 interface Props{
@@ -28,7 +28,7 @@ export const AccountTabs = ({ userData, cloudfrontUrl}:Props) => {
                     <AccountEditForm userData={userData} cloudFrontUrl={cloudfrontUrl} />
                 </TabsContent>
                 <TabsContent value="contrasena" className="w-full">
-                    <PasswordResetForm/>
+                    <PasswordResetByRepeatMethodForm/>
                 </TabsContent>
             </Tabs>
   )

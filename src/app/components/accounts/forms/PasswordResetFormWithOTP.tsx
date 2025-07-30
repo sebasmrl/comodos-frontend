@@ -34,7 +34,7 @@ const FormSchema = z.object({
 
 
 
-export function PasswordResetForm() {
+export function PasswordResetFormWithOTP() {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {

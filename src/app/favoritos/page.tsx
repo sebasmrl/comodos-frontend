@@ -10,6 +10,7 @@ import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern"
 import { cn } from "@/lib/utils";
 import { getFilterAdsCookiesAction } from "@/actions/cookies/server/filter/filter";
 import { auth } from "@/auth";
+import EmptyFavoriteAds from "../components/ads/EmptyFavoriteAds";
 
 export const metadata: Metadata = {
   title: 'Favoritos',
@@ -51,7 +52,8 @@ export default async function FavoritosPage() {
 
       <div className="grid grid-cols-12 col-span-12 overflow-x-hidden px-4 sm:p-4 gap-y-3 gap-2 py-4 rounded-xl mb-10">
         {
-          favoriteAds.length > 0 && favoriteAds.map(async (ad) => {
+          favoriteAds.length > 0 ?
+          favoriteAds.map(async (ad) => {
             return <FavoriteAdCard
               selectedCoords={  session?.user.data.coords ? session?.user.data.coords :  (lat && lng) ? {lat: Number(lat), lng: Number(lng)} : { lat: 40.60562365, lng: -74.0554853141819 } }
               className="col-span-12 sm:mx-10 md:mx-0 md:col-start-2 md:col-span-10 xl:col-start-3 xl:col-span-8"
@@ -59,6 +61,7 @@ export default async function FavoritosPage() {
               adData={ad}
             />
           })
+          : <EmptyFavoriteAds />
         }
       </div>
      

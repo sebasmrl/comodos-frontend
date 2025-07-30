@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { getOneAdComplete } from "@/actions/ads/get-one-ad-complete";
@@ -27,6 +26,7 @@ import { IoWater, IoWaterOutline } from "react-icons/io5";
 import { IoIosArrowForward } from "react-icons/io";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 
 const CLOUDFRONT_URL = process.env.AWS_CLOUDFRONT_DOMAIN ?? '';
@@ -43,6 +43,7 @@ export default async function AnuncioPage({
     if (adRs.status != 200) redirect('/');
 
     const ad = adRs.data as AdWithUser;
+    console.log('Epaaaaa',{ad})
     const isExpiredAd = new Date(ad.expiredDate).getTime() < Date.now();
 
 
@@ -53,9 +54,9 @@ export default async function AnuncioPage({
                     <div className="col-span-12 flex flex-row text-sm sm:text-base text-slate-500 gap-1 items-center font-normal sm:font-thin justify-between sm:justify-start sm:gap-4">
                         <div className="flex gap-1 items-center">
                             <p>{ad.locationCountry}</p>
-                            <IoIosArrowForward className="text-primary"/>
+                            <IoIosArrowForward className="text-primary" />
                             <p>{ad.locationState}</p>
-                            <IoIosArrowForward className="text-primary"/>
+                            <IoIosArrowForward className="text-primary" />
                             <p>{ad.locationCity}</p>
                         </div>
                         <Badge
@@ -95,7 +96,10 @@ export default async function AnuncioPage({
                             <Link href={`/perfil/${ad.user.id}`}>
                                 <div className="flex items-center hover:rounded-md hover:bg-primary/5 p-2 px-4  shadow-sm rounded-md m-1 gap-2 " >
                                     <div className="overflow-hidden aspect-square w-12 h-12 max-w-20 max-h-20 rounded-full">
-                                        <Image width={35} height={35} src={`${CLOUDFRONT_URL}/${ad.user.profileImage.key}`} alt="Imagen de perfil" className="mr-2 rounded-full h-full w-full  object-cover" />
+                                        <Avatar className="h-full w-full">
+                                            <AvatarImage src={ad.user?.profileImage ? `${CLOUDFRONT_URL}/${ad.user.profileImage.key}` : ''} />
+                                            <AvatarFallback>{`${ad.user.names.substring(0, 1)}${ad.user.lastnames.substring(0, 1)}`}</AvatarFallback>
+                                        </Avatar>
                                     </div>
                                     <div>
                                         <p className="text-sm font-medium text-gray-800 dark:text-gray-100 "><span>{toUpperCamelCase(`${ad.user.names.split(' ')[0]} ${ad.user.lastnames.split(' ')[0]}`)}</span></p>
@@ -115,7 +119,7 @@ export default async function AnuncioPage({
 
                         <div className="flex flex-col min-h-20 border border-border px-4 py-4 bg-accent rounded-md mt-2 gap-0">
                             <h2 className="font-bold text-foreground">Descripción</h2>
-                            <ShowMoreText text={ad.description} maxLength={20} />
+                            <ShowMoreText text={ad.description} maxLength={400} />
                         </div>
 
                         <div id="feautures" className="flex flex-col mt-4 gap-2">

@@ -31,7 +31,6 @@ interface HomeProps {
 
 export default async function Home({ searchParams }: HomeProps) {
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const session = await auth();
   const filterCookies = await getFilterAdsCookiesAction();
 
@@ -43,7 +42,25 @@ export default async function Home({ searchParams }: HomeProps) {
     offset = limit - 10;
   }
 
-  const ads = await getMainAds({ ...{ lat: 40.60562365, lng: -74.0554853141819 }, ...filterCookies, ...queryParams, limit, offset });
+  let coords = {};
+  if(session?.user.data.coords){
+    coords = {
+      lat: session.user.data.coords.lat,
+      lng: session.user.data.coords.lng
+    }
+  }
+
+  const ads = await getMainAds({
+     ...{ 
+        lat: 40.60562365, 
+        lng: -74.0554853141819 
+      },
+       ...filterCookies, 
+       ...queryParams, 
+       limit, 
+       offset, 
+       ...coords
+      });
   const googleApiKey = await getGoogleMapsApikey() ?? '';
 
 

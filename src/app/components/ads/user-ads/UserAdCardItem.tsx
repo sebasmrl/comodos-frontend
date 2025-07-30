@@ -19,6 +19,7 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { getTimePeriodInDays } from "@/utils/time-period.util"
 import { RenewalAdButton } from "./RenewalAdButton"
+import { DeleteAdButton } from "./DeleteAdButton"
 
 
 interface Props extends HTMLAttributes<HTMLElement> {
@@ -57,7 +58,7 @@ export const UserAdCardItem = ({ ad, className, baseUrl }: Props) => {
 
 
         <div className="flex flex-col flex-grow-[3] pl-2 justify-center gap-1">
-          <h3 className="font-semibold text-lg leading-tight">{ad.name}</h3>
+          <h3 className="font-semibold text-lg leading-tight max-w-[90%] sm:max-w-full">{ad.name}</h3>
           <div className="flex items-center hover:rounded-md  text-foreground">
             <CiMapPin />
             <p className="px-1 text-sm font-light text-gray-700 dark:text-inherit">
@@ -108,7 +109,7 @@ export const UserAdCardItem = ({ ad, className, baseUrl }: Props) => {
             <Link href={`/anuncios/editar/${ad.id}`} className="inline-flex items-center gap-2"><FaEdit /> <p>Editar</p></Link>
           </li>
           <li className="p-0 m-0">
-            <Button className="inline-flex items-center gap-2 p-2" variant={'destructive'}><MdDelete /> <p>Eliminar</p> </Button>
+           <DeleteAdButton adId={ad.id} key={`deleteBtn-${ad.id}`} />
           </li>
         </ul>
       </CardFooter>

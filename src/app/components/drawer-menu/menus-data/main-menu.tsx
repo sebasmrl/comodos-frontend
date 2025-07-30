@@ -16,9 +16,9 @@ export const mainMenu: Menu[] = [
         auth:false
     },
     {
-        icon: <CiShoppingTag />,
+        icon: <CiShoppingTag className="" />,
         href: "/",
-        title: "Suscripciones",
+        title: "Suscripciones*",
         auth: true
     },
     {

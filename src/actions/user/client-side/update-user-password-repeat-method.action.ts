@@ -1,19 +1,19 @@
 import { apiClient } from "@/config/axios-client.config";
 import { GenericErrorResponse } from "@/interfaces";
-import { UpdateUser } from "@/interfaces/user/update-user.interface";
+import { UpdateUserPasswordByRepeatMethod } from "@/interfaces/user/update-user-password-by-repeat-method.interface";
 import {  AxiosError, AxiosResponse } from "axios";
 
 
 
-interface UpdateUserArgs{
-    data:UpdateUser;
+interface UpdateUserPasswordByRepeatMethodArgs{
+    data:UpdateUserPasswordByRepeatMethod;
     token:string;
 }
 
-const updateUser = async({ data,  token}:UpdateUserArgs) =>{
+const updateUserPasswordByRepeatMethod = async({ data,  token}:UpdateUserPasswordByRepeatMethodArgs) =>{
      let rs: AxiosResponse<boolean | GenericErrorResponse>;
         try {
-            rs = await apiClient.instance.patch(`users`, data,
+            rs = await apiClient.instance.patch(`users/password/repeat-method`, data,
                 {
                     
                     headers: {
@@ -31,5 +31,5 @@ const updateUser = async({ data,  token}:UpdateUserArgs) =>{
 
 
 export {
-    updateUser
+    updateUserPasswordByRepeatMethod
 }
