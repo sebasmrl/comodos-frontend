@@ -93,7 +93,7 @@ export function RegisterForm() {
             customSonnerToast({
                 variant: 'destructive',
                 title: 'Upps! No te has podido registrar, intentalo nuevamente',
-                description:`${(typeof errorMessage === 'string') ? errorMessage : (errorMessage as string[]).join('\n')}`
+                description:`${(typeof errorMessage == 'string') ? errorMessage : (errorMessage as string[])?.join('\n')}`
             })
         }
     }
