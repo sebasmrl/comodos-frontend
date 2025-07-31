@@ -30,14 +30,14 @@ export const metadata: Metadata = {
 
 };
 
-const baseURL = `${process.env.BACKEND_DOMAIN}/api`;
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
+  const baseURL = `${process.env.BACKEND_DOMAIN}/api`;
+  
   return (
     <html lang="es" >
       <body
@@ -50,8 +50,8 @@ export default function RootLayout({
           /* disableTransitionOnChange */
         >
           <AuthProvider>
-              {children}
               <ClientInitializer baseURL={baseURL}/>
+              {children}
           </AuthProvider>
         </ThemeProvider>
         <Toaster />
