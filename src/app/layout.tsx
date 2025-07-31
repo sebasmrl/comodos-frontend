@@ -36,7 +36,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const baseURL = `${process.env.BACKEND_DOMAIN}/api`;
+  const baseURL = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api`;
   
   return (
     <html lang="es" >
