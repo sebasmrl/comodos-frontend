@@ -15,8 +15,10 @@ export const registerUserClientAction = async (body: RegisterUserRequestBody) =>
                 headers: { 'Content-Type': 'application/json' }
             }
         );
+        console.log({data:rs.data, status:rs.status})
         return rs;
     } catch (e) {
+        console.log(e)
         return (e as AxiosError).response as AxiosResponse<GenericErrorResponse>;
     }
 }
