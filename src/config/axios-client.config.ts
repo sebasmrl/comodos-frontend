@@ -14,6 +14,7 @@ class ApiClient{
     this.baseURL = baseURL;
       this.axiosInstance = axios.create({
         baseURL: this.baseURL,
+        withCredentials:true,
         timeout: 1000,
       });
   }
@@ -22,7 +23,8 @@ class ApiClient{
     this.baseURL = url;
     this.axiosInstance = axios.create({
       baseURL: this.baseURL,
-      timeout: 1000,
+      withCredentials:true,
+      timeout: 5000,
     });
   }
 
