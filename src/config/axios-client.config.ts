@@ -24,7 +24,7 @@ class ApiClient{
     this.axiosInstance = axios.create({
       baseURL: this.baseURL,
       withCredentials:true,
-      timeout: 1000,
+      timeout: 5000,
     });
   }
 
