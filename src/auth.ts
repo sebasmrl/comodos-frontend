@@ -83,9 +83,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
           }
           token.user = { data:authorizeUser}
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        
         } catch (error) {
-          console.error({ error: "ocurrio un error al refrescar Token "})
+          console.error({ src: `ocurrio un error al refrescar Token:`, error})
         }
         return token;
       }

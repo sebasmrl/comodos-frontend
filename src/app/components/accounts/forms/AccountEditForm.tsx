@@ -54,7 +54,7 @@ export function AccountEditForm({ cloudFrontUrl, userData }: Props) {
     const router = useRouter();
 
     const { names, lastnames, phone, phoneCode, profileImage, gender } = userData;
-    const defaultValues = { names, lastnames, phone, phoneCode, ...()=> gender ? {gender} : {}}
+    const defaultValues = { names, lastnames, phone, phoneCode, gender}
      
     const imageUrl = `${cloudFrontUrl}/${profileImage?.key}`;
 
