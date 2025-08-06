@@ -27,7 +27,7 @@ import { GenericErrorResponse, RegistratedUserResponse } from "@/interfaces"
 
 
 const FormSchema = z.object({
-    dni: z.coerce.number({ message: "El campo no puede contener caracteres" }).int({ message: 'Tu cédula debe ser un numero entero' }).min(1000000, { message: 'No es un numero de cedula válido' }),
+    //dni: z.coerce.number({ message: "El campo no puede contener caracteres" }).int({ message: 'Tu cédula debe ser un numero entero' }).min(1000000, { message: 'No es un numero de cedula válido' }),
     email: z.string().email({ message: 'Debes insertar un correo válido' }),
     password: z.string().min(2, {
         message: "Tu contraseña no cumple los estandares requeridos",
@@ -36,10 +36,10 @@ const FormSchema = z.object({
     names: z.string().min(2).trim(),
     lastnames: z.string().min(2).trim(),
     nationality: z.string().min(2).trim(),
-    phone: z.string().regex(/^\d{10,}$/, { message: "El número de teléfono movil no coincide", }),
+    phone: z.string().regex(/^\d{7,}$/, { message: "El número de teléfono movil no coincide", }),
     phoneCode: z.string().regex(/^\d{1,3}$/, { message: "EL indicatiovo telefonico no coincide con ningun registro" }).min(1, { message: "EL indicatiovo telefonico no coincide con ningun registro" }),
     birthdate: z.string().date().transform((val) => val.split('/').join('-')),
-    gender: z.string().optional().nullable()
+    gender: z.string().optional().nullable(),
 }).refine(data => data.password === data.repassword, {
     message: "Las contraseñas no coinciden.",
     path: ["repassword"], // Esto se refiere al campo que queremos validar
@@ -52,7 +52,7 @@ export function RegisterForm() {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            dni: 0,
+            //dni: 0,
             email: "",
             password: "",
             repassword: "",
@@ -70,15 +70,13 @@ export function RegisterForm() {
             ...data,
             phoneCode: Number(data.phoneCode),
             phone: Number(data.phone),
-            dni: Number(data.dni),
             birthdate: new Date(data.birthdate),
+            //dni: Number(data.dni),
             // oldBirth: data.birthdate
         }
         if (reformatData.repassword) { delete reformatData.repassword; }
-
-
+        
         // registerAction is a server action
-
         const rs = await registerUserClientAction(reformatData);
         if (rs.status >= 200 && rs.status < 300) {
             const user = rs.data as RegistratedUserResponse;
@@ -88,12 +86,12 @@ export function RegisterForm() {
                 description: `Te damos la bienvenida ${user.names.toLowerCase()}, ahora puedes iniciar sesión con nosotros`,
             })
             redirect('/auth/login', RedirectType.replace);
-        }else{
+        } else {
             const errorMessage = (rs.data as GenericErrorResponse).message;
             customSonnerToast({
                 variant: 'destructive',
                 title: 'Upps! No te has podido registrar, intentalo nuevamente',
-                description:`${(typeof errorMessage == 'string') ? errorMessage : (errorMessage as string[])?.join('\n')}`
+                description: `${(typeof errorMessage == 'string') ? errorMessage : (errorMessage as string[])?.join('\n')}`
             })
         }
     }
@@ -137,20 +135,6 @@ export function RegisterForm() {
                                         <FormLabel>Apellidos</FormLabel>
                                         <FormControl>
                                             <Input placeholder="Apellido(s)" type="text" className="p-4 "{...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="dni"
-
-                                render={({ field }) => (
-                                    <FormItem className="col-span-8 sm:col-span-4">
-                                        <FormLabel>Cedula de Ciudadanìa</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Ingresa tu número cedula" type="text" className="p-4" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -215,7 +199,7 @@ export function RegisterForm() {
                                 control={form.control}
                                 name="birthdate"
                                 render={({ field }) => (
-                                    <FormItem className="col-span-8 sm:col-span-3 md:col-span-2">
+                                    <FormItem className="col-span-8 sm:col-span-4">
                                         <FormLabel>Fecha de nacimiento:</FormLabel>
                                         <FormControl>
                                             <Input placeholder="2021-02-11" type="date" className="p-4 flex w-full justify-center"{...field} />
@@ -228,7 +212,7 @@ export function RegisterForm() {
                                 control={form.control}
                                 name="gender"
                                 render={({ field }) => (
-                                    <FormItem className="col-span-8 sm:col-span-3 md:col-span-2">
+                                    <FormItem className="col-span-8 sm:col-span-4">
                                         <FormLabel>Género</FormLabel>
                                         <FormControl>
                                             {/* <Input placeholder="2021-02-11" type="date" className="p-4 flex w-full justify-center"{...field} /> */}
@@ -274,10 +258,12 @@ export function RegisterForm() {
                                 )}
                             />
 
+                            <FormLabel className="col-span-8 text-xs font-normal h-full text-accent-foreground/50">
+                                <p>Al hacer clic en &quot;Registrarme&quot;, aceptas nuestras <Link  className="text-accent-foreground" href={'/legal/terms'} target="_blank">Condiciones</Link>, la <Link  className="text-accent-foreground" href={'/legal/privacy-policy'} target="_blank">Política de privacidad</Link> y la <Link  className="text-accent-foreground" href={'/legal/cookies-policy' }>Política de cookies</Link>.</p>
+                            </FormLabel>
 
 
-
-                            <Button className="text-md md:text-lg col-span-8 mt-10" type="submit" ><h1>Registrarme</h1></Button>
+                            <Button className="text-md md:text-lg col-span-8 mt-6" type="submit" ><h1>Registrarme</h1></Button>
                             <div className="flex col-span-8 justify-center items-center gap-1">
                                 <p className="text-xs md:text-sm">¿Ya tienes una cuenta?</p>
                                 <span className="text-xs underline md:text-sm"><Link href={"/auth/login"}>Iniciar Sesión</Link></span>
