@@ -53,8 +53,8 @@ export function AccountEditForm({ cloudFrontUrl, userData }: Props) {
     const session = useSession();
     const router = useRouter();
 
-    const { names, lastnames, phone, phoneCode, profileImage } = userData;
-    const defaultValues = { names, lastnames, phone, phoneCode }
+    const { names, lastnames, phone, phoneCode, profileImage, gender } = userData;
+    const defaultValues = { names, lastnames, phone, phoneCode, gender}
     const imageUrl = `${cloudFrontUrl}/${profileImage?.key}`;
 
     const form = useForm<z.infer<typeof FormSchema>>({
