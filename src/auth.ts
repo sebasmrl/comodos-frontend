@@ -62,7 +62,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   session: {
     strategy: 'jwt',
-    maxAge: 3600,       //segundos
+    maxAge: 3700,       //segundos
     updateAge: 1800     //segundos
   },
 
@@ -70,8 +70,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       // const expired = new Date((token?.exp || 1) * 1000).getTime();   //if(trigger == undefined){}
+      console.info('Usuario en jwt:', user )
       if (!user) {
         try {
+          console.info('Este es el token:', token)
           const rs = await refreshTokenAction(token.user?.data?.backendTokens?.refreshToken);
           
           const { accessToken, refreshToken, user } = rs.data as AuthResponse;
