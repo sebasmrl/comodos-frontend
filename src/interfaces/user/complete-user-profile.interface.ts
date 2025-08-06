@@ -3,7 +3,6 @@ import { ProfileImage } from "./profile-image.interface";
 
 export interface CompleteUserProfile{
     id:string;
-    dni:string;
     email:string;
     names:string;
     lastnames:string;
@@ -17,4 +16,5 @@ export interface CompleteUserProfile{
     lastConnection:Date;
     roles:string[];
     profileImage?: ProfileImage
+    //dni:string;
 }

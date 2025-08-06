@@ -46,7 +46,6 @@ export interface RegistratedUserResponse{
     names: string;
     lastnames: string;
     lastConnection: Date;
-    /* state: boolean; */
     coords: Coords;
     roles: string[];
     phone:number,
@@ -54,16 +53,17 @@ export interface RegistratedUserResponse{
     gender?: string;
     nationality:string;
     birthdate:Date;
+    /* state: boolean; */
 }
 
 export interface RegisterUserRequestBody{
-    dni:number;
     email: string;
     names: string;
     lastnames: string;
-    /* state: boolean; */
     phone:number,
     phoneCode: number;
     nationality:string;
     birthdate:Date;
+    /* state: boolean; */
+    //dni:number;
 }

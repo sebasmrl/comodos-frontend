@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface Props{
     className?:string;
@@ -6,8 +7,8 @@ interface Props{
 
 export const Footer = ({ className}:Props) => {
   return (
-    <footer className={cn("bg-gray-100 dark:bg-background py-6 text-center text-sm text-gray-600 dark:text-gray-200", className)}>
-      © 2025 Comodos. Todos los derechos reservados.
+    <footer className={cn("bg-gray-100 dark:bg-background py-6 text-center text-sm text-gray-600 dark:text-gray-200 flex justify-center gap-2", className)}>
+      <p>© 2025 Comodos. Todos los derechos reservados. </p> <Link  className="hover:underline" href='/legal'>Términos, condiciones y políticas</Link>
     </footer>
   )
 }

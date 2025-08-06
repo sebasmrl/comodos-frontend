@@ -40,7 +40,7 @@ export const AccountInformation = ({ userData, cloudFrontUrl }: Props) => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                     <div>
-                        <span className="font-semibold">DNI:</span> {userData.dni}
+                        <span className="font-semibold">Nacionalidad:</span> {userData.nationality}
                     </div>
                     <div>
                         <span className="font-semibold">Teléfono:</span> +{userData.phoneCode} {userData.phone}
@@ -51,9 +51,6 @@ export const AccountInformation = ({ userData, cloudFrontUrl }: Props) => {
                     </div>
                     <div>
                         <span className="font-semibold">Género:</span> {userData.gender ?? "No especificado"}
-                    </div>
-                    <div>
-                        <span className="font-semibold">Nacionalidad:</span> {userData.nationality}
                     </div>
                     <div>
                         <span className="font-semibold">Última conexión:</span>{" "}
