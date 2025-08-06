@@ -29,7 +29,7 @@ const providers: Provider[] = [
           refreshToken
         }
       }
-      return { data: authorizeUser }
+      return { email: authorizeUser.email, data: authorizeUser }
 
     },
   }),
@@ -69,13 +69,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   callbacks: {
     async jwt({ token, user }) {
-      // const expired = new Date((token?.exp || 1) * 1000).getTime();   //if(trigger == undefined){}
-      console.info('Usuario en jwt:', user )
+      //const expired = new Date((token?.exp || 1) * 1000).getTime();   //if(trigger == undefined){}
+      const now = Date.now() / 1000;
+
+      if (user) {
+        token.user = user;
+        token.exp = now + 1800; // 30min de expiración
+        return token;
+      }
+
+      if (token.exp && now < token.exp) {
+        return token; // sigue siendo válido
+      }
+
       if (!user) {
         try {
-          console.info('Este es el token:', token)
           const rs = await refreshTokenAction(token.user?.data?.backendTokens?.refreshToken);
-          
+
           const { accessToken, refreshToken, user } = rs.data as AuthResponse;
           const authorizeUser: AuthorizeUser = {
             ...user,
@@ -84,21 +94,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
               refreshToken
             }
           }
-          token.user = { data:authorizeUser}
-        
+          token.user = { data: authorizeUser }
+
         } catch (error) {
-          console.error({ src: `ocurrio un error al refrescar Token:`, error})
+          console.error({ src: `Ocurrio un error al refrescar Token:`, error })
         }
         return token;
       }
 
-
-      token.user = user;
-      token.email = user?.data.email;
-      token.name = user?.data.names
       return token;
     },
-    session: ({ session, token}) => {
+    session: ({ session, token }) => {
       //user solo funciona cuando startegy:'database'
       // se accede a traves de `useSession().data.user` or `auth().user`
       session.user = token.user

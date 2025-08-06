@@ -1,3 +1,5 @@
+'use client';
+
 import { apiClient } from "@/config/axios-client.config";
 import { GenericErrorResponse } from "@/interfaces";
 import {  AxiosError, AxiosResponse } from "axios";
