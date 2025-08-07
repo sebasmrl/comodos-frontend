@@ -14,6 +14,7 @@ import Link from "next/link";
 import { IoIosAddCircle } from "react-icons/io";
 import EmptyAdsContainer from "../components/ads/EmptyAdsContainer";
 
+export const dynamic = "force-dynamic";
 
 const AWS_CLOUDFRONT_DOMAIN = process.env.AWS_CLOUDFRONT_DOMAIN ?? null;
 
@@ -31,7 +32,7 @@ export default async function AnunciosPage() {
   const session = await auth();
   if (!(session?.user)) redirect('/auth/login');
 
-  const ads = (await getAdsByUserId(session.user.data.id ?? '')).data as Ad[];
+  const ads = (await getAdsByUserId(session.user.data.id ?? ''))?.data as Ad[];
 
   return (
     <div className="grid grid-cols-12 gap-2 px-2 md:px-6 pt-4">
@@ -42,7 +43,7 @@ export default async function AnunciosPage() {
             Mis<AuroraText className="pl-2" colors={['#EA580C', '#F59E0B', '#E11D48']}>Anuncios</AuroraText>
           </h1>
           {
-            ads.length > 0 && 
+            ads && ads.length > 0 && 
             <Link href={'/anuncios/nuevo'} className="">
               <Button variant={"success"} className=""><IoIosAddCircle />Agregar</Button>
             </Link>

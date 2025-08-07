@@ -23,7 +23,7 @@ const updateAdImages = async(adId:string, images:AdImagesFiles, token:string)=>{
         try {
 
             const formData = new FormData();
-            const filtreredImages = Object.entries(images).filter( ([,v])=> (v != null && v != undefined  && v?.length != 0) )
+            const filtreredImages = Object.entries(images).filter( ([,v])=> (v != null && v != undefined  && v && v?.length != 0) )
             if(filtreredImages.length == 0) return null;
 
             filtreredImages.forEach( ([filename, fileList]) =>{
