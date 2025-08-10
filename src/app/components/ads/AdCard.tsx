@@ -97,6 +97,7 @@ export function reformatAdDataToProfile(ad: Ad, currentCoords: Coords):MainAd{
     period: ad.period.name,
     property_type: ad.propertyType.name,
     distance: getDistanceBetween2Coords(ad.coords, currentCoords),
-    images: ad.images
+    images: ad.images,
+    updated_ad: ad.updateAt
   });
 };

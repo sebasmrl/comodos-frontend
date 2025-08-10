@@ -29,6 +29,7 @@ export interface MainAd{
     period:string;
     property_type:string;
     distance:number;
+    updated_ad: Date;
     images: Image[]
 }
 
