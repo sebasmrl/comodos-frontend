@@ -111,7 +111,7 @@ export default async function AnuncioPage({
                                     Última actulización
                                 </span>
                                 <span className="font-thin text-sm sm:text-base text-end self-end">
-                                    {dateToESFormat(new Date(ad.updateAt))}
+                                    {dateToESFormat(new Date(ad.updatedAt))}
                                 </span>
                             </p>
                         </div>
