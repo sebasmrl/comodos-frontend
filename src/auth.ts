@@ -62,8 +62,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   session: {
     strategy: 'jwt',
-    maxAge: 3700,       //segundos
-    updateAge: 1800     //segundos
+    maxAge: 1800,       //segundos
+    updateAge: 900     //segundos
   },
 
 
@@ -74,11 +74,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (user) {
         token.user = user;
-        token.exp = now + 1800; // 30min de expiración
+        token.exp = now + 900; // 30min de expiración
         return token;
       }
 
-      if (token.exp && now < token.exp) {
+      if (token.exp && (now < token.exp) ) {
         return token; // sigue siendo válido
       }
 
@@ -95,7 +95,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
           }
           token.user = { data: authorizeUser }
-
+          token.exp = now + 900;
         } catch (error) {
           console.error({ src: `Ocurrio un error al refrescar Token:`, error })
         }

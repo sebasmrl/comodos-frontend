@@ -1,5 +1,5 @@
 import { GenericErrorResponse } from "@/interfaces";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { api } from "@/config/axios.config";
 import { Ad } from "@/interfaces/ads/ads.interface";
 
@@ -10,6 +10,6 @@ export const getAdsByUserId = async (userId:string) =>{
             rs = await api.get(`ads/user/${userId}`);
             return rs;
         } catch (e) {
-            return e as AxiosResponse<GenericErrorResponse>;
+            return (e as AxiosError).response as AxiosResponse<GenericErrorResponse>
         }
 }

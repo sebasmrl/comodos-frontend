@@ -102,21 +102,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
         }
 
         const updatedAd = await updateAd(defaultData.id, reformatData, session.data.user.data.backendTokens.accessToken)
-        if (updatedAd.status >= 400) {
-            customSonnerToast({
-                title: 'Upps!! No se pudo actualizar el anuncio',
-                variant: 'destructive',
-                duration: 4000,
-                description: `Ha occurido un error inesperado y no se ha podido actualizar tu anuncio, intentalo nuevamente`
-            })
-        } else {
-            customSonnerToast({
-                title: 'Anuncio actualizado con éxito',
-                variant: 'success',
-                duration: 4000,
-                description: `El anuncio '${values.name}' ha sido actualizado con éxito`
-            });
-        }
+       
 
 
         const images = {
@@ -134,6 +120,8 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
             images,
             session.data?.user.data.backendTokens.accessToken ?? ''
         );
+
+        
         if (imagenesSubidas != null && imagenesSubidas?.status >= 400) {
             customSonnerToast({
                 title: 'Upps!! No se pudieron subir tus imagenes',
@@ -143,7 +131,24 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
             })
         }
 
-        router.push('/anuncios');
+         if (updateAd !=null && updatedAd.status >= 400) {
+            customSonnerToast({
+                title: 'Upps!! No se pudo actualizar el anuncio',
+                variant: 'destructive',
+                duration: 4000,
+                description: `Ha occurido un error inesperado y no se ha podido actualizar tu anuncio, intentalo nuevamente`
+            })
+        } else {
+            customSonnerToast({
+                title: 'Anuncio actualizado con éxito',
+                variant: 'success',
+                duration: 4000,
+                description: `El anuncio '${values.name}' ha sido actualizado con éxito`
+            });
+            router.push('/anuncios')
+        }
+
+        
 
     }
 
