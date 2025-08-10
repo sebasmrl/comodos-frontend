@@ -33,6 +33,7 @@ export default async function AnunciosPage() {
   if (!(session?.user)) redirect('/auth/login');
 
   const ads = ((await getAdsByUserId(session.user.data.id ?? ''))?.data ?? [])  as Ad[];
+  const timestamp = Date.now();
 
   return (
     <div className="grid grid-cols-12 gap-2 px-2 md:px-6 pt-4">
@@ -55,7 +56,7 @@ export default async function AnunciosPage() {
             <UserAdCardItemsContainer className="col-span-12 grid grid-cols-12 gap-4 p-2 border-none md:pb-10">
               {
                 ads.map(ad => (
-                  <UserAdCardItem key={ad.id} ad={ad} className="col-span-12" baseUrl={AWS_CLOUDFRONT_DOMAIN} />
+                  <UserAdCardItem key={ad.id} ad={ad} className="col-span-12" baseUrl={AWS_CLOUDFRONT_DOMAIN} timestamp={timestamp} />
                 ))
               }
             </UserAdCardItemsContainer >
