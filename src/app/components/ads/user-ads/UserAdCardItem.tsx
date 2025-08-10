@@ -25,12 +25,11 @@ import { DeleteAdButton } from "./DeleteAdButton"
 interface Props extends HTMLAttributes<HTMLElement> {
   ad: Ad
   baseUrl: string | null;
-  timestamp:number;
 }
 
 
 
-export const UserAdCardItem = ({ ad, className, baseUrl, timestamp }: Props) => {
+export const UserAdCardItem = ({ ad, className, baseUrl }: Props) => {
 
   const adImageKey = ad.images.filter(img => img.fieldName == 'main')[0]?.key;
   const isExpiredAd = new Date(ad.expiredDate).getTime() < Date.now();
@@ -43,7 +42,7 @@ export const UserAdCardItem = ({ ad, className, baseUrl, timestamp }: Props) => 
           {
             ((baseUrl && adImageKey)) ?
               <Image
-                src={(baseUrl && adImageKey) ? `${baseUrl}/${adImageKey}?v=${timestamp}` : '/svgs/no-data.svg'}
+                src={(baseUrl && adImageKey) ? `${baseUrl}/${adImageKey}?v=${new Date(ad.updateAt).getTime()}` : '/svgs/no-data.svg'}
                 alt={"imagen del anuncio"}
                 width={300}
                 height={300}

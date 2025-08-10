@@ -43,7 +43,6 @@ export default async function AnuncioPage({
     if (adRs.status != 200) redirect('/');
 
     const ad = adRs.data as AdWithUser;
-    console.log('Epaaaaa',{ad})
     const isExpiredAd = new Date(ad.expiredDate).getTime() < Date.now();
 
 
