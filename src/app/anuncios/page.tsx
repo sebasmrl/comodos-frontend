@@ -32,7 +32,7 @@ export default async function AnunciosPage() {
   const session = await auth();
   if (!(session?.user)) redirect('/auth/login');
 
-  const ads = (await getAdsByUserId(session.user.data.id ?? ''))?.data as Ad[];
+  const ads = ((await getAdsByUserId(session.user.data.id ?? ''))?.data ?? [])  as Ad[];
 
   return (
     <div className="grid grid-cols-12 gap-2 px-2 md:px-6 pt-4">
@@ -51,7 +51,7 @@ export default async function AnunciosPage() {
         </div>
 
         {
-          ads.length > 0 ?
+          ads && ads.length > 0 ?
             <UserAdCardItemsContainer className="col-span-12 grid grid-cols-12 gap-4 p-2 border-none md:pb-10">
               {
                 ads.map(ad => (

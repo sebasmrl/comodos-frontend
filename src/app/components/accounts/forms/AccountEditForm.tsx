@@ -39,7 +39,7 @@ const FormSchema = z.object({
     lastnames: z.string({ message: 'El campo apellidos es requerido' }).min(2).trim(),
     phone: z.string().regex(/^\d{6,}$/, { message: "El número de teléfono móvil debe contener al menos 6 dígitos", }),
     phoneCode: z.string().regex(/^\d{1,3}$/, { message: "El indicativo telefónico no coincide con ningun registro" }).min(1, { message: "El indicativo telefónico no puede ser vacío" }),
-    gender: z.string().optional().nullable()
+    gender: z.string().optional()
 })
 
 
@@ -54,7 +54,7 @@ export function AccountEditForm({ cloudFrontUrl, userData }: Props) {
     const router = useRouter();
 
     const { names, lastnames, phone, phoneCode, profileImage, gender } = userData;
-    const defaultValues = { names, lastnames, phone, phoneCode, gender}
+    const defaultValues = { names, lastnames, phone, phoneCode, gender: gender ? gender : undefined}
      
     const imageUrl = `${cloudFrontUrl}/${profileImage?.key}`;
 
@@ -66,14 +66,15 @@ export function AccountEditForm({ cloudFrontUrl, userData }: Props) {
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
 
-        const { profileImage, ...rest} = data;
+        const { profileImage, gender, ...rest} = data;
         const requestData:UpdateUser= {
             ...rest,
             phone: Number(data.phone),
             phoneCode: Number(data.phoneCode)
         }
+        if(gender) requestData.gender = gender;
 
-        if (session.data?.user) {
+        if (session.status == 'authenticated') {
             const userWasUpdated = await updateUser({
                 data: requestData,
                 token: session.data.user.data.backendTokens.accessToken
@@ -203,7 +204,7 @@ export function AccountEditForm({ cloudFrontUrl, userData }: Props) {
                                         <FormLabel>Género</FormLabel>
                                         <FormControl>
                                             {/* <Input placeholder="2021-02-11" type="date" className="p-4 flex w-full justify-center"{...field} /> */}
-                                            <Select >
+                                            <Select onValueChange={field.onChange} value={field.value} name={field.name}>
                                                 <SelectTrigger className="" >
                                                     <SelectValue placeholder="Selecciona tu género" {...field} />
                                                 </SelectTrigger>

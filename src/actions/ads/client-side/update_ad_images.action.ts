@@ -18,8 +18,7 @@ interface AdImagesFiles{
 
 
 const updateAdImages = async(adId:string, images:AdImagesFiles, token:string)=>{
-    console.log('AdId: ------->', adId)
-    let rs: AxiosResponse<null |Image[]  | GenericErrorResponse>;
+    let rs: AxiosResponse<null | { updatedImages:Image[] }  | GenericErrorResponse>;
         try {
 
             const formData = new FormData();

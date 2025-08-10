@@ -6,7 +6,7 @@ export interface UpdateUser{
     phone       ?:number;
     phoneCode   ?:number;
     coords      ?:Coords;
-    gender      ?:string | null;
+    gender      ?:string;
 }
 
 

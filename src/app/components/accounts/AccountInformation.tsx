@@ -50,7 +50,7 @@ export const AccountInformation = ({ userData, cloudFrontUrl }: Props) => {
                         {userData.birthdate ? format(new Date(userData.birthdate), "yyyy-MM-dd") : "N/A"}
                     </div>
                     <div>
-                        <span className="font-semibold">Género:</span> {userData.gender ?? "No especificado"}
+                        <span className="font-semibold">Género:</span> {userData.gender ? (userData.gender =='M' ? 'Masculino': 'Femenino' )  : "No especificado"}
                     </div>
                     <div>
                         <span className="font-semibold">Última conexión:</span>{" "}
