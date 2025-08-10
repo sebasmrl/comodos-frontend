@@ -35,7 +35,7 @@ export interface Ad {
     hasInternetServiceIntegrated: boolean;
     renewalDate:                  Date;
     expiredDate:                  Date;
-    updateAt:                     Date;
+    updatedAt:                     Date;
     createdAt:                    Date;
     images:                       Image[];
     period:                       AdPeriod;

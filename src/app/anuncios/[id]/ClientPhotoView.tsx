@@ -30,9 +30,9 @@ export const ClientPhotoView = ({ domainimages, ad, className, carouselClassName
                                         <CardContent className="flex w-full h-auto aspect-video gap-2 p-0  ">
                                             <div className=" w-full h-auto aspect-video overflow-hidden">
                                                 {/* <Image width={200} height={200} className="aspect-video w-full h-auto scale-125 hover:scale-150 duration-300 transition-transform" src={`${domainimages}/${ad.key}`} alt="Imagen de anuncio" /> */}
-                                                <PhotoView key={index} src={`${domainimages}/${image.key}?v=${new Date(ad.updateAt).getTime()}`} height={900} width={900} >
+                                                <PhotoView key={index} src={`${domainimages}/${image.key}?v=${new Date(ad.updatedAt).getTime()}`} height={900} width={900} >
                                                     <Image 
-                                                        src={`${domainimages}/${image.key}?v=${new Date(ad.updateAt).getTime()}`} 
+                                                        src={`${domainimages}/${image.key}?v=${new Date(ad.updatedAt).getTime()}`} 
                                                         alt="" 
                                                         width={900} 
                                                         height={900} 
