@@ -33,7 +33,7 @@ export function AdCard({ className, adData }: Props) {
         <Link href={`/anuncios/${adData.id}`} passHref legacyBehavior>
           <div className=" rounded overflow-hidden w-full grid grid-cols-1 sm:grid-cols-3 "> {/* max-w-sm */}
             <div className="col-span-3 sm:col-span-1 aspect-video w-full h-full rounded-lg overflow-hidden flex justify-center items-center">
-              <Image width={200} height={200} className="aspect-video w-full h-auto scale-125 hover:scale-150 duration-300 transition-transform" src={`${CLOUDFRONT_URL}/${adData.images.find(val => val.fieldName = 'main')?.key}?v=${new Date(adData.updated_ad).getTime()}`} alt="Property Image" />
+              <Image width={200} height={200} className="aspect-video w-full h-auto scale-125 hover:scale-150 duration-300 transition-transform" src={`${CLOUDFRONT_URL}/${adData.images.find(val => val.fieldName = 'main')?.key}?v=${Date.now()}`} alt="Property Image" />
             </div>
 
             {/* Informacion */}
