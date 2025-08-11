@@ -1,6 +1,7 @@
 import { getAllAdPeriods } from "@/actions/periods/server/get-all-ad-periods";
 import { getAllPropertyTypes } from "@/actions/property-types/server/get-all-property-types";
 import { CreateAdForm } from "@/app/components/ads/forms/CreateAdForm";
+import { Footer } from "@/app/components/footer/Footer";
 import { auth } from "@/auth";
 import { AuroraText } from "@/components/magicui/aurora-text";
 import { AdPeriod } from "@/interfaces/ad-period/ad-period.interface";
@@ -30,15 +31,18 @@ export default async function NuevoAnuncioPage() {
   const [propertyTypes, adPeriods] = queries;
 
   return (
-    <div >
-      <h1 className="text-4xl font-semibold tracking-tighter md:text-5xl  text-center py-2 sm:pt-6 px-10">
-        Crea un nuevo<AuroraText className="px-2" colors={['#EA580C', '#F59E0B', '#E11D48']}>Anuncio</AuroraText>
-      </h1>
-      <CreateAdForm
-        className=""
-        propertyTypes={propertyTypes.status == 200 ? propertyTypes.data as PropertyType[] : []}
-        adPeriods={adPeriods.status == 200 ? adPeriods.data as AdPeriod[] : []}
-      />
-    </div>
+    <>
+      <div >
+        <h1 className="text-4xl font-semibold tracking-tighter md:text-5xl  text-center py-2 sm:pt-6 px-10">
+          Crea un nuevo<AuroraText className="px-2" colors={['#EA580C', '#F59E0B', '#E11D48']}>Anuncio</AuroraText>
+        </h1>
+        <CreateAdForm
+          className=""
+          propertyTypes={propertyTypes.status == 200 ? propertyTypes.data as PropertyType[] : []}
+          adPeriods={adPeriods.status == 200 ? adPeriods.data as AdPeriod[] : []}
+        />
+      </div>
+      <Footer className="col-span-12" />
+    </>
   );
 }

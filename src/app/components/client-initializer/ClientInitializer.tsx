@@ -1,5 +1,7 @@
 'use client'
 
+import { setCompleteCookieFilterAdsProp } from "@/actions/cookies/client/filter/filter";
+import { getFilterAdsFromLocalStorage } from "@/actions/local-storage/filter-local-storage.action";
 import { apiClient } from "@/config/axios-client.config";
 import { usePeriodsStore } from "@/store/periods.store copy";
 import { usePropertyTypesStore } from "@/store/property-types.store";
@@ -21,6 +23,10 @@ export const ClientInitializer = ({ baseURL }: ClientInitializerProps) => {
 
     const { fetchPropertyTypes } = usePropertyTypesStore();
     const { fetchPeriods } = usePeriodsStore();
+    
+    const filters = getFilterAdsFromLocalStorage();
+    setCompleteCookieFilterAdsProp(filters);
+
     useLayoutEffect(() => {
         fetchPropertyTypes();
         fetchPeriods();
