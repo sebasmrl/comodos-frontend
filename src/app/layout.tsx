@@ -37,21 +37,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const baseURL = `${process.env.NEXT_PUBLIC_BACKEND_DOMAIN}/api`;
-  
+
   return (
     <html lang="es" >
+      <head>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8535428079535434"
+          crossOrigin="anonymous"></script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background `}
       >
         <ThemeProvider
           attribute="class"
           enableSystem
-          /* defaultTheme="" */
-          /* disableTransitionOnChange */
+        /* defaultTheme="" */
+        /* disableTransitionOnChange */
         >
           <AuthProvider>
-              <ClientInitializer baseURL={baseURL}/>
-              {children}
+            <ClientInitializer baseURL={baseURL} />
+            {children}
           </AuthProvider>
         </ThemeProvider>
         <Toaster />
