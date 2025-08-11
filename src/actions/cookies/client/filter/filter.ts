@@ -21,4 +21,5 @@ export const setCookieFilterAdsProp = (params:SearchParams)=>{
 }
 export const setCompleteCookieFilterAdsProp = (params:SearchParams)=>{
     setCookie('filter-ads', params);
+    return params;
 }

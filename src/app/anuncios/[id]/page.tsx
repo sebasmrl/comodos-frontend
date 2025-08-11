@@ -27,6 +27,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Footer } from "@/app/components/footer/Footer";
 
 
 const CLOUDFRONT_URL = process.env.AWS_CLOUDFRONT_DOMAIN ?? '';
@@ -244,7 +245,7 @@ export default async function AnuncioPage({
                                 </p>
                             </div>
                             <div className="flex">
-                                <Link href={`tel:+${ad.user.phoneCode}${ad.user.phoneCode}`} className="mr-2 rounded-md bg-gray-300 p-1 text-gray-700 hover:text-gray-800 w-full h-9" passHref>
+                                <Link href={`tel:+${ad.user.phoneCode}${ad.user.phone}`} className="mr-2 rounded-md bg-gray-300 p-1 text-gray-700 hover:text-gray-800 w-full h-9" passHref>
                                     <FaPhone className="w-full h-full p-1" />
                                 </Link>
                                 <Link href={`https://wa.me/+${ad.user.phoneCode}${ad.user.phone}`} className="rounded-md w-full h-9 text-center  bg-green-500 p-1 text-white hover:bg-green-600" passHref>
@@ -262,9 +263,9 @@ export default async function AnuncioPage({
 
                 </CardContent>
             </Card>
-            <footer className=" py-16 bg-gradient-to-t  from-slate-600/80 via-slate-500/30  dark:from-orange-600/20 to-transparent">
-                {/*   <p>Este anuncio fue publicado por {toUpperCamelCase(`${ad.user.names} ${ad.user.lastnames}`) } el {dateToESFormat(new Date(ad.createdAt))}</p> */}
-            </footer>
+            <div className="relative pt-16 bg-gradient-to-t  from-slate-600/80 via-slate-500/30  dark:from-orange-600/20 to-transparent">
+                <Footer className="bg-transparent dark:bg-transparent bottom-0 " />
+            </div>
         </div >
     );
 }

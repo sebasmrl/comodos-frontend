@@ -30,6 +30,7 @@ import { usePropertyTypesStore } from "@/store/property-types.store";
 import { usePeriodsStore } from "@/store/periods.store copy";
 import { getCookieFilterAds, setCompleteCookieFilterAdsProp } from "@/actions/cookies/client/filter/filter";
 import { useState } from "react";
+import { setFilterAdsInLocalStorage } from "@/actions/local-storage/filter-local-storage.action";
 //import { useQueryParams } from "@/hooks/use-query-params";
 
 
@@ -83,8 +84,9 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
             const obj = { [curr[0]]: curr[1] }
             return { ...prev, ...obj }
         }, {})
-        setCompleteCookieFilterAdsProp({ ...paramsArrToObj, lat: filterCookiesState?.lat, lng: filterCookiesState?.lng });
+        const filters = setCompleteCookieFilterAdsProp({ ...paramsArrToObj, lat: filterCookiesState?.lat, lng: filterCookiesState?.lng });
         setFilterCookiesState(getCookieFilterAds());
+        setFilterAdsInLocalStorage(filters);
 
 
         router.push(`?${params}`);

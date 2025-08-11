@@ -70,18 +70,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       //const expired = new Date((token?.exp || 1) * 1000).getTime();   //if(trigger == undefined){}
-      const now = Date.now() / 1000;
+      const now = Math.floor( Date.now() / 1000);
 
       if (user) {
         token.user = user;
-        token.exp = now + 900; // 30min de expiración
+        token.accessTokenExp = now+900;
         return token;
       }
 
-      if (token.exp && (now < token.exp) ) {
+      if ((now < token.accessTokenExp) ) {
         return token; // sigue siendo válido
       }
-
       if (!user) {
         try {
           const rs = await refreshTokenAction(token.user?.data?.backendTokens?.refreshToken);
@@ -95,7 +94,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
           }
           token.user = { data: authorizeUser }
-          token.exp = now + 900;
+          token.accessTokenExp = now + 900;
         } catch (error) {
           console.error({ src: `Ocurrio un error al refrescar Token:`, error })
         }
