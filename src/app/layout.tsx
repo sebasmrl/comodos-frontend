@@ -40,10 +40,6 @@ export default function RootLayout({
 
   return (
     <html lang="es" >
-      <head>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8535428079535434"
-          crossOrigin="anonymous"></script>
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background `}
       >
@@ -61,6 +57,8 @@ export default function RootLayout({
         <Toaster />
         < SonnerToaster />
       </body>
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8535428079535434"
+        crossOrigin="anonymous"></script>
     </html>
   );
 }
