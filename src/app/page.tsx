@@ -16,6 +16,8 @@ import { Footer } from "./components/footer/Footer";
 import Link from "next/link";
 import { PaginationAds } from "./components/pagination/PaginationAds";
 import { Button } from "@/components/ui/button";
+import { getUserCoordsAction } from "@/actions/user/get-user-coords.action";
+import { Coords } from "@/interfaces/coords.interface";
 
 
 
@@ -43,10 +45,14 @@ export default async function Home({ searchParams }: HomeProps) {
   }
 
   let coords = {};
-  if(session?.user.data.coords){
-    coords = {
-      lat: session.user.data.coords.lat,
-      lng: session.user.data.coords.lng
+  if(session){
+    const userCoordsRs = await getUserCoordsAction(session.user.data.backendTokens.accessToken);
+    if(userCoordsRs.status == 200){
+      const userCoords = userCoordsRs.data as Coords;
+      coords = {
+        lat: userCoords.lat,
+        lng: userCoords.lng
+      }
     }
   }
 
