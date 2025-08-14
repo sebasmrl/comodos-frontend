@@ -108,7 +108,7 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
                                 <FormLabel className="">Rango de Búsqueda</FormLabel>
                                 <FormControl>
                                     <div className="flex flex-nowrap gap-x-2 min-w-52">
-                                        <Slider defaultValue={field.value} max={60} step={1} value={field.value} onValueChange={field.onChange} className="cursor-pointer" />
+                                        <Slider defaultValue={field.value} max={25} step={1} value={field.value} onValueChange={field.onChange} className="cursor-pointer" />
                                         <p className="text-nowrap">{field.value} km</p>
                                     </div>
 

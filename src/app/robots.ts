@@ -10,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
                 //disallow: '',
             }
         ],
-        sitemap: `${process.env.FRONTEND_URL}/sitemap.xml`,
+        sitemap: `${process.env.FRONTEND_DOMAIN}/sitemap.xml`,
     }
 }
