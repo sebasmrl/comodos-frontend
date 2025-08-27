@@ -58,8 +58,8 @@ export default async function Home({ searchParams }: HomeProps) {
 
   const ads = await getMainAds({
      ...{ 
-        lat: 40.60562365, 
-        lng: -74.0554853141819 
+        lat: 4.6579875,
+        lng: -74.0935547
       },
        ...filterCookies, 
        ...queryParams, 
