@@ -24,6 +24,7 @@ import { AdFeature } from "@/app/components/ads/AdFeature";
 import { LuLightbulb, LuLightbulbOff } from "react-icons/lu";
 import { IoWater, IoWaterOutline } from "react-icons/io5";
 import { IoIosArrowForward } from "react-icons/io";
+import { SiLevelsdotfyi } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -138,6 +139,10 @@ export default async function AnuncioPage({
                                     text={`${ad.rooms} Habitaciones`}
                                 />
                                 <AdFeature
+                                    icon={<SiLevelsdotfyi className="w-6" />}
+                                    text={`${(ad.stratum.toLowerCase().split(' ').includes('estrato') ? '' : 'Estrato ' )}${ad.stratum}`}
+                                />
+                                <AdFeature
                                     icon={<MdOutlineLiving className="w-6" />}
                                     text={ad.livingRoom ? 'Tiene Sala' : 'No tiene sala'}
                                 />
@@ -245,11 +250,11 @@ export default async function AnuncioPage({
                                 </p>
                             </div>
                             <div className="flex">
-                                <Link href={`tel:+${ad.user.phoneCode}${ad.user.phone}`} className="mr-2 rounded-md bg-gray-300 p-1 text-gray-700 hover:text-gray-800 w-full h-9" passHref>
-                                    <FaPhone className="w-full h-full p-1" />
-                                </Link>
                                 <Link href={`https://wa.me/+${ad.user.phoneCode}${ad.user.phone}`} className="rounded-md w-full h-9 text-center  bg-green-500 p-1 text-white hover:bg-green-600" passHref>
                                     <FaWhatsapp className="w-full h-full p-1" />
+                                </Link>
+                                <Link href={`tel:+${ad.user.phoneCode}${ad.user.phone}`} className="mr-2 rounded-md bg-gray-300 p-1 text-gray-700 hover:text-gray-800 w-full h-9" passHref>
+                                    <FaPhone className="w-full h-full p-1" />
                                 </Link>
                             </div>
                             <div className=" flex pt-2 pb-4 px-2 gap-1">
