@@ -249,11 +249,11 @@ export default async function AnuncioPage({
                                     Contactate ahora con el anunciante y afina los detalles que necesites.
                                 </p>
                             </div>
-                            <div className="flex">
+                            <div className="flex gap-2">
                                 <Link href={`https://wa.me/+${ad.user.phoneCode}${ad.user.phone}`} className="rounded-md w-full h-9 text-center  bg-green-500 p-1 text-white hover:bg-green-600" passHref>
                                     <FaWhatsapp className="w-full h-full p-1" />
                                 </Link>
-                                <Link href={`tel:+${ad.user.phoneCode}${ad.user.phone}`} className="mr-2 rounded-md bg-gray-300 p-1 text-gray-700 hover:text-gray-800 w-full h-9" passHref>
+                                <Link href={`tel:+${ad.user.phoneCode}${ad.user.phone}`} className="rounded-md bg-gray-300 p-1 text-gray-700 hover:text-gray-800 w-full h-9" passHref>
                                     <FaPhone className="w-full h-full p-1" />
                                 </Link>
                             </div>
