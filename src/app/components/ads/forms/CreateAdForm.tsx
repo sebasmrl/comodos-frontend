@@ -60,7 +60,7 @@ export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: 
         defaultValues: createAdFormSchemaDefaultValues,
     });
 
-    const router =  useRouter();
+    const router = useRouter();
     const session = useSession();
 
     const { location } = useCurrentPosition({ autorefresh: false });
@@ -84,11 +84,11 @@ export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: 
             squareMeters: Number(values.squareMeters),
             price: Number(values.price)
         }
-    
+
 
         const data = await createAd(requestBody, user.data.backendTokens.accessToken);
 
-        if (data?.status >= 200 && data?.status < 300) { 
+        if (data?.status >= 200 && data?.status < 300) {
             customSonnerToast({
                 title: `Anuncio creado exitosamente`,
                 variant: 'success',
@@ -120,10 +120,10 @@ export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: 
                     duration: 4000,
                     description: 'Ha ocurrido un error inesperado y las imagenes de tu anuncio no fueron correctamente guardadas '
                 });
-            }else{
+            } else {
                 router.push('/anuncios');
             }
-            
+
         } else {
             const errorMessage = (data.data as GenericErrorResponse).message;
             customSonnerToast({
@@ -269,6 +269,35 @@ export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: 
                                 </FormItem>
                             )}
                         />
+                        <div className="grid grid-cols-4 gap-x-2">
+                            <FormField
+                                control={form.control}
+                                name="phoneCode"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-1">
+                                        <FormLabel>Indicativo</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="57" type="text" maxLength={3} className="p-4 "{...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="phone"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-3">
+                                        <FormLabel>Número de Contacto</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="311121234" type="tel" className="p-4 "{...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
                         <FormField
                             control={form.control}
                             name="stratum"

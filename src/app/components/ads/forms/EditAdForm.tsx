@@ -63,9 +63,11 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
     const session = useSession();
     const router = useRouter();
 
-    const { propertyType, period, images, rooms, bathrooms, price, administrationCost, coords, squareMeters, floors, ...rest } = defaultData;
+    const { propertyType, period, images, rooms, bathrooms, price, administrationCost, coords, squareMeters, floors, phone, phoneCode, ...rest } = defaultData;
     const defaultFormValues = {
         propertyType: propertyType.id,
+        phone: String(phone),
+        phoneCode: String(phoneCode),
         period: period.id,
         price: String(price),
         floors: String(floors),
@@ -73,6 +75,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
         rooms: String(rooms),
         bathrooms: String(bathrooms),
         administrationCost: administrationCost ? String(administrationCost) : '0',
+
         coords,
         ...rest
     }
@@ -98,11 +101,13 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
             administrationCost: Number(data.administrationCost),
             bathrooms: Number(data.bathrooms),
             squareMeters: Number(data.squareMeters),
-            price: Number(data.price)
+            price: Number(data.price),
+            phoneCode: Number(data.phoneCode),
+            phone: Number(data.phone)
         }
 
         const updatedAd = await updateAd(defaultData.id, reformatData, session.data.user.data.backendTokens.accessToken)
-       
+
 
 
         const images = {
@@ -121,7 +126,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
             session.data?.user.data.backendTokens.accessToken ?? ''
         );
 
-        
+
         if (imagenesSubidas != null && imagenesSubidas?.status >= 400) {
             customSonnerToast({
                 title: 'Upps!! No se pudieron subir tus imagenes',
@@ -131,7 +136,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
             })
         }
 
-         if (updateAd !=null && updatedAd.status >= 400) {
+        if (updateAd != null && updatedAd.status >= 400) {
             customSonnerToast({
                 title: 'Upps!! No se pudo actualizar el anuncio',
                 variant: 'destructive',
@@ -148,7 +153,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
             router.push('/anuncios')
         }
 
-        
+
 
     }
 
@@ -283,6 +288,36 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
                                 </FormItem>
                             )}
                         />
+
+                        <div className="grid grid-cols-4 gap-x-2">
+                            <FormField
+                                control={form.control}
+                                name="phoneCode"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-1">
+                                        <FormLabel>Indicativo</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="57" type="text" maxLength={3} className="p-4 "{...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="phone"
+                                render={({ field }) => (
+                                    <FormItem className="col-span-3">
+                                        <FormLabel>Número de Contacto</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="311121234" type="tel" className="p-4 "{...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        
                         <FormField
                             control={form.control}
                             name="stratum"
