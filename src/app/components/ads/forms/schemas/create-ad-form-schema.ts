@@ -30,6 +30,8 @@ export const createAdFormSchema = z.object({
     address: z.string().min(2, {
         message: "Direccion es requerida",
     }),
+    phone: z.string().regex(/^\d{7,}$/, { message: "El número de teléfono movil no coincide", }),
+    phoneCode: z.string().regex(/^\d{1,3}$/, { message: "EL indicatiovo telefonico no coincide con ningun registro" }).min(1, { message: "EL indicatiovo telefonico no coincide con ningun registro" }),
     price: z.string({message:'El precio es requerido'}).refine((val) => !isNaN(Number(val)), { message: "Precio debe ser un numero válido" }), // Validar string numérico,, 
     currency: z.string().min(3, {
         message: "La divisa es requerida",
@@ -131,5 +133,7 @@ export const createAdFormSchemaDefaultValues = {
         hasWaterService:                true,
         hasInternetServiceIntegrated:   false,
         period:                         '',
-        propertyType:                   ''
+        propertyType:                   '',
+        phone:                          '',
+        phoneCode:                      ''
 }

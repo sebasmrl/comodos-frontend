@@ -8,6 +8,8 @@ export interface Ad {
     id:                           string;
     name:                         string;
     description:                  string;
+    phone:                        number;
+    phoneCode:                    number;
     coords:                       Coords;
     locationCountry:              string;
     locationState:                string;
