@@ -11,7 +11,7 @@ interface Props extends React.HTMLProps<HTMLElement> {
 export const ShowMoreText = ({ text, maxLength, className }: Props) => {
     const [showMoreText, setShowMoreText] = useState<boolean>(() => (text.length < maxLength) ? true: false);
     return (
-        <p className={cn("font-normal text-pretty text-accent-foreground transition-all", className)}>
+        <p className={cn("font-normal text-pretty text-accent-foreground transition-all whitespace-pre-line", className)}>
             {
                 showMoreText
                     ? text
