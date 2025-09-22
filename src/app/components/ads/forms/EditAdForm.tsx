@@ -201,7 +201,7 @@ export const EditAdForm = ({ className, propertyTypes, adPeriods, defaultData, i
                                 <FormItem className="space-y-0  items-center  ">
                                     <FormLabel className="text-nowrap">Descripcion</FormLabel>
                                     <FormControl>
-                                        <Textarea {...field} className="min-w-20 min-h-28" placeholder="Describe el inmueble que estas arrendando o  alquilando" />
+                                        <Textarea {...field} wrap="hard" className="min-w-20 min-h-28" placeholder="Describe el inmueble que estas arrendando o  alquilando" />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
