@@ -82,7 +82,9 @@ export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: 
             administrationCost: Number(values.administrationCost),
             bathrooms: Number(values.bathrooms),
             squareMeters: Number(values.squareMeters),
-            price: Number(values.price)
+            price: Number(values.price),
+            phoneCode: Number(values.phoneCode),
+            phone: Number(values.phone)
         }
 
 
