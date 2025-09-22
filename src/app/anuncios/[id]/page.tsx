@@ -205,8 +205,8 @@ export default async function AnuncioPage({
                                     text={ad.hasGasService ? 'Servicio de gas' : 'Sin servicio de gas'}
                                 />
                                 <AdFeature
-                                    icon={ad.hasGasService ? <MdNetworkWifi className="w-6" /> : <MdSignalWifiConnectedNoInternet0 />}
-                                    text={ad.hasGasService ? 'Con internet' : 'Sin intenet'}
+                                    icon={ad.hasInternetServiceIntegrated ? <MdNetworkWifi className="w-6" /> : <MdSignalWifiConnectedNoInternet0 />}
+                                    text={ad.hasInternetServiceIntegrated ? 'Con internet' : 'Sin intenet'}
                                 />
                             </div>
                         </div>
@@ -250,10 +250,10 @@ export default async function AnuncioPage({
                                 </p>
                             </div>
                             <div className="flex gap-2">
-                                <Link href={`https://wa.me/+${ad.phoneCode}${ad.phone}`} className="rounded-md w-full h-9 text-center  bg-green-500 p-1 text-white hover:bg-green-600" passHref>
+                                <Link href={`https://wa.me/+${ad.phoneCode}${ad.phone}`} className="rounded-md w-full h-9 text-center  bg-green-500 p-1 text-white hover:bg-green-600" passHref target="_blank">
                                     <FaWhatsapp className="w-full h-full p-1" />
                                 </Link>
-                                <Link href={`tel:+${ad.user.phoneCode}${ad.phone}`} className="rounded-md bg-gray-300 p-1 text-gray-700 hover:text-gray-800 w-full h-9" passHref>
+                                <Link href={`tel:+${ad.user.phoneCode}${ad.phone}`} className="rounded-md bg-gray-300 p-1 text-gray-700 hover:text-gray-800 w-full h-9" passHref target="_blank">
                                     <FaPhone className="w-full h-full p-1" />
                                 </Link>
                             </div>
