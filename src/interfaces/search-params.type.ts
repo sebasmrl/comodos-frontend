@@ -13,5 +13,6 @@ export type SearchParams = {
     minPrice: number;
     propertyType: string;
     period:string;
+    type:string;
 }
 export type SearchParamsPromise = Promise<SearchParams>

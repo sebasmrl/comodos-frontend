@@ -32,7 +32,7 @@ import { updateProfileImage } from "@/actions/user/client-side/update-profile-im
 
 
 const FormSchema = z.object({
-    profileImage: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || img[0] == null, {
+    profileImage: z.instanceof(FileList).refine((img) => img[0]?.size < 2500000 || (img[0] == null || img[0] == undefined) , {
         message: "El archivo debe ser menor a 2.5MB",
     }).optional().nullable(),
     names: z.string({ message: 'El campo nombres es requerido' }).min(2).trim(),

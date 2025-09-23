@@ -89,7 +89,7 @@ export default async function Home({ searchParams }: HomeProps) {
         {/*  Hero */}
         <section className="bg-orange-50 dark:bg-orange-950  col-span-12 w-full flex flex-col sm:px-10">
           <div className="max-w-4xl mx-auto text-center bg-right bg-no-repeat bg-contain bg-opacity-10 py-20 w-full min-w-full" style={ {backgroundImage: 'url(/webp/banner-people.webp)'}}>
-          <div className="bg-gradient-to-r from-transparent to-slate-200/40 dark:to-slate-200/0 lg:bg-none rounded-md w-fit m-auto flex flex-col">
+          <div className="bg-gradient-to-r from-transparent to-orange-900/30 dark:to-slate-200/0 lg:bg-none rounded-md w-fit m-auto flex flex-col">
             <h1 className="text-4xl font-bold text-foreground dark:text-foreground mb-4">Encuentra el lugar perfecto para vivir</h1>
             <p className="text-lg text-gray-900 dark:text-gray-200 mb-6">Explora arriendos en tu ciudad con facilidad y confianza. Filtra por ubicación, precio y más.</p>
             <div className="flex justify-center gap-4">

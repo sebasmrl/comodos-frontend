@@ -192,6 +192,27 @@ export const CreateAdForm = ({ className, propertyTypes, adPeriods, ...props }: 
                         />
                         <FormField
                             control={form.control}
+                            name="type"
+                            render={({ field }) => (
+                                <FormItem className="space-y-0">
+                                    <FormLabel className="text-nowrap">Tipo de Anuncio</FormLabel>
+                                    <FormControl>
+                                        <Select onValueChange={field.onChange} value={field.value} name={field.name}  >
+                                            <SelectTrigger className="w-full space-y-0" >
+                                                <SelectValue placeholder="Selecciona un tipo de anuncio" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem key='Arriendo' value='Arriendo'>Arrendamiento</SelectItem>
+                                                <SelectItem key='Venta' value='Venta'>Venta</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="propertyType"
                             render={({ field }) => (
                                 <FormItem className="space-y-0">

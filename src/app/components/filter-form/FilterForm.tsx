@@ -69,11 +69,11 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
             if (!(v == 0 || v == 'all')) return [k, v];
         });
 
-        if(filterCookiesState?.lat && filterCookiesState?.lng){
+        if (filterCookiesState?.lat && filterCookiesState?.lng) {
             paramsObj.push(['lat', String(filterCookiesState.lat)])
             paramsObj.push(['lng', String(filterCookiesState.lng)])
         }
-        
+
         // valores del filtro en cadena de texto de queryParams
         const params = paramsObj.map(([k, v],) => {
             return `${k}=${v}`;
@@ -112,6 +112,28 @@ export const FilterForm = ({ className, onOpenAndCloseDialog, ...props }: Props)
                                         <p className="text-nowrap">{field.value} km</p>
                                     </div>
 
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="type"
+                        render={({ field }) => (
+                            <FormItem className="space-y-0">
+                                <FormLabel className="text-nowrap">Tipo de Anuncio</FormLabel>
+                                <FormControl>
+                                    <Select onValueChange={field.onChange} value={field.value} name={field.name}  >
+                                        <SelectTrigger className="w-full space-y-0" >
+                                            <SelectValue placeholder="Selecciona un tipo para tu busqueda" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem key='Arriendo' value='Arriendo'>En Arriendo</SelectItem>
+                                            <SelectItem key='Venta' value='Venta'>En Venta</SelectItem>
+                                            <SelectItem key={'default'} value="all">Todos</SelectItem>
+                                        </SelectContent>
+                                    </Select>
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
