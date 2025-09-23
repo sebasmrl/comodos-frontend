@@ -8,6 +8,9 @@ export const createAdFormSchema = z.object({
     description: z.string().min(2, {
         message: "Descripcion debe ser una cadena de texto",
     }),
+    type: z.string().min(2, {
+        message: "El Tipo de anuncio es requerido",
+    }),
     propertyType: z.string().min(2, {
         message: "No has seleccionado ningún tipo de propiedad",
     }),
@@ -135,5 +138,6 @@ export const createAdFormSchemaDefaultValues = {
         period:                         '',
         propertyType:                   '',
         phone:                          '',
-        phoneCode:                      ''
+        phoneCode:                      '',
+        type:                           ''
 }
