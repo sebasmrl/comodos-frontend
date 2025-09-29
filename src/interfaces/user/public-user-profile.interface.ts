@@ -8,6 +8,7 @@ export interface PublicUserData{
     lastnames:string;
     lastConnection:Date;
     profileImage?: ProfileImage;
+    isRealStateCompany: boolean;
     phone:number;
     phoneCode:number;
     nationality:string;

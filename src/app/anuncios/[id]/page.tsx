@@ -104,7 +104,7 @@ export default async function AnuncioPage({
                                     </div>
                                     <div>
                                         <p className="text-sm font-medium text-gray-800 dark:text-gray-100 "><span>{toUpperCamelCase(`${ad.user.names.split(' ')[0]} ${ad.user.lastnames.split(' ')[0]}`)}</span></p>
-                                        <p className="text-xs text-gray-600 dark:text-gray-400">Arrendador</p>
+                                        <p className="text-xs text-gray-600 dark:text-gray-400">{ ad.user.isRealStateCompany ? 'Inmobiliaria' : 'Arrendador'}</p>
                                     </div>
                                 </div>
                             </Link>
