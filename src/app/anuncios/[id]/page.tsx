@@ -23,7 +23,7 @@ import { ShowMoreText } from "@/app/components/generics/ShowMoreText";
 import { AdFeature } from "@/app/components/ads/AdFeature";
 import { LuLightbulb, LuLightbulbOff } from "react-icons/lu";
 import { IoWater, IoWaterOutline } from "react-icons/io5";
-import { IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowForward, IoIosPricetag } from "react-icons/io";
 import { SiLevelsdotfyi } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -140,7 +140,7 @@ export default async function AnuncioPage({
                                 />
                                 <AdFeature
                                     icon={<SiLevelsdotfyi className="w-6" />}
-                                    text={`${(ad.stratum.toLowerCase().split(' ').includes('estrato') ? '' : 'Estrato ' )}${ad.stratum}`}
+                                    text={`${(ad.stratum.toLowerCase().split(' ').includes('estrato') ? '' : 'Estrato ')}${ad.stratum}`}
                                 />
                                 <AdFeature
                                     icon={<MdOutlineLiving className="w-6" />}
@@ -183,6 +183,13 @@ export default async function AnuncioPage({
                                     icon={<PiPlantFill className="w-6" />}
                                     text={ad.yard ? 'Tiene Jardín' : 'No tiene Jardín'}
                                 />
+                                 {
+                                    ad.administrationCost &&
+                                    <AdFeature
+                                        icon={ <IoIosPricetag   className="w-6" /> }
+                                        text={ `Administración: $${toLegiblePriceFormat(ad.administrationCost)}` }
+                                    />
+                                }
 
                             </div>
 
@@ -208,6 +215,7 @@ export default async function AnuncioPage({
                                     icon={ad.hasInternetServiceIntegrated ? <MdNetworkWifi className="w-6" /> : <MdSignalWifiConnectedNoInternet0 />}
                                     text={ad.hasInternetServiceIntegrated ? 'Con internet' : 'Sin intenet'}
                                 />
+                               
                             </div>
                         </div>
 
