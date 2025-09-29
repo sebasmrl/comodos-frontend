@@ -11,14 +11,18 @@ export const toLegiblePriceFormat = (value: number) => {
   const separations = Math.floor(str.length / 3);
   const residuo = str.length % 3;
   let rs = '';
-  for (let index = 0; index < separations; index++) {
-    if (residuo != 0) {
-      if (index == 0) {
-        rs = rs + str.substring(0, residuo) + ','
-      }
-    }
-    const separator = (index != separations-1)?  ',' : '';
-    rs = rs + str.substring(index * 3, (index * 3) + 3)+separator
+
+  if (residuo > 0) {
+    rs += str.substring(0, residuo);
+    if (separations > 0) rs += ',';
   }
+
+  for (let index = 0; index < separations; index++) {
+    const start = residuo + index * 3;
+    const end = residuo + (index + 1) * 3;
+    rs += str.substring(start, end);
+    if (index < separations - 1) rs += ',';
+  }
+
   return rs;
-}
+};
