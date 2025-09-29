@@ -21,7 +21,7 @@ export interface UpdateAdFormPlainData {
     squareMeters ?:                 number;
     motoParking ?:                  boolean;
     carParking ?:                   boolean;
-    adminitrationCost ?:           number;
+    administrationCost ?:           number;
     isSharedKitchen ?:              boolean;
     furnished ?:                    boolean;
     hasElectricLightService ?:      boolean;
