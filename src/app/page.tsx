@@ -120,7 +120,7 @@ export default async function Home({ searchParams }: HomeProps) {
             {
               (ads.status != 400 && (ads.data as MainAd[])?.length > 0)
                 ? <Button variant={'ghost'} className="w-full">
-                    Resultados {(offset == 0) ? 1 : Number(page)} - { ads.status != 400 && (ads.data as MainAd[])?.length}
+                    Resultados {(offset == 0 || Number(page)==1 ) ? 1 : (Number(page)*10)-9} - { ads.status != 400 && ((Number(page)*10)-10+(ads.data as MainAd[])?.length)}
                   </Button>
                 : <></>
             }
