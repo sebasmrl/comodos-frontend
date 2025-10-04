@@ -48,6 +48,7 @@ export const UserAdCardItem = ({ ad, className, baseUrl }: Props) => {
                 height={300}
                 style={{ 'width': 'auto' }}
                 className="scale-150 h-full object-cover"
+                unoptimized={true}
                 priority
               />
               : <div className="w-auto h-full flex justify-center items-center">
