@@ -31,6 +31,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Footer } from "@/app/components/footer/Footer";
 
 
+
 const CLOUDFRONT_URL = process.env.AWS_CLOUDFRONT_DOMAIN ?? '';
 
 
@@ -104,7 +105,7 @@ export default async function AnuncioPage({
                                     </div>
                                     <div>
                                         <p className="text-sm font-medium text-gray-800 dark:text-gray-100 "><span>{toUpperCamelCase(`${ad.user.names.split(' ')[0]} ${ad.user.lastnames.split(' ')[0]}`)}</span></p>
-                                        <p className="text-xs text-gray-600 dark:text-gray-400">{ ad.user.isRealStateCompany ? 'Inmobiliaria' : 'Arrendador'}</p>
+                                        <p className="text-xs text-gray-600 dark:text-gray-400">{ad.user.isRealStateCompany ? 'Inmobiliaria' : 'Arrendador'}</p>
                                     </div>
                                 </div>
                             </Link>
@@ -183,11 +184,11 @@ export default async function AnuncioPage({
                                     icon={<PiPlantFill className="w-6" />}
                                     text={ad.yard ? 'Tiene Jardín' : 'No tiene Jardín'}
                                 />
-                                 {
+                                {
                                     ad.administrationCost &&
                                     <AdFeature
-                                        icon={ <IoIosPricetag   className="w-6" /> }
-                                        text={ `Administración: $${toLegiblePriceFormat(ad.administrationCost)}` }
+                                        icon={<IoIosPricetag className="w-6" />}
+                                        text={`Administración: $${toLegiblePriceFormat(ad.administrationCost)}`}
                                     />
                                 }
 
@@ -215,7 +216,7 @@ export default async function AnuncioPage({
                                     icon={ad.hasInternetServiceIntegrated ? <MdNetworkWifi className="w-6" /> : <MdSignalWifiConnectedNoInternet0 />}
                                     text={ad.hasInternetServiceIntegrated ? 'Con internet' : 'Sin intenet'}
                                 />
-                               
+
                             </div>
                         </div>
 
@@ -270,6 +271,18 @@ export default async function AnuncioPage({
                                 <p className="text-pretty text-xs">
                                     La información que intercambies a traves de estos canales estan enteramente bajo tu responsabilidad y la del anunciante, <strong>comodos.co</strong> no se hace acreedor de conflictos legales relacionados.
                                 </p>
+                            </div>
+
+                            <div className="flex flex-col border border-border rounded-lg px-2 py-2 shadow-md">
+                                <ins className="adsbygoogle"
+                                    style={{"display":"block"}}
+                                    data-ad-format="fluid"
+                                    data-ad-layout-key="-6t+ed+2i-1n-4w"
+                                    data-ad-client="ca-pub-8535428079535434"
+                                    data-ad-slot="8576286838"></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({ });
+                                </script>
                             </div>
                         </div>
                     </section>
