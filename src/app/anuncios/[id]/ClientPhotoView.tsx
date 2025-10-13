@@ -35,7 +35,8 @@ export const ClientPhotoView = ({ domainimages, ad, className, carouselClassName
                                                         src={`${domainimages}/${image.key}?v=${new Date(ad.updatedAt).getTime()}`} 
                                                         alt="" 
                                                         width={900} 
-                                                        height={900} 
+                                                        height={900}
+                                                        unoptimized={true}
                                                         style={{ objectFit: 'cover', cursor:'zoom-in' }} 
                                                         className='w-full h-auto rounded-lg aspect-video'
                                                     />

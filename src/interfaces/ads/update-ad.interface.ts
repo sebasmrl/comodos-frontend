@@ -30,5 +30,6 @@ export interface UpdateAdFormPlainData {
     hasInternetServiceIntegrated ?: boolean;
     period ?:                       string;
     propertyType ?:                 string;
+    type?:                          string;
 }
 
