@@ -56,6 +56,7 @@ export const FormFieldInputFileImage = ({ form, name, labelText, imageUrl, style
                                         alt={""}
                                         width={100}
                                         height={100}
+                                        unoptimized={true}
                                         className={cn("w-full h-auto min-h-20 scale-150 ", style?.image)}
                                     />
                                     :<LuImageUp className={cn("w-full h-auto min-h-10 max-h-12 text-secondary-foreground ", style?.image)} />

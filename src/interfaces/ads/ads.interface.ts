@@ -6,6 +6,7 @@ import { PublicUserData } from "../user/public-user-profile.interface";
 
 export interface Ad {
     id:                           string;
+    type:                         string;
     name:                         string;
     description:                  string;
     phone:                        number;

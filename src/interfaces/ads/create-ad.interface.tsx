@@ -30,6 +30,7 @@ export interface CreateAdFormPlainData {
     hasInternetServiceIntegrated: boolean;
     period:                       string;
     propertyType:                 string;
+    type:                         string;
     //images:                       Image[];
     //user:                         string;
 }

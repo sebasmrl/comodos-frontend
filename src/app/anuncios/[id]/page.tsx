@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 import { getOneAdComplete } from "@/actions/ads/get-one-ad-complete";
 import { Card, CardContent } from "@/components/ui/card";
-import { AdWithUser } from "@/interfaces/ads/ads.interface";
+import { Ad, AdWithUser } from "@/interfaces/ads/ads.interface";
 import { ClientPhotoView } from "./ClientPhotoView";
 
 import { CiLocationOn, CiMapPin } from "react-icons/ci";
@@ -21,7 +21,7 @@ import { GoogleMapV2 } from "@/app/components/maps/GoogleMapV2";
 import { dateToESFormat } from "@/utils/date-transformer";
 import { ShowMoreText } from "@/app/components/generics/ShowMoreText";
 import { AdFeature } from "@/app/components/ads/AdFeature";
-import { LuLightbulb, LuLightbulbOff } from "react-icons/lu";
+import { LuClipboardType, LuLightbulb, LuLightbulbOff } from "react-icons/lu";
 import { IoWater, IoWaterOutline } from "react-icons/io5";
 import { IoIosArrowForward, IoIosPricetag } from "react-icons/io";
 import { SiLevelsdotfyi } from "react-icons/si";
@@ -29,17 +29,61 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Footer } from "@/app/components/footer/Footer";
+import { Metadata, ResolvingMetadata } from "next";
+import { getOneAdById } from "@/actions/ads/get-one-ad-by-id.action";
 
 
 
 const CLOUDFRONT_URL = process.env.AWS_CLOUDFRONT_DOMAIN ?? '';
+const FRONTEND_DOMAIN = process.env.FRONTEND_DOMAIN ?? '';
+
+
+interface Props {
+    params: Promise<{ id: string }>
+}
+
+export async function generateMetadata(
+    { params }: Props,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+
+    const { id } = await params;
+
+    // fetch data
+    const rs = await getOneAdById(id);
+    if(rs.status != 200) return {};
+    const ad = rs.data as Ad;
+    const mainImage = ad.images.find((img) => img.fieldName == 'main')?.key
+
+    // optionally access and extend (rather than replace) parent metadata
+    const previousImages = (await parent).openGraph?.images || []
+
+    return {
+        title: ad.name,
+        description: ad.description,
+        robots: 'index, nofollow',
+        keywords: [`En ${ad.type}`, ad.propertyType.name, `${ad.type} en ${ad.locationCity}`],
+        category: `${ad.type}s`,
+        alternates: {
+            canonical: `${FRONTEND_DOMAIN}/anuncios/${ad.id}`
+        },
+        openGraph: {
+            images: [mainImage ? `${CLOUDFRONT_URL}/${mainImage}` : '/logo/comodos-logo.svg', ...previousImages],
+            type: 'article',
+            url: `${FRONTEND_DOMAIN}/anuncios/${ad.id}`
+        },
+        other: {
+            "geo.position": `${ad.coords.lat};${ad.coords.lng}`,
+            "geo.placename": `${ad.locationCity}, ${ad.locationCountry}`
+        },
+    }
+}
+
 
 
 export default async function AnuncioPage({
     params
-}: {
-    params: Promise<{ id: string }>
-}) {
+}: Props) {
 
     const { id } = await params;
     const adRs = await getOneAdComplete(id);
@@ -127,6 +171,10 @@ export default async function AnuncioPage({
                         <div id="feautures" className="flex flex-col mt-4 gap-2">
                             <h2 className="font-bold text-primary ">Características</h2>
                             <div className="flex gap-2 flex-wrap">
+                                <AdFeature
+                                    icon={<LuClipboardType className="w-6" />}
+                                    text={`En ${ad.type}`}
+                                />
                                 <AdFeature
                                     icon={<MdOutlineZoomOutMap className="w-6" />}
                                     text={`${ad.squareMeters} m2`}
@@ -275,7 +323,7 @@ export default async function AnuncioPage({
 
                             <div className="flex flex-col border border-border rounded-lg px-2 py-2 shadow-md">
                                 <ins className="adsbygoogle"
-                                    style={{"display":"block"}}
+                                    style={{ "display": "block" }}
                                     data-ad-format="fluid"
                                     data-ad-layout-key="-6t+ed+2i-1n-4w"
                                     data-ad-client="ca-pub-8535428079535434"

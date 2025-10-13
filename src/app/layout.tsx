@@ -25,9 +25,11 @@ export const metadata: Metadata = {
     url: "https://sebastianmorales.dev"
   },
   keywords: ["arriendo", "arriendo en", "publicar arriendo", "arriendos baratos", "colombia", "alquiler", "alquilar", "arrendamiento", "inmuebles", "inmuebles para arrendamiento", "se arrienda"],
-  applicationName: "Comodos",
+  applicationName: "Comodos.co",
   category: 'Arriendo',
-
+  alternates:{
+    canonical: 'https://comodos.co'
+  }
 };
 
 
